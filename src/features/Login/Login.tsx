@@ -1,84 +1,51 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
-import { useState } from "react"
-
-import { Button } from "@/components/ui/button"
-
-
-function Login() {
-
-    const [userName, setUserName] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
-    const [signal , setSignal] = useState<boolean>(false)
-    const [errors, setErrors] = useState({ userName: "", password: "" })
-
-   
-   const handleButtonClick = () => {
-    const newErrors = {
-      userName: userName.trim() === "" ? "Username is required" : "",
-      password: password.trim() === "" ? "Password is required" : "",
-    }
-    setErrors(newErrors)
-
-    if (newErrors.userName === "" && newErrors.password === "") {
-      setSignal(true)
-    } else {
-      setSignal(false)
-    }
-  }
-
+export default function Login() {
   return (
-    <div className="flex ">
-        <div className = " bg-indigo-600 w-2/5 h-screen text-white font-semibold  flex" >
-            <p className=" text-2rem flex justify-start items-end ml-3 mb-5 text-3xl" > Yarsa Test Part Two</p>
-        </div> 
-        <div className = "bg-grey-100 w-3/5  flex justify-center items-center" >
+    <div className='min-h-screen flex flex-col md:flex-row'>
+      {/* Blue shaded banner section */}
+      <div className='bg-blue-600 text-white hidden md:flex items-end justify-start px-6 py-8 md:w-2/5 w-full h-52 md:h-auto'>
+        <h1 className='text-3xl md:text-4xl font-bold'>Yarsa Test Part Two</h1>
+      </div>
 
-            <div className = "bg-white w-7/10 flex flex-col px-5 py-5 rounded-md shadow-[1px_1px_8px_rgb(0,0,0,0.3)]" >
-                 
-                <div className = "text-2xl font-semibold mx-1 mb-5" >Login</div>
-                <div className = "flex flex-col mx-1 mb-3">
-                    <label className = " text-gray-700  text-base font-normal"
-                    htmlFor="zUserName">Username </label>
-                    <input 
-                        className = {`border-1 px-3 py-2 rounded focus:outline-none focus:border-black focus:shadow-[0_0_5px_rgba(0,0,0,0.3)] ${errors.userName ? 'border-red-500' : 'border-gray-200'}`}
-                        type = "text" 
-                        id = "zUserName"
-                        placeholder = "Enter Username"
-                        value = {userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                    />
-                    {errors.userName && <span className="text-red-500 text-sm mt-1">{errors.userName}</span>}
-                </div>
+      {/* Login form section */}
+      <div className='flex-1 flex items-center justify-center px-4 py-10'>
+        <Card className='w-full max-w-md shadow-lg'>
+          <CardHeader>
+            <CardTitle className='text-center text-2xl'>Login</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form className='space-y-6'>
+              <div className='space-y-2'>
+                <Label htmlFor='username'>Username</Label>
+                <Input id='username' name='username' placeholder='Enter your username' />
+              </div>
 
-                <div className = "flex flex-col mx-1 mb-4"> 
-                    <label htmlFor="zPassword">Password </label>
-                    <input 
-                        className = {`border-1 px-3 py-2 rounded focus:outline-none focus:border-black focus:shadow-[0_0_5px_rgba(0,0,0,0.3)] ${errors.password ? 'border-red-500' : 'border-gray-200'}`}
-                        type = "text" 
-                        id = "zPassword"
-                        placeholder = "Enter Password"
-                        value = {password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                     {errors.password && <span className="text-red-500 text-sm mt-1">{errors.password}</span>}
-                </div>
+              <div className='space-y-2'>
+                <Label htmlFor='password'>Password</Label>
+                <Input
+                  id='password'
+                  name='password'
+                  type='password'
+                  placeholder='Enter your password'
+                />
+              </div>
 
-                <div className = "mx-1 mb-3"> 
-                    <Button className="bg-indigo-600 hover:opacity-80 hover:bg-indigo-600  w-300px " 
-                        onClick={handleButtonClick}
-                    >Sign In</Button>
-                </div>
-                <div className = " flex flex-col text-gray-600 mx-1 items-center leading-4">
-                    <p>Demo credentials:</p>
-                    <p>username: {signal ? userName : null} | password: {signal ? password: null} </p>
-                </div>
+              <Button type='submit' className='w-full'>
+                Sign in
+              </Button>
+            </form>
+
+            <div className='mt-6 text-center text-sm text-muted-foreground'>
+              <p>Demo credentials:</p>
+              <p className='text-blue-600'>username: johnd | password: m38rmF$</p>
             </div>
-        </div>
-    
-
+          </CardContent>
+        </Card>
+      </div>
     </div>
-  )
+  );
 }
-
-export default Login
-
