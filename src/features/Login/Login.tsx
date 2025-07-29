@@ -16,12 +16,7 @@ function Login() {
     const [password, setPassword] = useState<string>("")
     const [signal , setSignal] = useState<boolean>(false)
 
-    const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        setUserName(e.target.value)
-    }
-    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        setPassword(e.target.value)
-    }
+   
 
     const handleButtonClick = () =>{
         setSignal(true)
@@ -46,7 +41,7 @@ function Login() {
                         id = "zUserName"
                         placeholder = "Enter Username"
                         value = {userName}
-                        onChange = {handleChangeUserName}
+                         onChange={(e) => setUserName(e.target.value)}
                     />
                 </div>
 
@@ -58,7 +53,7 @@ function Login() {
                         id = "zPassword"
                         placeholder = "Enter Password"
                         value = {password}
-                        onChange = {handleChangePassword}
+                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
 
