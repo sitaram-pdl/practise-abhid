@@ -1,13 +1,7 @@
 
-
-
-
-
-
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
-
 
 
 function Login() {
@@ -15,13 +9,23 @@ function Login() {
     const [userName, setUserName] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [signal , setSignal] = useState<boolean>(false)
+    const [errors, setErrors] = useState({ userName: "", password: "" })
 
    
-
-    const handleButtonClick = () =>{
-        setSignal(true)
+   const handleButtonClick = () => {
+    const newErrors = {
+      userName: userName.trim() === "" ? "Username is required" : "",
+      password: password.trim() === "" ? "Password is required" : "",
     }
-   
+    setErrors(newErrors)
+
+    if (newErrors.userName === "" && newErrors.password === "") {
+      setSignal(true)
+    } else {
+      setSignal(false)
+    }
+  }
+
   return (
     <div className="flex ">
         <div className = " bg-indigo-600 w-2/5 h-screen text-white font-semibold  flex" >
@@ -36,13 +40,14 @@ function Login() {
                     <label className = " text-gray-700  text-base font-normal"
                     htmlFor="zUserName">Username </label>
                     <input 
-                        className = "border-1 px-3 py-2 rounded "
+                        className = "border-1 px-3 py-2 rounded  "
                         type = "text" 
                         id = "zUserName"
                         placeholder = "Enter Username"
                         value = {userName}
-                         onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => setUserName(e.target.value)}
                     />
+                    {errors.userName && <span className="text-red-500 text-sm mt-1">{errors.userName}</span>}
                 </div>
 
                 <div className = "flex flex-col mx-1 mb-4"> 
@@ -53,13 +58,14 @@ function Login() {
                         id = "zPassword"
                         placeholder = "Enter Password"
                         value = {password}
-                         onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
+                     {errors.password && <span className="text-red-500 text-sm mt-1">{errors.password}</span>}
                 </div>
 
                 <div className = "mx-1 mb-3"> 
                     <Button className="bg-indigo-600 hover:opacity-80 hover:bg-indigo-600  w-300px " 
-                    onClick = {handleButtonClick}
+                        onClick={handleButtonClick}
                     >Sign In</Button>
                 </div>
                 <div className = " flex flex-col text-gray-600 mx-1 items-center leading-4">
@@ -75,5 +81,4 @@ function Login() {
 }
 
 export default Login
-
 
