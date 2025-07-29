@@ -40,7 +40,7 @@ function Login() {
                     <label className = " text-gray-700  text-base font-normal"
                     htmlFor="zUserName">Username </label>
                     <input 
-                        className = "border-1 px-3 py-2 rounded  "
+                        className = {`border-1 px-3 py-2 rounded ${errors.userName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-indigo-500'}`}
                         type = "text" 
                         id = "zUserName"
                         placeholder = "Enter Username"
@@ -53,7 +53,7 @@ function Login() {
                 <div className = "flex flex-col mx-1 mb-4"> 
                     <label htmlFor="zPassword">Password </label>
                     <input 
-                        className = "border-1 px-3 py-2 rounded "
+                        className = {`border-1 px-3 py-2 rounded ${errors.userName ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-indigo-500'}`}
                         type = "text" 
                         id = "zPassword"
                         placeholder = "Enter Password"
