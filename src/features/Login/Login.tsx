@@ -1,20 +1,10 @@
 
-import { useState } from "react"
+import { useForm } from "react-hook-form"
+
+
+
 function Login() {
-
-    const [userName, setUserName] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
-    const [errors, setErrors] = useState({ userName: "", password: "" })
-
-   const handleButtonClick = () => {
-    const newErrors = {
-      userName: userName.trim() === "" ? "Username is required" : "",
-      password: password.trim() === "" ? "Password is required" : "",
-    }
-    setErrors(newErrors)
-
-  }
-
+  
   return (
     <div className="flex ">
         <div className = " bg-indigo-600 w-2/5 h-screen text-white font-semibold  flex" >
