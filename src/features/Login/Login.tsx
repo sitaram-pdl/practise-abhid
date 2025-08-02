@@ -33,10 +33,8 @@ function Login() {
                         type = "text" 
                         id = "zUserName"
                         placeholder = "Enter Username"
-                        value = {userName}
-                        onChange={(e) => setUserName(e.target.value)}
                     />
-                    {errors.userName && <span className="text-red-500 text-sm mt-1">{errors.userName}</span>}
+                  
                 </div>
 
                 <div className = "flex flex-col mx-1 mb-4"> 
@@ -45,11 +43,8 @@ function Login() {
                         className = "border-1 px-3 py-2 rounded "
                         type = "text" 
                         id = "zPassword"
-                        placeholder = "Enter Password"
-                        value = {password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder = "Enter Password"            
                     />
-                     {errors.password && <span className="text-red-500 text-sm mt-1">{errors.password}</span>}
                 </div>
 
                 <div className = "mx-1 mb-3"> 
@@ -57,14 +52,13 @@ function Login() {
                         onClick={handleButtonClick}
                     >Sign In</button>
                 </div>
+
                 <div className = " flex flex-col text-sm text-blue-700 mx-1 items-center leading-4">
                     <p className="text-gray-500">Demo credentials:</p>
                     <p>username: johnd | password: m38rmF$ </p>
                 </div>
             </div>
         </div>
-    
-
     </div>
   )
 }
