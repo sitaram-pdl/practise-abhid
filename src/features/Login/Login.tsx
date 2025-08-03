@@ -1,11 +1,14 @@
 
 import { useForm, type FieldValues , type SubmitHandler   } from "react-hook-form"
 
+import { z } from "zod";
 
-type FormFields = {
-    Username: string;
-    Password: string;
-}
+const myschema = z.object({
+        Username: z.string(),
+        Password: z.string()
+})
+
+type FormFields = z.infer<typeof myschema >
 
 
 function Login() {
