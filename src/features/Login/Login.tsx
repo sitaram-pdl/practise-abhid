@@ -9,14 +9,23 @@ type FormFields = {
 
 
 function Login() {
-    const {register,handleSubmit, formState:{errors, isSubmitting}, reset } = useForm<FormFields>()
+    const {register,handleSubmit, formState:{errors, isSubmitting}, reset ,setError } = useForm<FormFields>()
 
 
     const onSubmit: SubmitHandler<FormFields> = async (data:FieldValues) =>{
 
+       try {
         await new Promise ((resolve)=> setTimeout(resolve,2000))
         console.log(data)
         reset()
+        throw new Error
+    
+       } catch (error) {
+        setError("Username",{
+            message: "This Username is already taken"
+        })
+        
+       }
     }
 
   
@@ -95,7 +104,6 @@ function Login() {
                         >
                         {isSubmitting ?  "Loading..." : "Sign In"}</button>
                     </div>
-                
 
                 <div className = " flex flex-col text-sm text-blue-700 mx-1 items-center leading-4">
                     <p className="text-gray-500">Demo credentials:</p>
