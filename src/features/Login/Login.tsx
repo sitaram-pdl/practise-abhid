@@ -9,7 +9,10 @@ type FormFields = {
 
 
 function Login() {
-    const {register,handleSubmit, formState:{errors, isSubmitting}, reset ,setError } = useForm<FormFields>()
+    const {register,handleSubmit, formState:{errors, isSubmitting}, reset ,setError } = useForm<FormFields>({ defaultValues: {
+      Username: "",
+      Password: "",
+    },})
 
 
     const onSubmit: SubmitHandler<FormFields> = async (data:FieldValues) =>{
@@ -23,6 +26,10 @@ function Login() {
        } catch (error) {
         setError("Username",{
             message: "This Username is already taken"
+        })
+        
+        setError("Password",{
+            message: "This Password is already taken"
         })
         
        }
@@ -109,6 +116,7 @@ function Login() {
                     <p className="text-gray-500">Demo credentials:</p>
                     <p>username: johnd | password: m38rmF$ </p>
                 </div>
+                 {/* {errors.root && (<div className=" text-red-500">{errors.root.message}</div> )} */}
             </form>
         </div>
     </div>
