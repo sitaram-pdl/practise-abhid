@@ -1,4 +1,5 @@
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type FieldValues , type SubmitHandler   } from "react-hook-form"
 
 import { z } from "zod";
@@ -12,10 +13,13 @@ type FormFields = z.infer<typeof myschema >
 
 
 function Login() {
-    const {register,handleSubmit, formState:{errors, isSubmitting}, reset ,setError } = useForm<FormFields>({ defaultValues: {
-      Username: "",
-      Password: "",
-    },})
+    const {register,handleSubmit, formState:{errors, isSubmitting}, reset ,setError } = useForm<FormFields>({ 
+                    defaultValues: {
+                        Username: "",
+                        Password: "",
+                        },
+                    resolver: zodResolver(myschema),
+                 })
 
 
     const onSubmit: SubmitHandler<FormFields> = async (data:FieldValues) =>{
