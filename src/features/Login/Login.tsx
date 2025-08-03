@@ -9,11 +9,17 @@ type FormFields = {
 
 
 function Login() {
-    const {register,handleSubmit, formState:{errors}} = useForm<FormFields>()
-    const onSubmit: SubmitHandler<FormFields> = (data:FieldValues) =>{
+    const {register,handleSubmit, formState:{errors, isSubmitting}, reset } = useForm<FormFields>()
+
+
+    const onSubmit: SubmitHandler<FormFields> = async (data:FieldValues) =>{
+
+        await new Promise ((resolve)=> setTimeout(resolve,2000))
         console.log(data)
+        reset()
     }
 
+  
   return (
     <div className="flex ">
         <div className = " bg-indigo-600 w-2/5 h-screen text-white font-semibold  flex" >
@@ -83,9 +89,11 @@ function Login() {
                          {errors.Password && (<div className=" text-red-500">{errors.Password.message}</div> )}
                     </div>
                     <div className = "mx-1 mb-3"> 
-                        <button className="bg-indigo-600 hover:opacity-60  w-full rounded-md text-white px-4 py-2 " 
-                        
-                        >Sign In</button>
+                        <button 
+                        className = {`hover:opacity-60  w-full rounded-md text-white px-4 py-2   ${isSubmitting ? "bg-green-500": "bg-indigo-600" }   `}
+                        disabled = {isSubmitting}
+                        >
+                        {isSubmitting ?  "Loading..." : "Sign In"}</button>
                     </div>
                 
 
@@ -99,5 +107,3 @@ function Login() {
   )
 }
 export default Login
-
-// hello therre
