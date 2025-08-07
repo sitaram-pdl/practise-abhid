@@ -6,6 +6,7 @@ import Cart from "./features/dashboard/cart/Cart";
 import User from "./features/dashboard/user/User";
 import ProtectedLayout from "./routing/privateRoute"
 import Layout from "./features/dashboard/sidebar/Layout"
+// ready
 
 function App() {
   return (
