@@ -9,7 +9,7 @@ const loginSchema = z.object({
             .min(3, "Minimum length of username is 3")
             .max(20, "Maximum length of username is 20"),
         Password: z.string()
-            .min(8, "Minimum length of password is 8")
+            .min(7, "Minimum length of password is 7")
             .max(20, "Maximum length of password is 20")
             .regex(/[A-Z]/, "At least one uppercase letter required")
             .regex(/[a-z]/, "At least one lowercase letter required")
