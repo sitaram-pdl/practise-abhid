@@ -1,7 +1,9 @@
 
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
 
 
 const loginSchema = z.object({
@@ -25,7 +27,7 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
+    // reset,
     setError
   } = useForm<FormFields>({ 
                         resolver: zodResolver(loginSchema),
@@ -34,22 +36,25 @@ function Login() {
                         Password: "",
                         }
                         });
+ 
+const onSubmit: SubmitHandler<FormFields> = async (data) => {
+  try {
+    const response = await axios.post("https://fakestoreapi.com/auth/login", {
+      username: data.Username,
+      password: data.Password,
+    });
 
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(data);
-      reset();
-      throw new Error();
-    } catch (error) {
-      setError("Username", {
-        message: "This username is already taken"
-      });
-      setError("Password", {
-        message: "This password is already taken"
-      });
-    }
-  };
+    // Save the token
+    localStorage.setItem("token", response.data.token);
+    // Redirect
+    window.location.href = "/products";
+    
+  } catch (error: any) {
+  const msg = error.response?.data?.message || "Login failed";
+  setError("Username", { message: msg });
+  setError("Password", { message: msg });
+}
+};
 
   return (
   
@@ -119,7 +124,6 @@ function Login() {
   );
 }
 export default Login;
-
 
 
 
