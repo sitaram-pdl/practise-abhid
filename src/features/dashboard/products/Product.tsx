@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from "react";
 import axios from "@/api/Api"; // now , here we use axios that was previously created.
-import Sidebar from "@/features/dashboard/products/Sidebar";
-import Headbar from "@/features/dashboard/products/Headbar";
-import ProductTable from "@/features/dashboard/products/ProductTable"
+import Sidebar from "./Sidebar";
+import Headbar from "./Headbar";
+import ProductTable from "./ProductTable"
+
 
 export interface RatingType {  
   rate: number;
@@ -91,5 +92,4 @@ export default function Products() {
     </div>
   );
 }
-
 
