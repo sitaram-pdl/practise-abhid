@@ -5,6 +5,8 @@ import Sidebar from "./Sidebar";
 import Headbar from "./Headbar";
 import ProductTable from "./ProductTable"
 import CartDrawer from "./CartDrawer";
+import ConfirmDeleteModal from "./ConformDeleteModel";
+import Notification from './Notification'
 
 
 export interface RatingType {  
@@ -25,39 +27,17 @@ export interface ProductType {
 }
 
 export default function Products() {
+
   const [products, setProducts] = useState<ProductType[]>([]);
   const [cartOpen, setCartOpen] = useState(false); // for cart .....
- 
-  /*
-  //here, we just the Load products from localStorage or from API...................
-  useEffect(() => {
-    const savedProducts = localStorage.getItem("products");
-    if (savedProducts) {
-      // Load from local storage...........
-      setProducts(JSON.parse(savedProducts));
-    } else {
-      // Fetch from API.........
-      axios
-        .get("/products")
-        .then((response) =>
-          setProducts(
-            response.data.map((eachProduct: ProductType) => ({
-              ...eachProduct,
-              quantity: 0, // here, we manually add quantity at the end of product, so every products starts with quantity 0.
-            }))
-          )
-        )
-        .catch((error) => console.error("Error fetching products:", error));
-    }
-  }, []);
 
-  // Save products to localStorage whenever they change................
-  useEffect(() => {
-    if (products.length > 0) {
-      localStorage.setItem("products", JSON.stringify(products));
-    }
-  }, [products]);
-*/
+   // For delete modal
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
+
+  // For deleted message notification...
+  const [conformDeleteMessage, setConformDeleteMessage] = useState("");
+ 
 
 useEffect(() => {
   axios
@@ -117,15 +97,37 @@ useEffect(() => {
           );
         };
 
-  const handleRemove = (currentId:number) => {
-    setProducts((previous) => previous.filter((eachProduct) => eachProduct.id !== currentId));
-  };
+  // const handleRemove = (currentId:number) => {
+  //   setProducts((previous) => previous.filter((eachProduct) => eachProduct.id !== currentId));
+  // };
 
   const handleClearCart = () => {
     setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
   };
 
+  
+  // When delete button clicked → show modal
+  const handleRemove = (id: number) => {
+    setDeleteTargetId(id);
+    setDeleteModalOpen(true);
+  };
 
+  // When confirmed → run delete API
+  const confirmDelete = async () => {
+      if (!deleteTargetId) return;
+      try {
+        await axios.delete(`/products/${deleteTargetId}`); // simulate API call
+        setConformDeleteMessage("Deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        setConformDeleteMessage("Failed to delete product.");
+      } finally {
+        setDeleteModalOpen(false);
+        setDeleteTargetId(null);
+      }
+  };
+
+  
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -154,6 +156,21 @@ useEffect(() => {
           onClear={handleClearCart}
           onRemove={handleRemove}
         />
+
+      {/* Delete confirmation modal */}
+      <ConfirmDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+      />
+
+      {/* Toast message */}
+      {conformDeleteMessage && (
+        <Notification
+          message={conformDeleteMessage}
+          onClose={() => setConformDeleteMessage("")}
+        />
+      )}
 
     </div>
   );
