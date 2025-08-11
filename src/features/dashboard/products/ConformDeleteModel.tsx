@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 
 interface ConfirmDeleteModalProps {
   isOpen: boolean;
@@ -12,18 +13,33 @@ export default function ConfirmDeleteModal({
   onConfirm,
 }: ConfirmDeleteModalProps) {
 
+  useEffect(() => {
+    if (isOpen) {
+      // Disable scroll on body...
+      document.body.style.overflow = "hidden";
+    } else {
+      // Enable scroll on body when modal closed...
+      document.body.style.overflow = "";
+    }
+    // Cleanup when component unmounts or isOpen changes...
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
         {/* Overlay..............*/}
         <div
-          className="absolute inset-0 bg-black bg-opacity-50"
+          className=" absolute  inset-0 bg-opacity-50 backdrop-brightness-60"
           onClick={onClose}
         ></div>
 
         {/* Modal...................... */}
-        <div className="bg-white rounded-lg shadow-lg p-6 relative z-10 w-96">
+        <div className="relative bg-white rounded-lg shadow-lg p-6 z-10 w-96">
           <h2 className="text-lg font-bold mb-4">Confirm Deletion</h2>
           <p className="mb-6">Are you sure you want to delete this product?</p>
 
