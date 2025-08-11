@@ -15,7 +15,7 @@ export default function ProductTable({ products,  onRemove, onIncrease, onDecrea
     <div className="overflow-x-auto">
       <table className="w-full bg-white rounded shadow">
 
-          <thead className="bg-gray-200">
+          <thead className="bg-gray-300">
             <tr className="text-left">
               <th className="p-3">ID</th>
               <th className="p-3">Product</th>
@@ -26,7 +26,7 @@ export default function ProductTable({ products,  onRemove, onIncrease, onDecrea
             </tr>
           </thead>
 
-          <tbody>
+          <tbody >
             {products.map((eachProduct:any) => (
               <ProductRow
                 key={eachProduct.id}

@@ -27,9 +27,9 @@ export default function ProductRow({ eachProduct, onRemove,Quantity, onIncrease,
   const decrease  = () => {
     onDecrease(eachProduct.id)
   }
-  
+ 
   return (
-    <tr className="border-t">
+    <tr className="border-t hover:bg-gray-100">
 
         <td className="p-3">{eachProduct.id}</td>
 

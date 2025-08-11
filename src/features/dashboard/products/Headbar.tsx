@@ -9,12 +9,10 @@ interface HeaderbarPropsType {
 
 export default function Headbar({ Quantity, onCartClick }: HeaderbarPropsType) {
   return (
-    <div className="flex justify-between items-center mb-6">
+    <div className="flex justify-between items-center px-2 py-3">
       <h2 className="text-2xl font-semibold">Product</h2>
       <div className="flex items-center gap-6">
-        <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700">
-          Add
-        </button>
+      
 
         <div className="relative cursor-pointer" onClick={onCartClick}>
           <FaShoppingCart className="text-2xl" />

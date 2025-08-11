@@ -131,14 +131,20 @@ useEffect(() => {
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
-        <main className="flex-1 p-6">
+     
+        <main className="flex-1 p-6 bg-white">
           <Headbar Quantity={totalCartItems} onCartClick={() => setCartOpen(true)} />
-          {/* <Headbar Quantity={totalCartItems} /> */}
-          <input
-            type="text"
-            placeholder="Search by name"
-            className="w-full p-2 border rounded mb-4"
-          />
+            <div className="flex justify-between items-center border-t py-4 pr-2">
+               <input
+                  type="text"
+                  placeholder="Search by name"
+                  className="w-1/3 p-2 border rounded "
+                />
+              <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700">
+                Add
+              </button>
+          </div>
+         
           <ProductTable
             products={products}
             onRemove={handleRemove}
