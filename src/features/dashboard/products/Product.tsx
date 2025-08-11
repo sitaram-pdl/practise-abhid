@@ -4,6 +4,8 @@ import axios from "@/api/Api"; // now , here we use axios that was previously cr
 import Sidebar from "./Sidebar";
 import Headbar from "./Headbar";
 import ProductTable from "./ProductTable"
+import CartDrawer from "./CartDrawer";
+
 
 
 export interface RatingType {  
@@ -24,8 +26,9 @@ export interface ProductType {
 
 export default function Products() {
   const [products, setProducts] = useState<ProductType[]>([]);
+   const [cartOpen, setCartOpen] = useState(false); // for cart .....
  
-  
+
  useEffect(() => {
     axios
       .get("/products")
@@ -72,6 +75,11 @@ export default function Products() {
     setProducts((previous) => previous.filter((eachProduct) => eachProduct.id !== currentId));
   };
 
+    const handleClearCart = () => {
+    setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
+  };
+
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -89,6 +97,17 @@ export default function Products() {
             onDecrease = {decreaseQuantity}
           />
         </main>
+
+          {/* Cart Drawer..................................... */}
+        <CartDrawer
+          isOpen={cartOpen}
+          onClose={() => setCartOpen(false)}
+          cartItems={products.filter((eachProduct) => (eachProduct.quantity || 0) > 0)}
+          onIncrease={increaseQuantity}
+          onDecrease={decreaseQuantity}
+          onClear={handleClearCart}
+          onRemove={handleRemove}
+        />
     </div>
   );
 }

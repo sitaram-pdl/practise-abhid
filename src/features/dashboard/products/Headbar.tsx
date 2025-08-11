@@ -12,7 +12,7 @@ export default function Headbar({Quantity}:HeaderbarPropsType) {
       <div className="flex items-center gap-6">
         <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700">
           Add
-        </button>add
+        </button>
         <div className="relative">
           <FaShoppingCart className="text-2xl" />
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
