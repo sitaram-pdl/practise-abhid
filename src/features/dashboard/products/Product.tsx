@@ -97,9 +97,9 @@ useEffect(() => {
           );
         };
 
-  // const handleRemove = (currentId:number) => {
-  //   setProducts((previous) => previous.filter((eachProduct) => eachProduct.id !== currentId));
-  // };
+  const handleRemoveCartITems = (currentId:number) => {
+    setProducts((previous) => previous.filter((eachProduct) => eachProduct.id !== currentId));
+  };
 
   const handleClearCart = () => {
     setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
@@ -127,7 +127,7 @@ useEffect(() => {
       }
   };
 
-  
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -154,7 +154,7 @@ useEffect(() => {
           onIncrease={increaseQuantity}
           onDecrease={decreaseQuantity}
           onClear={handleClearCart}
-          onRemove={handleRemove}
+          RemoveCartItem={handleRemoveCartITems}
         />
 
       {/* Delete confirmation modal */}

@@ -9,7 +9,8 @@ interface CartDrawerProps {
   cartItems: ProductType[];
   onIncrease: (id: number) => void;
   onDecrease: (id: number) => void;
-  onRemove: (id: number) => void;
+  RemoveCartItem: (id: number) => void;
+  
   onClear: () => void;
 }
 
@@ -20,7 +21,7 @@ export default function CartDrawer({
   onIncrease,
   onDecrease,
   onClear,
-  onRemove,
+  RemoveCartItem,
 }: CartDrawerProps) {
 
   const total = cartItems.reduce(
@@ -88,7 +89,7 @@ export default function CartDrawer({
                         </div>
 
                         <button
-                              onClick={() => onRemove(item.id)}
+                              onClick={() => RemoveCartItem(item.id)}
                               className="text-red-500 hover:text-red-700 hover:cursor-pointer ml-5"
                             >
                               <FaTrash />
