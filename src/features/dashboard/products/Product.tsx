@@ -7,7 +7,6 @@ import ProductTable from "./ProductTable"
 import CartDrawer from "./CartDrawer";
 
 
-
 export interface RatingType {  
   rate: number;
   count: number;
@@ -22,30 +21,44 @@ export interface ProductType {
   rating: RatingType;
   title: string;
   quantity?: number; // manually adding extra quantity property for easy manupulations.
+  // Quantity?: number; 
 }
 
 export default function Products() {
   const [products, setProducts] = useState<ProductType[]>([]);
-   const [cartOpen, setCartOpen] = useState(false); // for cart .....
+  const [cartOpen, setCartOpen] = useState(false); // for cart .....
  
-
- useEffect(() => {
-    axios
-      .get("/products")
-      .then((response) =>
-        setProducts(
-          response.data.map((eachProduct: ProductType) => ({
-            ...eachProduct,
-            quantity: 0, // here, we manually add quantity at the end of product, so every products starts with quantity 0.
-          }))
+  
+  //here, we just the Load products from localStorage or from API...................
+  useEffect(() => {
+    const savedProducts = localStorage.getItem("products");
+    if (savedProducts) {
+      // Load from local storage
+      setProducts(JSON.parse(savedProducts));
+    } else {
+      // Fetch from API
+      axios
+        .get("/products")
+        .then((response) =>
+          setProducts(
+            response.data.map((eachProduct: ProductType) => ({
+              ...eachProduct,
+              quantity: 0, // here, we manually add quantity at the end of product, so every products starts with quantity 0.
+            }))
+          )
         )
-      )
-      .catch((error) => console.error("Error fetching products:", error));
+        .catch((error) => console.error("Error fetching products:", error));
+    }
   }, []);
 
+  // Save products to localStorage whenever they change................
+  useEffect(() => {
+    if (products.length > 0) {
+      localStorage.setItem("products", JSON.stringify(products));
+    }
+  }, [products]);
 
-  console.log(products) // see the product to know about the details about it and  further analysis
-
+  console.log(products) // see the product to know the details about it and further analysis it.
 
     // here we calculate total cart items for using in Headbar.
       const totalCartItems = products.reduce(
@@ -75,7 +88,7 @@ export default function Products() {
     setProducts((previous) => previous.filter((eachProduct) => eachProduct.id !== currentId));
   };
 
-    const handleClearCart = () => {
+  const handleClearCart = () => {
     setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
   };
 
@@ -84,7 +97,8 @@ export default function Products() {
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
         <main className="flex-1 p-6">
-          <Headbar Quantity={totalCartItems} />
+          <Headbar Quantity={totalCartItems} onCartClick={() => setCartOpen(true)} />
+          {/* <Headbar Quantity={totalCartItems} /> */}
           <input
             type="text"
             placeholder="Search by name"
@@ -97,8 +111,7 @@ export default function Products() {
             onDecrease = {decreaseQuantity}
           />
         </main>
-
-          {/* Cart Drawer..................................... */}
+        {/* Cart Drawer..................................... */}
         <CartDrawer
           isOpen={cartOpen}
           onClose={() => setCartOpen(false)}
@@ -108,7 +121,10 @@ export default function Products() {
           onClear={handleClearCart}
           onRemove={handleRemove}
         />
+
     </div>
   );
 }
+
+
 
