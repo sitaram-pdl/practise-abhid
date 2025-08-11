@@ -28,15 +28,15 @@ export default function Products() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [cartOpen, setCartOpen] = useState(false); // for cart .....
  
-  
+  /*
   //here, we just the Load products from localStorage or from API...................
   useEffect(() => {
     const savedProducts = localStorage.getItem("products");
     if (savedProducts) {
-      // Load from local storage
+      // Load from local storage...........
       setProducts(JSON.parse(savedProducts));
     } else {
-      // Fetch from API
+      // Fetch from API.........
       axios
         .get("/products")
         .then((response) =>
@@ -57,6 +57,39 @@ export default function Products() {
       localStorage.setItem("products", JSON.stringify(products));
     }
   }, [products]);
+*/
+
+useEffect(() => {
+  axios
+    .get("/products")
+    .then((response) => {
+       const savedCart = localStorage.getItem("cart"); 
+       const cartData: Record<number, number> = savedCart ? JSON.parse(savedCart) : {};
+
+       const mergedProducts = response.data.map((p: ProductType) => ({
+         ...p,
+         quantity: cartData[p.id] || 0 // Merge saved quantity with API product
+       }));
+
+       setProducts(mergedProducts);
+    })
+    .catch((error) => console.error("Error fetching products:", error));
+}, []);
+
+ useEffect(() => {
+   if (products.length > 0) {
+     // Save only quantities, not the whole product data
+     const cartData: Record<number, number> = {};
+     products.forEach((p) => {
+       if (p.quantity && p.quantity > 0) {
+         cartData[p.id] = p.quantity;
+       }
+     });
+     localStorage.setItem("cart", JSON.stringify(cartData));
+   }
+ }, [products]);
+
+
 
   console.log(products) // see the product to know the details about it and further analysis it.
 
