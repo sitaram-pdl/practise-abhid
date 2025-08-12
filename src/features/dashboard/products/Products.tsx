@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import axios from "@/api/Api"; // now , here we use axios that was previously created.
+import axios from "@/api/auth/Api"; // now , here we use axios that was previously created.
 import Headbar from "./Headbar";
 import ProductTable from "./ProductTable"
 import CartDrawer from "./CartDrawer";
