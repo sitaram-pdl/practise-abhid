@@ -1,6 +1,6 @@
 
 import ProductRow from "./ProductRow";
-import { type ProductType } from "@/features/dashboard/products/Product"
+import { type ProductType } from "@/features/dashboard/products/Products"
 
 interface ProductTablePropsType {
   products: ProductType[];

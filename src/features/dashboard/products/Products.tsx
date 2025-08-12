@@ -1,18 +1,11 @@
 
 import { useEffect, useState } from "react";
 import axios from "@/api/Api"; // now , here we use axios that was previously created.
-import Sidebar from "./Sidebar";
 import Headbar from "./Headbar";
 import ProductTable from "./ProductTable"
 import CartDrawer from "./CartDrawer";
 import ConfirmDeleteModal from "./ConformDeleteModel";
 import Notification from './Notification'
-
-
-export interface RatingType {  
-  rate: number;
-  count: number;
-}
 
 export interface ProductType {
   category: string;
@@ -20,7 +13,10 @@ export interface ProductType {
   id: number;
   image: string;
   price: number;
-  rating: RatingType;
+  rating: {
+      rate: number;
+      count: number;
+        }
   title: string;
   quantity?: number; // manually adding extra quantity property for easy manupulations.
   // Quantity?: number; 
@@ -129,9 +125,7 @@ useEffect(() => {
 
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
-     
+    <div className="flex min-h-screen bg-green-300">
         <main className="flex-1 p-6 bg-white">
           <Headbar Quantity={totalCartItems} onCartClick={() => setCartOpen(true)} />
             <div className="flex justify-between items-center border-t py-4 pr-2">

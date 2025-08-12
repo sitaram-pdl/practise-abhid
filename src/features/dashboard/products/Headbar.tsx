@@ -1,6 +1,7 @@
 
 
 import { FaShoppingCart } from "react-icons/fa";
+import {useNavigate } from "react-router-dom";
 
 interface HeaderbarPropsType {
   Quantity: number;
@@ -8,6 +9,14 @@ interface HeaderbarPropsType {
 }
 
 export default function Headbar({ Quantity, onCartClick }: HeaderbarPropsType) {
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="flex justify-between items-center px-2 py-3">
       <h2 className="text-2xl font-semibold">Product</h2>
@@ -26,6 +35,9 @@ export default function Headbar({ Quantity, onCartClick }: HeaderbarPropsType) {
         <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
           JO
         </div>
+        <button onClick={logout} className="ml-auto bg-red-600 px-2 py-1 rounded">
+          Logout
+        </button>
       </div>
     </div>
   );

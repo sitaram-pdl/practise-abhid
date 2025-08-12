@@ -8,7 +8,7 @@ import {
   FaCartPlus,
 } from "react-icons/fa";
 
-import { type ProductType } from "@/features/dashboard/products/Product"
+import { type ProductType } from "@/features/dashboard/products/Products"
 
 
 interface ProductRowPropsType {

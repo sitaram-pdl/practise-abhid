@@ -11,6 +11,8 @@ const ProtectedLayout = () => {
 
 export default ProtectedLayout;
 
+// <Navigate to="/" /> means goto login page again.
+
 // another way of doing it..............................................
 
 // const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
