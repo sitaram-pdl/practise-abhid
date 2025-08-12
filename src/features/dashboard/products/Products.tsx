@@ -125,7 +125,7 @@ useEffect(() => {
 
 
   return (
-    <div className="flex min-h-screen bg-green-300">
+    <div className="flex min-h-screen  absolute left-69 right-0">
         <main className="flex-1 p-6 bg-white">
           <Headbar Quantity={totalCartItems} onCartClick={() => setCartOpen(true)} />
             <div className="flex justify-between items-center border-t py-4 pr-2">
