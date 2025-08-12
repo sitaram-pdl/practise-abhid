@@ -7,21 +7,27 @@ import User from "./features/dashboard/user/User";
 import ProtectedLayout from "./routing/privateRoute"
 import LayoutSidebar from "@/routing/LayoutSidebar"
 
+import {DashboardProvider} from "./context/ProvideContext"
+
 function App() {
   return (
-   <BrowserRouter>
-  <Routes>
-    <Route path="/" element={<Login />} />
 
-    <Route element={<ProtectedLayout />}>
-      <Route element={<LayoutSidebar />}>
-        <Route path="/products" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/user" element={<User />} />
-      </Route>
-    </Route>
-  </Routes>
-</BrowserRouter>
+    <DashboardProvider>
+
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route element={<ProtectedLayout />}>
+                      <Route element={<LayoutSidebar />}>
+                          <Route path="/products" element={<Products />} />
+                          <Route path="/cart" element={<Cart />} />
+                          <Route path="/user" element={<User />} />
+                      </Route>
+                  </Route>
+              </Routes>
+        </BrowserRouter>
+
+    </DashboardProvider>
 
   );
 }
