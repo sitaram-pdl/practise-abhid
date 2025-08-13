@@ -32,7 +32,7 @@ export interface ProductContextType {
   removeCartItem: (id: number) => void;
   clearCart: () => void;
   handleRemove: (id: number) => void;
-  confirmDelete: () => Promise<void>;
+  confirmDelete: () => Promise<void>; // note the way to write type of promise (async calls)
   fetchProducts: () => Promise<void>;
 }
 
@@ -41,3 +41,4 @@ export interface ProviderPropsType {
 }
 
 export type CartDataType = { [productId: number]: number };
+

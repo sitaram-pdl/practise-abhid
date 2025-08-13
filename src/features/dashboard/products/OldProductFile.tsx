@@ -165,7 +165,7 @@ useEffect(() => {
         onConfirm={confirmDelete}
       />
 
-      {/* Notification message */}
+      {/* for Notification message */}
       {conformDeleteMessage && (
         <Notification
           message={conformDeleteMessage}

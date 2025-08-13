@@ -1,6 +1,4 @@
 
-
-import Headbar from "./Headbar";
 import ProductTable from "./ProductTable";
 import CartDrawer from "./CartDrawer";
 import ConfirmDeleteModal from "./ConformDeleteModel";
@@ -11,7 +9,6 @@ export default function Products() {
   const {
     products,
     cartItems,
-    totalCartItems,
     isCartOpen,
     isDeleteModalOpen,
     notificationMessage,
@@ -24,12 +21,12 @@ export default function Products() {
     clearCart,
     handleRemove,
     confirmDelete,
-  } = useProductContext(); // it is a custom hook which helps us to get the context consuming function .
+  } = useProductContext(); // it is a custom hook which get us the function to consume context.
 
   return (
     <div className="flex min-h-screen absolute left-69 right-0">
       <main className="flex-1 p-6 bg-white">
-        <Headbar Quantity={totalCartItems} onCartClick={() => setCartOpen(true)} />
+        
         <div className="flex justify-between items-center border-t py-4 pr-2">
           <input
             type="text"

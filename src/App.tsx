@@ -4,50 +4,26 @@ import Login from "./features/login/Login";
 import Products from "./features/dashboard/products/Products";
 import Cart from "./features/dashboard/cart/Cart";
 import User from "./features/dashboard/user/User";
-import ProtectedLayout from "./routing/privateRoute"
-import LayoutSidebar from "@/routing/LayoutSidebar"
-
-import {DashboardProvider} from "./context/ProvideContext"
+import ProtectedLayout from "./routing/privateRoute";
+import Layout from "@/routing/Layout";
+import { ProductProvider } from "@/context/ProductContext";
 
 function App() {
   return (
-
-    <DashboardProvider>
-
-          <BrowserRouter>
-              <Routes>
-                  <Route path="/" element={<Login />} />
-                  <Route element={<ProtectedLayout />}>
-                      <Route element={<LayoutSidebar />}>
-                          <Route path="/products" element={<Products />} />
-                          <Route path="/cart" element={<Cart />} />
-                          <Route path="/user" element={<User />} />
-                      </Route>
-                  </Route>
-              </Routes>
-        </BrowserRouter>
-
-    </DashboardProvider>
-
+    <BrowserRouter>
+      <ProductProvider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route element={<ProtectedLayout />}>
+            <Route element={<Layout />}>
+              <Route path="/products" element={<Products />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/user" element={<User />} />
+            </Route>
+          </Route>
+        </Routes>
+      </ProductProvider>
+    </BrowserRouter>
   );
 }
 export default App;
-
-
-// alternative way.........................
-
-/*
-<Route
-  element={
-    <PrivateRoute>
-      <Layout />
-    </PrivateRoute>
-  }
->
-  <Route path="/products" element={<Products />} />
-  <Route path="/cart" element={<Cart />} />
-  <Route path="/user" element={<User />} />
-</Route>
-
-*/
-
