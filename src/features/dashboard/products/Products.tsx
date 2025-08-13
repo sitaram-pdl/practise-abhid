@@ -42,11 +42,8 @@ export default function Products() {
       </main>
 
      {/* Delete confirmation modal */}
-      <ConfirmDeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={confirmDelete}
-      />
+      <ConfirmDeleteModal/>
+      
      {/* for Notification message */}
       {notificationMessage && (
         <Notification

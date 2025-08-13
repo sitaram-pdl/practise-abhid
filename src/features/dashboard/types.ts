@@ -21,11 +21,15 @@ export interface ProductContextType {
   totalCartItems: number;
   isCartOpen: boolean;
   isDeleteModalOpen: boolean;
+  isAddNewProductModalOpen: boolean;
   deleteTargetId: number | null;
+  addNewProductId: number | null;
   notificationMessage: string;
   setCartOpen: (isOpen: boolean) => void;
   setDeleteModalOpen: (isOpen: boolean) => void;
+  setAddNewProductModalOpen: (isOpen: boolean) => void;
   setDeleteTargetId: (id: number | null) => void;
+  setAddNewProductId: (id: number | null) => void;
   setNotificationMessage: (message: string) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;

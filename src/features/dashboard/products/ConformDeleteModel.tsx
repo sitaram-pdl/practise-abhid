@@ -1,20 +1,13 @@
 
 import { useEffect } from "react";
+import { useProductContext } from "@/context/ProductContext";
 
-interface ConfirmDeleteModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-}
+export default function ConfirmDeleteModal() {
 
-export default function ConfirmDeleteModal({
-  isOpen,
-  onClose,
-  onConfirm,
-}: ConfirmDeleteModalProps) {
+    const { isDeleteModalOpen, setDeleteModalOpen, confirmDelete,} = useProductContext();
 
   useEffect(() => {
-    if (isOpen) {
+    if (isDeleteModalOpen) {
       // Disable scroll on body...
       document.body.style.overflow = "hidden";
     } else {
@@ -25,18 +18,20 @@ export default function ConfirmDeleteModal({
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [isDeleteModalOpen]);
 
 
-  if (!isOpen) return null;
+  if (!isDeleteModalOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="absolute inset-0 flex items-center justify-center z-102">
         {/* Overlay..............*/}
+        { isDeleteModalOpen && (
         <div
-          className=" absolute  inset-0 bg-opacity-50 backdrop-brightness-60"
-          onClick={onClose}
-        ></div>
+          className=" absolute inset-0 bg-opacity-50 backdrop-brightness-60"
+          onClick={() => setDeleteModalOpen(false)}
+        ></div>)
+          }
 
         {/* Modal...................... */}
         <div className="relative bg-white rounded-lg shadow-lg p-6 z-10 w-96">
@@ -46,13 +41,13 @@ export default function ConfirmDeleteModal({
           <div className="flex justify-end gap-3">
             <button
               className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-              onClick={onClose}
+              onClick={() => setDeleteModalOpen(false)}
             >
               Cancel
             </button>
             <button
               className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              onClick={onConfirm}
+              onClick={confirmDelete}
             >
               Yes, Delete
             </button>

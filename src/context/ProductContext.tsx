@@ -10,9 +10,14 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [isCartOpen, setCartOpen] = useState(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false); // For delete modal....
+   // For delete modal....
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
-  const [notificationMessage, setNotificationMessage] = useState(""); //  For deleted message notification...
+  //  For deleted message notification...
+  const [notificationMessage, setNotificationMessage] = useState(""); 
+  // For Add New Product modal....
+const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
+ const [addNewProductId, setAddNewProductId] = useState<number | null>(null);
 
   const cartItems = products.filter((product) => (product.quantity || 0) > 0);
   const totalCartItems = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
@@ -67,13 +72,15 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
   };
 
+  // ............fundtions to delete product......................................................
+
   // When delete button clicked → show modal
   const handleRemove = (id: number) => {
     setDeleteTargetId(id);
     setDeleteModalOpen(true);
   };
 
-  // When confirmed → run delete API
+  // When confirmed → runs delete API
   const confirmDelete = async () => {
     if (!deleteTargetId) return;
     try {
@@ -88,6 +95,30 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
       setDeleteTargetId(null);
     }
   };
+  // ............fundtions to Add New product......................................................
+
+  // When delete button clicked → show modal
+  const handleAddNewProduct = (id: number) => {
+    setAddNewProductId(id);
+    setAddNewProductModalOpen(true);
+  };
+
+  // When confirmed → runs delete API
+  const confirmAddNewProduct = async () => {
+    if (!addNewProductId) return;
+    try {
+      await addNewProduct(addNewProductId);
+      setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); // simulate API call
+      setNotificationMessage("Deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      setNotificationMessage("Failed to delete product.");
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteTargetId(null);
+    }
+  };
+  // ...........................................................................................
 
   return (
     <ProductContext.Provider
