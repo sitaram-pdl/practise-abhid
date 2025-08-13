@@ -8,7 +8,7 @@ import {
   FaCartPlus,
 } from "react-icons/fa";
 
-import { type ProductType } from "@/features/dashboard/products/Products"
+import { type ProductType } from "@/features/dashboard/products/types"
 
 
 interface ProductRowPropsType {
@@ -79,8 +79,9 @@ export default function ProductRow({ eachProduct, onRemove,Quantity, onIncrease,
 
         <td className="p-3">
           <button
+            className=" text-gray-500 hover:text-red-500 hover:cursor-pointer"
             onClick={() => onRemove(eachProduct.id)}
-            className="text-red-500 hover:text-red-700 hover:cursor-pointer"
+            title="Delete"
           >
             <FaTrash />
           </button>

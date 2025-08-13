@@ -24,10 +24,11 @@ export default function Products() {
   } = useProductContext(); // it is a custom hook which get us the function to consume context.
 
   return (
-    <div className="flex min-h-screen absolute left-69 right-0">
-      <main className="flex-1 p-6 bg-white">
+    <div className="flex min-h-screen absolute left-72 right-2 top-20  
+    shadow-[2px_2px_5px_1px_rgba(0,0,0,0.5)]">
+      <main className="flex-1 p-6 bg-white rounded">
         
-        <div className="flex justify-between items-center border-t py-4 pr-2">
+        <div className="flex justify-between items-center border-t py-4 pr-2 ">
           <input
             type="text"
             placeholder="Search by name"

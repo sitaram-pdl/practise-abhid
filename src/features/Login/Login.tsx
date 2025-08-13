@@ -48,6 +48,7 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
     localStorage.setItem("token", response.data.token);
     // Redirect
     window.location.href = "/products";
+    // navigate("/dashboard");
     
   } catch (error: any) {
   const msg = error.response?.data?.message || "Login failed";
