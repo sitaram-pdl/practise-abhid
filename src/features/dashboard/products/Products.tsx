@@ -5,17 +5,8 @@ import Notification from './Notification';
 import { useProductContext } from "@/context/ProductContext";
 
 export default function Products() {
-  const {
-    products,
-    isDeleteModalOpen,
-    notificationMessage,
-    setNotificationMessage,
-    setDeleteModalOpen,
-    increaseQuantity,
-    decreaseQuantity,
-    handleRemove,
-    confirmDelete,
-  } = useProductContext(); // it is a custom hook which get us the function to consume context.
+  const { notificationMessage} = useProductContext(); 
+  // it is a custom hook which get us the function to consume context.
 
   return (
     <div className="flex min-h-screen absolute left-72 right-2 top-20  
@@ -32,38 +23,20 @@ export default function Products() {
             Add New Product
           </button>
         </div>
-        
-        <ProductTable
-          products={products}
-          onRemove={handleRemove}
-          onIncrease={increaseQuantity}
-          onDecrease={decreaseQuantity}
-        />
+
+        <div className="w-full">
+          <ProductTable/>
+        </div>
+       
       </main>
 
      {/* Delete confirmation modal */}
-      <ConfirmDeleteModal/>
-      
+      <ConfirmDeleteModal />
+
      {/* for Notification message */}
-      {notificationMessage && (
-        <Notification
-          message={notificationMessage}
-          onClose={() => setNotificationMessage("")}
-        />
-      )}
+      {notificationMessage && (<Notification />)}
     </div>
   );
 }
 
 
-{/* 
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setCartOpen(false)}
-        cartItems={cartItems}
-        onIncrease={increaseQuantity}
-        onDecrease={decreaseQuantity}
-        onClear={clearCart}
-        RemoveCartItem={removeCartItem}
-      /> 
-*/}
