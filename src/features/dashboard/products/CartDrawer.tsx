@@ -14,6 +14,20 @@ interface CartDrawerProps {
   onClear: () => void;
 }
 
+
+{/* 
+  <CartDrawer
+    isOpen={isCartOpen}
+    onClose={() => setCartOpen(false)}
+    cartItems={cartItems}
+    onIncrease={increaseQuantity}
+    onDecrease={decreaseQuantity}
+    onClear={clearCart}
+    RemoveCartItem={removeCartItem}
+  />
+ */}
+
+
 export default function CartDrawer({
   isOpen,
   onClose,

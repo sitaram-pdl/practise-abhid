@@ -1,6 +1,5 @@
 
 import ProductTable from "./ProductTable";
-import CartDrawer from "./CartDrawer";
 import ConfirmDeleteModal from "./ConformDeleteModel";
 import Notification from './Notification';
 import { useProductContext } from "@/context/ProductContext";
@@ -8,17 +7,12 @@ import { useProductContext } from "@/context/ProductContext";
 export default function Products() {
   const {
     products,
-    cartItems,
-    isCartOpen,
     isDeleteModalOpen,
     notificationMessage,
-    setCartOpen,
     setNotificationMessage,
     setDeleteModalOpen,
     increaseQuantity,
     decreaseQuantity,
-    removeCartItem,
-    clearCart,
     handleRemove,
     confirmDelete,
   } = useProductContext(); // it is a custom hook which get us the function to consume context.
@@ -47,15 +41,6 @@ export default function Products() {
         />
       </main>
 
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setCartOpen(false)}
-        cartItems={cartItems}
-        onIncrease={increaseQuantity}
-        onDecrease={decreaseQuantity}
-        onClear={clearCart}
-        RemoveCartItem={removeCartItem}
-      />
      {/* Delete confirmation modal */}
       <ConfirmDeleteModal
         isOpen={isDeleteModalOpen}
@@ -73,3 +58,15 @@ export default function Products() {
   );
 }
 
+
+{/* 
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setCartOpen(false)}
+        cartItems={cartItems}
+        onIncrease={increaseQuantity}
+        onDecrease={decreaseQuantity}
+        onClear={clearCart}
+        RemoveCartItem={removeCartItem}
+      /> 
+*/}
