@@ -1,7 +1,7 @@
 
 
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
-import { type ProductType } from "./Products";
+import { type ProductType } from "./types";
 
 interface CartDrawerProps {
   isOpen: boolean;

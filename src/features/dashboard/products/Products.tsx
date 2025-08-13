@@ -34,8 +34,8 @@ export default function Products() {
             placeholder="Search by name"
             className="w-1/3 p-2 border rounded"
           />
-          <button className="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-700">
-            Add
+          <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+            Add New Product
           </button>
         </div>
         

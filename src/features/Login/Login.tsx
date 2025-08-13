@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import {useNavigate} from 'react-router-dom'
 import { z } from "zod";
 import axios from "axios";
 
@@ -22,6 +23,8 @@ const loginSchema = z.object({
 type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
+
+  const navigate = useNavigate();
   
   const {
     register,
@@ -47,8 +50,8 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
     // Save the token
     localStorage.setItem("token", response.data.token);
     // Redirect
-    window.location.href = "/products";
-    // navigate("/dashboard");
+    navigate("/products");
+    // window.location.href = "/products";
     
   } catch (error: any) {
   const msg = error.response?.data?.message || "Login failed";
