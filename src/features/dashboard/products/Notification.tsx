@@ -1,27 +1,45 @@
 
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProductContext } from "@/context/ProductContext";
 
-
 export default function Notification() {
+  const { notificationMessage, setNotificationMessage } = useProductContext();
+  const [visible, setVisible] = useState(false);
 
-    const { notificationMessage, setNotificationMessage,} = useProductContext(); // consuming props through custom hook.
-
-  // Auto-hide after 1.5 seconds
+  // Show + auto-hide....
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setNotificationMessage("");
-    }, 1500);
-    return () => clearTimeout(timer); // Cleanup on unmount
-  }, [setNotificationMessage]);
+    if (notificationMessage) {
+      setVisible(true); // trigger fade in
+      const timer = setTimeout(() => {
+        setVisible(false); // trigger fade out..
+        setTimeout(() => setNotificationMessage(""), 300); // remove from DOM after fade out
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [notificationMessage, setNotificationMessage]);
 
   return (
-    <div className="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 animate-fadeIn">
-      <div className="flex justify-between items-center gap-4">
-        <span>{notificationMessage}</span>
-        <button onClick={() => setNotificationMessage("")} className="font-bold">✖</button>
+    notificationMessage && (
+      <div
+        className={`fixed top-4 right-4 bg-green-500 px-4 py-2 rounded shadow-lg z-50 
+        transition-all duration-300 ease-in-out
+        ${visible ? "opacity-100 translate-y-3" : "opacity-0 -translate-y-3"}`}
+      >
+        <div className="flex justify-between items-center gap-4">
+          <span className="text-white font-bold">{notificationMessage}</span>
+          <button onClick={() => setVisible(false)} className="font-bold">✖</button>
+        </div>
       </div>
-    </div>
+    )
   );
 }
+
+/*
+1. The first timer controls *how long the message stays visible*.
+2. The second timer gives enough time for the fade-out animation to finish before removing the element.
+If skipped this, the message would instantly vanish instead of fading.
+
+*/
+
+
