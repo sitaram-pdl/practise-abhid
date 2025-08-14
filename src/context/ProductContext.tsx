@@ -1,7 +1,7 @@
 
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { type ProductType, type ProductContextType , type ProviderPropsType } from "@/features/dashboard/products/types";
+import { type ProductType, type ProductContextType , type ProviderPropsType } from "@/features/dashboard/types";
 import { fetchProducts, deleteProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
@@ -98,26 +98,26 @@ const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
   // ............fundtions to Add New product......................................................
 
   // When delete button clicked → show modal
-  const handleAddNewProduct = (id: number) => {
-    setAddNewProductId(id);
+  const handleAddNewProduct = () => {
     setAddNewProductModalOpen(true);
+    setAddNewProductId(null);
   };
 
   // When confirmed → runs delete API
-  const confirmAddNewProduct = async () => {
-    if (!addNewProductId) return;
-    try {
-      await addNewProduct(addNewProductId);
-      setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); // simulate API call
-      setNotificationMessage("Deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      setNotificationMessage("Failed to delete product.");
-    } finally {
-      setDeleteModalOpen(false);
-      setDeleteTargetId(null);
-    }
-  };
+  // const confirmAddNewProduct = async () => {
+  //   if (!addNewProductId) return;
+  //   try {
+  //     await addNewProduct(addNewProductId);
+  //     setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); // simulate API call
+  //     setNotificationMessage("Deleted successfully!");
+  //   } catch (error) {
+  //     console.error("Error deleting product:", error);
+  //     setNotificationMessage("Failed to delete product.");
+  //   } finally {
+  //     setDeleteModalOpen(false);
+  //     setDeleteTargetId(null);
+  //   }
+  // };
   // ...........................................................................................
 
   return (
@@ -128,10 +128,12 @@ const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
         totalCartItems,
         isCartOpen,
         isDeleteModalOpen,
+        isAddNewProductModalOpen,
         deleteTargetId,
         notificationMessage,
         setCartOpen,
         setDeleteModalOpen,
+        setAddNewProductModalOpen,
         setDeleteTargetId,
         setNotificationMessage,
         increaseQuantity,
@@ -140,6 +142,8 @@ const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
         clearCart,
         handleRemove,
         confirmDelete,
+        handleAddNewProduct,
+        // confirmAddNewProduct,
         fetchProducts: fetchProductsData,
       }}
     >

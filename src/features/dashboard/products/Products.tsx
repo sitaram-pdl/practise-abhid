@@ -3,9 +3,10 @@ import ProductTable from "./ProductTable";
 import ConfirmDeleteModal from "./ConformDeleteModel";
 import Notification from './Notification';
 import { useProductContext } from "@/context/ProductContext";
+import AddNewProductModel from "./AddNewProductModel";
 
 export default function Products() {
-  const { notificationMessage} = useProductContext(); 
+  const { notificationMessage, handleAddNewProduct} = useProductContext(); 
   // it is a custom hook which get us the function to consume context.
 
   return (
@@ -19,7 +20,11 @@ export default function Products() {
             placeholder="Search by name"
             className="w-1/3 p-2 border rounded"
           />
-          <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+          <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+
+            onClick={handleAddNewProduct}
+          
+            >
             Add New Product
           </button>
         </div>
@@ -33,6 +38,7 @@ export default function Products() {
       {/* Modal and Notification will stay here - they use fixed positioning */}
       <ConfirmDeleteModal />
       {notificationMessage && <Notification />}
+      < AddNewProductModel/>
     </div>
   );
 }

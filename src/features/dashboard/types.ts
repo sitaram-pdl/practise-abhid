@@ -37,6 +37,8 @@ export interface ProductContextType {
   clearCart: () => void;
   handleRemove: (id: number) => void;
   confirmDelete: () => Promise<void>; // note the way to write type of promise (async calls)
+  handleAddNewProduct: () => void;
+  // confirmAddNewProduct: () => Promise<void>; // note the way to write type of promise (async calls)
   fetchProducts: () => Promise<void>;
 }
 
