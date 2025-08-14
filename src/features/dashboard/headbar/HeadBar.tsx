@@ -30,7 +30,7 @@ export default function HeadBar() {
 
   return (
     <>
-      <div className="fixed top-0 left-69 right-0 h-16 z-100 px-4 py-4 bg-amber-300 flex justify-between items-center ">
+      <div className="fixed top-0 left-69 right-0 h-16 z-10 px-4 py-4 bg-amber-300 flex justify-between items-center ">
         <h2 className="text-2xl font-semibold">{getPageTitle()}</h2>
         <div className="flex items-center gap-6">
         

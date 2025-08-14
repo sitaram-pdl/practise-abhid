@@ -15,12 +15,12 @@ export default function CartDrawer() {
 
   return (
 
-    <div className= "z-101">
+    <div>
         {/* Overlay................................. */}
         {/* if isCartOpen state is true open the cart. and onclick just close the cart */}
         {isCartOpen && (
           <div
-            className="fixed inset-0 bg-gray-200 z-40"
+            className="fixed inset-0 backdrop-brightness-60 z-40"
             onClick={() => setCartOpen(false)}
           />
         )}

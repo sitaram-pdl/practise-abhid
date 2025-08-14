@@ -30,11 +30,9 @@ export default function Products() {
        
       </main>
 
-     {/* Delete confirmation modal */}
+      {/* Modal and Notification can stay here - they use fixed positioning */}
       <ConfirmDeleteModal />
-
-     {/* for Notification message */}
-      {notificationMessage && (<Notification />)}
+      {notificationMessage && <Notification />}
     </div>
   );
 }
