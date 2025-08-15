@@ -33,7 +33,7 @@ function Login() {
     // reset,
     setError
   } = useForm<FormFields>({ 
-                        resolver: zodResolver(loginSchema),
+                        resolver: zodResolver(loginSchema), // integrating zod in react_hook_for
                         defaultValues: {
                         Username: "",
                         Password: "",
@@ -46,7 +46,6 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
       username: data.Username,
       password: data.Password,
     });
-
     // Save the token
     localStorage.setItem("token", response.data.token);
     // Redirect

@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
 import { fetchProducts, deleteProduct,addNewProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
+// import { type ProductFormDataType} from "@/validationSchema/productSchema/ProductSchema"
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
 
@@ -85,7 +86,8 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     if (!deleteTargetId) return;
     try {
       await deleteProduct(deleteTargetId);
-      setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); // simulate API call
+      // simulate API call onlu, not to delete from frontend.
+      // setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
       setNotificationMessage("Deleted successfully!");
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -95,7 +97,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
       setDeleteTargetId(null);
     }
   };
-  // ............fundtions to Add New product......................................................
+  // ............fundtions to Add New product.................................................
 
   // When delete button clicked → show modal
   const handleAddNewProduct = () => {
@@ -111,7 +113,8 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     
     const apiResponse = await addNewProduct(productData);
     console.log("this is api response: ",apiResponse)
-    setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]);
+    // just simulate only, no need to add products to state.....
+    // setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]); 
     
     // Set success message
     setNotificationMessage("Product created successfully!");
