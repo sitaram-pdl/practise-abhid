@@ -1,8 +1,8 @@
 
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { type ProductType, type ProductContextType , type ProviderPropsType } from "@/features/dashboard/types";
-import { fetchProducts, deleteProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
+import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
+import { fetchProducts, deleteProduct,addNewProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
 
@@ -13,12 +13,12 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
    // For delete modal....
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
-  //  For deleted message notification...
+  //  For  notification message...
   const [notificationMessage, setNotificationMessage] = useState(""); 
   // For Add New Product modal....
-const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
- const [addNewProductId, setAddNewProductId] = useState<number | null>(null);
-
+  const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+  
   const cartItems = products.filter((product) => (product.quantity || 0) > 0);
   const totalCartItems = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
 
@@ -100,24 +100,37 @@ const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
   // When delete button clicked → show modal
   const handleAddNewProduct = () => {
     setAddNewProductModalOpen(true);
-    setAddNewProductId(null);
   };
 
-  // When confirmed → runs delete API
-  // const confirmAddNewProduct = async () => {
-  //   if (!addNewProductId) return;
-  //   try {
-  //     await addNewProduct(addNewProductId);
-  //     setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); // simulate API call
-  //     setNotificationMessage("Deleted successfully!");
-  //   } catch (error) {
-  //     console.error("Error deleting product:", error);
-  //     setNotificationMessage("Failed to delete product.");
-  //   } finally {
-  //     setDeleteModalOpen(false);
-  //     setDeleteTargetId(null);
-  //   }
-  // };
+  // When confirmed → runs Add new Product API
+
+  const confirmAddNewProduct = async (productData: CreateNewProduct) => {
+  try {
+    setIsLoading(true);
+    setNotificationMessage(""); // Clear any existing message first
+    
+    const apiResponse = await addNewProduct(productData);
+    console.log("this is api response: ",apiResponse)
+    setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]);
+    
+    // Set success message
+    setNotificationMessage("Product created successfully!");
+    
+    // Close modal after a short delay
+    setTimeout(() => {
+      setAddNewProductModalOpen(false);
+    }, 500);
+    
+    return true;
+  } catch (error) {
+    setNotificationMessage("Failed to create product");
+    return false;
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
   // ...........................................................................................
 
   return (
@@ -131,6 +144,8 @@ const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
         isAddNewProductModalOpen,
         deleteTargetId,
         notificationMessage,
+        isLoading,
+        setIsLoading,
         setCartOpen,
         setDeleteModalOpen,
         setAddNewProductModalOpen,
@@ -143,7 +158,7 @@ const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
         handleRemove,
         confirmDelete,
         handleAddNewProduct,
-        // confirmAddNewProduct,
+        confirmAddNewProduct,
         fetchProducts: fetchProductsData,
       }}
     >
@@ -161,6 +176,7 @@ export const useProductContext = () => {
   }
   return context;
 };
+
 
 
 
