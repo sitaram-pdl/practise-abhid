@@ -20,16 +20,16 @@ export interface ProductContextType {
   cartItems: ProductType[];
   totalCartItems: number;
   isCartOpen: boolean;
+  isLoading: boolean;
   isDeleteModalOpen: boolean;
   isAddNewProductModalOpen: boolean;
   deleteTargetId: number | null;
-  addNewProductId: number | null;
   notificationMessage: string;
   setCartOpen: (isOpen: boolean) => void;
+  setIsLoading: (isOpen: boolean) => void;
   setDeleteModalOpen: (isOpen: boolean) => void;
   setAddNewProductModalOpen: (isOpen: boolean) => void;
   setDeleteTargetId: (id: number | null) => void;
-  setAddNewProductId: (id: number | null) => void;
   setNotificationMessage: (message: string) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
@@ -38,9 +38,10 @@ export interface ProductContextType {
   handleRemove: (id: number) => void;
   confirmDelete: () => Promise<void>; // note the way to write type of promise (async calls)
   handleAddNewProduct: () => void;
-  // confirmAddNewProduct: () => Promise<void>; // note the way to write type of promise (async calls)
   fetchProducts: () => Promise<void>;
+  confirmAddNewProduct: (productData: CreateNewProduct) => Promise<boolean>;
 }
+
 
 export interface ProviderPropsType {
   children: React.ReactNode;
@@ -48,3 +49,18 @@ export interface ProviderPropsType {
 
 export type CartDataType = { [productId: number]: number };
 
+// ........................type for Adding new Product......................
+// Add these new types
+export interface CreateNewProduct {
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  category: string;
+}
+
+export interface ProductApiResponse extends Omit<ProductType, 'quantity'> {
+  // This matches the API response exactly
+  // quantity is omitted because it's frontend-only
+}
+// .....................................................................................
