@@ -25,7 +25,7 @@ export default function ProductTable() {
             <ProductRow
               key={eachProduct.id}
               eachProduct={eachProduct}
-              Quantity={eachProduct.quantity || 0}
+              quantity={eachProduct.quantity || 0}
             />
           ))}
         </tbody>

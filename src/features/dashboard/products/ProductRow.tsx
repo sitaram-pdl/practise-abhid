@@ -1,15 +1,20 @@
 
-import { FaStar, FaRegStar, FaTrash, FaPlus, FaMinus, FaCartPlus,} from "react-icons/fa";
-import { type ProductType } from "@/features/dashboard/products/types"
+
+import { FaStar, FaRegStar, FaTrash, FaPlus, FaMinus, FaCartPlus } from "react-icons/fa";
+import { type ProductType } from "@/features/dashboard/types"
 import { useProductContext } from "@/context/ProductContext";
 
 interface ProductRowPropsType {
   eachProduct: ProductType;
-  Quantity: number;
+  quantity?: number; 
 }
 
-export default function ProductRow({ eachProduct, Quantity }: ProductRowPropsType) {
+export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowPropsType) {
   const { increaseQuantity, decreaseQuantity, handleRemove } = useProductContext();
+
+  // Safe defaults for rating.........vvi step for adding new product 
+  const safeRating = eachProduct.rating || { rate: 0, count: 0 };
+  const displayQuantity = quantity || eachProduct.quantity || 0;
 
   return (
     <tr className="hover:bg-gray-100">
@@ -21,6 +26,9 @@ export default function ProductRow({ eachProduct, Quantity }: ProductRowPropsTyp
             src={eachProduct.image}
             alt={eachProduct.title}
             className="h-10 w-10 rounded object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/placeholder-product.png';
+            }}
           />
           <div>
             <div className="font-medium line-clamp-1">{eachProduct.title}</div>
@@ -33,30 +41,37 @@ export default function ProductRow({ eachProduct, Quantity }: ProductRowPropsTyp
 
       <td className="whitespace-nowrap px-6 py-4">
         <div className="flex items-center gap-1">
-          {eachProduct.rating.rate}
-          {eachProduct.rating.rate >= 4 ? (
+          {safeRating.rate.toFixed(1)}
+          {safeRating.rate >= 4 ? (
             <FaStar className="text-yellow-400" />
           ) : (
             <FaRegStar className="text-gray-400" />
           )}
+          <span className="text-xs text-gray-500">({safeRating.count})</span>
         </div>
       </td>
       
       <td className="whitespace-nowrap px-6 py-4">
-        {Quantity > 0 ? (
+        {displayQuantity > 0 ? (
           <div className="inline-flex items-center border px-2 py-1 rounded">
-            <button onClick={() => decreaseQuantity(eachProduct.id)} className="px-1">
+            <button 
+              onClick={() => decreaseQuantity(eachProduct.id)} 
+              className="px-1 hover:text-red-500"
+            >
               <FaMinus className="text-sm" />
             </button>
-            <span className="mx-2">{Quantity}</span>
-            <button onClick={() => increaseQuantity(eachProduct.id)} className="px-1">
+            <span className="mx-2">{displayQuantity}</span>
+            <button 
+              onClick={() => increaseQuantity(eachProduct.id)} 
+              className="px-1 hover:text-green-500"
+            >
               <FaPlus className="text-sm" />
             </button>
           </div>
         ) : (
           <button
             onClick={() => increaseQuantity(eachProduct.id)}
-            className="inline-flex items-center gap-1 rounded bg-violet-600 px-3 py-1 text-white hover:bg-violet-700"
+            className="inline-flex items-center gap-1 rounded bg-violet-600 px-3 py-1 text-white hover:bg-violet-700 transition-colors"
           >
             <FaCartPlus /> Add
           </button>
@@ -66,8 +81,9 @@ export default function ProductRow({ eachProduct, Quantity }: ProductRowPropsTyp
       <td className="whitespace-nowrap px-6 py-4">
         <button
           onClick={() => handleRemove(eachProduct.id)}
-          className="text-gray-500 hover:text-red-500"
+          className="text-gray-500 hover:text-red-500 transition-colors"
           title="Delete"
+          aria-label="Delete product"
         >
           <FaTrash />
         </button>
@@ -75,3 +91,9 @@ export default function ProductRow({ eachProduct, Quantity }: ProductRowPropsTyp
     </tr>
   );
 }
+
+
+
+
+
+
