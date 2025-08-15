@@ -1,10 +1,7 @@
 
 
-
 import axios from "@/api/auth/Api";
-import {type ProductType , type CartDataType } from "@/features/dashboard/products/types";
-
-// 
+import { type ProductType, type CartDataType, type CreateNewProduct, type ProductApiResponse } from "@/features/dashboard/types";
 
 export const fetchProducts = async () => {
   const response = await axios.get("/products");
@@ -15,19 +12,16 @@ export const deleteProduct = async (id: number) => {
   await axios.delete(`/products/${id}`);
 };
 
-// const axios = require('axios');
-// axios.delete('https://fakestoreapi.com/products/1')
-//   .then(response => console.log(response.data));
 
-export const addNewProduct = async (id: number) => {
-  await axios.post(`/products', product`)
+// Updated addNewProduct function to use Axios properly................
+
+export const addNewProduct = async (productData: CreateNewProduct): Promise<ProductApiResponse> => {
+  const response = await axios.post<ProductApiResponse>("/products", {
+    ...productData,
+    rating: { rate: 0, count: 0 } // API requirement
+  });
+  return response.data;
 };
-
-
-// const axios = require('axios');
-// const product = { title: 'New Product', price: 29.99 };
-// axios.post('https://fakestoreapi.com/products', product)
-//   .then(response => console.log(response.data));
 
 // ................handler for saving and loading Quantity from local storage..........
 
