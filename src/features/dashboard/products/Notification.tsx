@@ -1,39 +1,87 @@
 
-
 import { useEffect, useState } from "react";
 import { useProductContext } from "@/context/ProductContext";
 
 export default function Notification() {
   const { notificationMessage, setNotificationMessage } = useProductContext();
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState("");
 
-  // Show + auto-hide....
   useEffect(() => {
     if (notificationMessage) {
-      setVisible(true); // trigger fade in
-      const timer = setTimeout(() => {
-        setVisible(false); // trigger fade out..
+      setCurrentMessage(notificationMessage);
+      setIsVisible(true); // trigger fade in
+      
+      const hideTimer = setTimeout(() => {
+        setIsVisible(false); // trigger fade out..
+        // Delay message clearing to allow fade-out animation
         setTimeout(() => setNotificationMessage(""), 300); // remove from DOM after fade out
-      }, 2000);
-      return () => clearTimeout(timer);
+      }, 3000);
+
+      return () => clearTimeout(hideTimer);
     }
   }, [notificationMessage, setNotificationMessage]);
 
+  if (!notificationMessage) return null;
+
   return (
-    notificationMessage && (
-      <div
-        className={`fixed top-4 right-4 bg-green-500 px-4 py-2 rounded shadow-lg z-50 
-        transition-all duration-300 ease-in-out
-        ${visible ? "opacity-100 translate-y-3" : "opacity-0 -translate-y-3"}`}
-      >
-        <div className="flex justify-between items-center gap-4">
-          <span className="text-white font-bold">{notificationMessage}</span>
-          <button onClick={() => setVisible(false)} className="font-bold">✖</button>
-        </div>
+    <div
+      className={`fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-[1000]
+      transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+    >
+      <div className="flex items-center justify-between gap-4">
+        <span>{currentMessage}</span>
+        <button 
+          onClick={() => {
+            setIsVisible(false);
+            setTimeout(() => setNotificationMessage(""), 300); 
+          }}
+          className="text-white hover:text-gray-200"
+        >
+          ✖
+        </button>
       </div>
-    )
+    </div>
   );
 }
+
+
+
+
+// import { useEffect, useState } from "react";
+// import { useProductContext } from "@/context/ProductContext";
+
+// export default function Notification() {
+//   const { notificationMessage, setNotificationMessage } = useProductContext();
+//   const [visible, setVisible] = useState(false);
+
+//   // Show + auto-hide....
+//   useEffect(() => {
+//     if (notificationMessage) {
+//       setVisible(true); // trigger fade in
+//       const timer = setTimeout(() => {
+//         setVisible(false); // trigger fade out..
+//         setTimeout(() => setNotificationMessage(""), 300); // remove from DOM after fade out
+//       }, 2000);
+//       return () => clearTimeout(timer);
+//     }
+//   }, [notificationMessage, setNotificationMessage]);
+
+//   return (
+//     notificationMessage && (
+//       <div
+//         className={`fixed top-4 right-4 bg-green-500 px-4 py-2 rounded shadow-lg z-50 
+//         transition-all duration-300 ease-in-out
+//         ${visible ? "opacity-100 translate-y-3" : "opacity-0 -translate-y-3"}`}
+//       >
+//         <div className="flex justify-between items-center gap-4">
+//           <span className="text-white font-bold">{notificationMessage}</span>
+//           <button onClick={() => setVisible(false)} className="font-bold">✖</button>
+//         </div>
+//       </div>
+//     )
+//   );
+// }
 
 /*
 1. The first timer controls *how long the message stays visible*.
