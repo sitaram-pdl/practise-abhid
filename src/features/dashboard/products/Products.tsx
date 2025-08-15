@@ -3,7 +3,7 @@ import ProductTable from "./ProductTable";
 import ConfirmDeleteModal from "./ConformDeleteModel";
 import Notification from './Notification';
 import { useProductContext } from "@/context/ProductContext";
-import AddNewProductModel from "./AddNewProductModel";
+import AddNewProductModel from "./AddNewProductModel"
 
 export default function Products() {
   const { notificationMessage, handleAddNewProduct} = useProductContext(); 
@@ -35,10 +35,15 @@ export default function Products() {
        
       </main>
 
-      {/* Modal and Notification will stay here - they use fixed positioning */}
+
+      {/* Render components in this order */}
       <ConfirmDeleteModal />
-      {notificationMessage && <Notification />}
-      < AddNewProductModel/>
+      <AddNewProductModel />
+      {/* Key ensures re-render */}
+      {notificationMessage && (
+        <Notification key={`${notificationMessage}-${Date.now()}`} />
+      )} 
+
     </div>
   );
 }
