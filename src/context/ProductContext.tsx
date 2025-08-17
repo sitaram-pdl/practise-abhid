@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
 import { fetchProducts, deleteProduct,addNewProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
-// import { type ProductFormDataType} from "@/validationSchema/productSchema/ProductSchema"
+
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
 
@@ -18,7 +18,9 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
   const [notificationMessage, setNotificationMessage] = useState(""); 
   // For Add New Product modal....
   const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // For get a single product.....
+ 
   
   const cartItems = products.filter((product) => (product.quantity || 0) > 0);
   const totalCartItems = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
@@ -34,6 +36,8 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
   };
 
   console.log(products) // see the product to know the details about it and further analysis it.
+
+// products should load automatically as the login is done so use use effect to fetch products.....
 
   useEffect(() => {
     fetchProductsData();
@@ -73,7 +77,11 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
   };
 
-  // ............fundtions to delete product......................................................
+// ............functions)(Handlers) to fetch single product..................
+
+
+
+  // ............functions)(Handlers) to delete product......................
 
   // When delete button clicked → show modal
   const handleRemove = (id: number) => {
@@ -97,7 +105,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
       setDeleteTargetId(null);
     }
   };
-  // ............fundtions to Add New product.................................................
+  // ............functions)(Handlers) to Add New product...................
 
   // When delete button clicked → show modal
   const handleAddNewProduct = () => {
@@ -132,9 +140,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     setIsLoading(false);
   }
 };
-
-
-  // ...........................................................................................
+  // ...............................................................................
 
   return (
     <ProductContext.Provider
@@ -160,8 +166,8 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
         clearCart,
         handleRemove,
         confirmDelete,
-        handleAddNewProduct,
         confirmAddNewProduct,
+        handleAddNewProduct,
         fetchProducts: fetchProductsData,
       }}
     >
@@ -179,19 +185,6 @@ export const useProductContext = () => {
   }
   return context;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
