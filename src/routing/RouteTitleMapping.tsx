@@ -1,5 +1,5 @@
 
-
+/*
 import { useLocation } from "react-router-dom";
 
 // Route to title mapping (can be moved to a separate config file if needed)
@@ -20,3 +20,5 @@ const RouteTitles: Record<string, string> = {
     // Default fallback
     return 'Dashboard'; 
   };
+
+  */

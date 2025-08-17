@@ -28,6 +28,7 @@ export default function SideBar() {
                 to="/user">
                 <FaUser /> <span>User</span>
               </NavLink>
+              
           </nav>
         </aside>
    </>
@@ -41,7 +42,7 @@ export default function SideBar() {
 
 
 
-
+ 
 
 
 
