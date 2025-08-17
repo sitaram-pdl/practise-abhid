@@ -1,8 +1,9 @@
 
-
+import { useNavigate } from "react-router-dom";
 import { FaStar, FaRegStar, FaTrash, FaPlus, FaMinus, FaCartPlus } from "react-icons/fa";
 import { type ProductType } from "@/features/dashboard/types"
 import { useProductContext } from "@/context/ProductContext";
+
 
 interface ProductRowPropsType {
   eachProduct: ProductType;
@@ -12,13 +13,18 @@ interface ProductRowPropsType {
 export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowPropsType) {
   const { increaseQuantity, decreaseQuantity, handleRemove } = useProductContext();
 
+  const navigate = useNavigate();
+
   // Safe defaults for rating.........vvi step for adding new product 
   const safeRating = eachProduct.rating || { rate: 0, count: 0 };
   const displayQuantity = quantity || eachProduct.quantity || 0;
 
   return (
-    <tr className="hover:bg-gray-100">
-      <td className="whitespace-nowrap px-6 py-4">{eachProduct.id}</td>
+    <tr className="hover:bg-gray-100"
+      onClick={() => navigate(`/products/${eachProduct.id}`)} 
+      >
+      <td className="whitespace-nowrap px-6 py-4"
+      >{eachProduct.id}</td>
 
       <td className="px-6 py-4">
         <div className="flex items-center gap-3">
