@@ -3,17 +3,29 @@
 import axios from "@/api/auth/Api";
 import { type ProductType, type CartDataType, type CreateNewProduct, type ProductApiResponse } from "@/features/dashboard/types";
 
+// .........Get all products...................
+
 export const fetchProducts = async () => {
   const response = await axios.get("/products");
   return response.data;
 };
+
+//.............Get a single product.............
+
+
+// export const fetchSingleProduct = async (id: number) => {
+// const response =  await axios.get(`/products/${id}`);
+// return response.data
+// }
+
+// ......Delete a product.....................
 
 export const deleteProduct = async (id: number) => {
   await axios.delete(`/products/${id}`);
 };
 
 
-// Updated addNewProduct function to use Axios properly................
+//....Add a new product... (Updated addNewProduct function to use Axios properly)................
 
 export const addNewProduct = async (productData: CreateNewProduct): Promise<ProductApiResponse> => {
   const response = await axios.post<ProductApiResponse>("/products", {
