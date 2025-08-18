@@ -21,9 +21,7 @@ export default function Products() {
             className="w-1/3 p-2 border rounded"
           />
           <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-
             onClick={handleAddNewProduct}
-          
             >
             Add New Product
           </button>
@@ -43,7 +41,6 @@ export default function Products() {
       {notificationMessage && (
         <Notification key={`${notificationMessage}-${Date.now()}`} />
       )} 
-
     </div>
   );
 }

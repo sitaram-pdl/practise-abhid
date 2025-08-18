@@ -3,14 +3,14 @@
 import axios from "@/api/auth/Api";
 import { type ProductType, type CartDataType, type CreateNewProduct, type ProductApiResponse } from "@/features/dashboard/types";
 
-// .........Get all products...................
+// .........Get (fetch) all products...................
 
 export const fetchProducts = async () => {
   const response = await axios.get("/products");
   return response.data;
 };
 
-//.............Get a single product.............
+//.............Get (fetch) a single product.............
 
 
 // export const fetchSingleProduct = async (id: number) => {
@@ -24,6 +24,14 @@ export const deleteProduct = async (id: number) => {
   await axios.delete(`/products/${id}`);
 };
 
+// ........Update a product....................
+
+export const updateProduct = async (id: number, productData: CreateNewProduct): Promise<ProductApiResponse> => {
+  const response = await axios.put<ProductApiResponse>(`/products/${id}`, {
+    ...productData,
+  });
+  return response.data;
+};
 
 //....Add a new product... (Updated addNewProduct function to use Axios properly)................
 

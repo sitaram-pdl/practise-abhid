@@ -19,15 +19,21 @@ export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowProp
   const safeRating = eachProduct.rating || { rate: 0, count: 0 };
   const displayQuantity = quantity || eachProduct.quantity || 0;
 
+  
   return (
     <tr className="hover:bg-gray-100"
-      onClick={() => navigate(`/products/${eachProduct.id}`)} 
+      
       >
       <td className="whitespace-nowrap px-6 py-4"
       >{eachProduct.id}</td>
 
-      <td className="px-6 py-4">
-        <div className="flex items-center gap-3">
+      <td className="px-6 py-4"
+        
+      >
+        
+        <div className="flex items-center gap-3"
+          onClick={() => navigate(`/products/${eachProduct.id}`)} 
+        >
           <img
             src={eachProduct.image}
             alt={eachProduct.title}
