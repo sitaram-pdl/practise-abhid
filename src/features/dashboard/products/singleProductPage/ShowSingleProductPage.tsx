@@ -2,6 +2,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductContext } from "@/context/ProductContext";
 import {FaPlus,FaMinus, FaCartPlus } from "react-icons/fa";
+import AddNewProductModel from '../AddNewProductModel';
+
 
 
 export default function ShowSingleProductPage() {
@@ -90,6 +92,7 @@ export default function ShowSingleProductPage() {
                 </div>
             </div>
         </div>
+        <AddNewProductModel />
     </div>
   )
 }
