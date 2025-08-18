@@ -1,5 +1,4 @@
 
-
 import { useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema, type ProductFormDataType } from "@/validationSchema/productSchema/ProductSchema"
@@ -12,6 +11,9 @@ export default function AddNewProductModel() {
     setAddNewProductModalOpen,
     confirmAddNewProduct,
     isLoading,
+    confirmUpdateProduct,
+    editingProduct,
+    setEditingProduct,
   } = useProductContext();
 
   const { register, handleSubmit, watch, reset, formState: { errors },} = useForm<ProductFormDataType>({
@@ -25,29 +27,53 @@ export default function AddNewProductModel() {
     },
   });
 
-  // Watch image URL changes for preview............
+  // Autofill form when editing
+
+  useEffect(() => {
+    if (editingProduct) {
+      reset({
+        title: editingProduct.title,
+        price: editingProduct.price,
+        description: editingProduct.description,
+        category: editingProduct.category,
+        image: editingProduct.image,
+      });
+      setAddNewProductModalOpen(true); // ensure modal opens immediately
+    } else {
+      reset({
+        title: "",
+        price: 0,
+        description: "",
+        category: "",
+        image: "",
+      });
+    }
+  }, [editingProduct, reset, setAddNewProductModalOpen]);
+
+   //  Watch image field for live preview
   const imageUrl = watch("image");
   const [previewUrl, setPreviewUrl] = useState("");
+  useEffect(() => setPreviewUrl(imageUrl || ""), [imageUrl]);
 
-  // Update preview when image URL changes
-  useEffect(() => {
-    if (imageUrl) {
-      setPreviewUrl(imageUrl);
+  const handleImageError = () => setPreviewUrl("");
+
+ 
+  //  Handle submit (decide add vs update)
+  const onSubmit = async (data: ProductFormDataType) => {
+    if (editingProduct) {
+      await confirmUpdateProduct(editingProduct.id, data);
     } else {
-      setPreviewUrl("");
-    }
-  }, [imageUrl]);
-
-  const onSubmit = async (data:ProductFormDataType) => {
-   const success = await confirmAddNewProduct(data);
-    if (success) {
-      reset();
-      setPreviewUrl("");
+      const success = await confirmAddNewProduct(data);
+      if (success) {
+        reset();
+        setPreviewUrl("");
+      }
     }
   };
 
-  const handleImageError = () => {
-    setPreviewUrl(""); // Clear preview on error
+  const handleClose = () => {
+    setEditingProduct(null);
+    setAddNewProductModalOpen(false);
   };
 
 
@@ -58,14 +84,14 @@ export default function AddNewProductModel() {
       {/* Overlay */}
       <div
         className="fixed inset-0 z-50 backdrop-brightness-40"
-        onClick={() => setAddNewProductModalOpen(false)}
+        onClick={handleClose}
       />
 
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg shadow-xl p-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 h-auto overflow-y-auto">
           <div className="text-xl sm:text-2xl md:text-3xl mb-4 md:mb-5 font-semibold">
-            Add New Product
+              {editingProduct ? "Update Product" : "Add New Product"}
           </div>
           
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -161,17 +187,22 @@ export default function AddNewProductModel() {
               <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 pt-4 md:pt-5">
                 <button
                   type="button"
-                  onClick={() => setAddNewProductModalOpen(false)}
+                  onClick={handleClose}
                   className="px-4 py-2 bg-gray-500 text-white rounded"
                 >
                   Cancel
                 </button>
+
                 <button
                   type="submit"
                   disabled={isLoading}
                   className="px-4 py-2 bg-green-600 text-white rounded disabled:bg-gray-400"
                 >
-                  {isLoading ? "Creating..." : "Create Product"}
+                  {
+                  isLoading
+                    ? editingProduct ? "Updating..." : "Creating..."
+                    : editingProduct ? "Update Product" : "Create Product"
+                  }
                 </button>
               </div>
           </form>
@@ -180,14 +211,6 @@ export default function AddNewProductModel() {
     </>
   );
 }
-
-
-
-
-
-
-
-
 
 
 
