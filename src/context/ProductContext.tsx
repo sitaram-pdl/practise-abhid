@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
-import { fetchProducts, deleteProduct,addNewProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
+import { fetchProducts, deleteProduct,addNewProduct, updateProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
 
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
@@ -11,15 +11,16 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [isCartOpen, setCartOpen] = useState(false);
-   // For delete modal....
+   //state For delete modal....
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
-  //  For  notification message...
+  // state  For  notification message...
   const [notificationMessage, setNotificationMessage] = useState(""); 
-  // For Add New Product modal....
+  // state For Add New Product modal....
   const [isAddNewProductModalOpen, setAddNewProductModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
-  // For get a single product.....
+  // New state for single product update 
+  const [editingProduct, setEditingProduct] = useState<ProductType | null>(null);
  
   
   const cartItems = products.filter((product) => (product.quantity || 0) > 0);
@@ -140,7 +141,40 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     setIsLoading(false);
   }
 };
-  // ...............................................................................
+
+//...............functions to  Update products.............................
+
+// Open modal for update
+const handleUpdateProduct = (product: ProductType) => {
+  setEditingProduct(product);
+  setAddNewProductModalOpen(true); 
+};
+
+// Confirm update
+const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) => {
+  try {
+    setIsLoading(true);
+    const updated = await updateProduct(id, productData);
+
+    // simulate update in local state
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
+    );
+
+    setNotificationMessage("Product updated successfully!");
+    setTimeout(() => setAddNewProductModalOpen(false), 500);
+    setEditingProduct(null);
+    return true;
+  } catch (error) {
+    setNotificationMessage("Failed to update product.");
+    return false;
+  } finally {
+    setIsLoading(false);
+  }
+};
+ 
+
+// ...............................................................................
 
   return (
     <ProductContext.Provider
@@ -160,6 +194,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
         setAddNewProductModalOpen,
         setDeleteTargetId,
         setNotificationMessage,
+        setEditingProduct,
         increaseQuantity,
         decreaseQuantity,
         removeCartItem,
@@ -169,6 +204,9 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
         confirmAddNewProduct,
         handleAddNewProduct,
         fetchProducts: fetchProductsData,
+        editingProduct,
+        handleUpdateProduct,
+        confirmUpdateProduct,
       }}
     >
       {children}
