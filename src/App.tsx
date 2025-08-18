@@ -9,6 +9,7 @@ import ProtectedLayout from "./routing/privateRoute";
 import Layout from "@/routing/Layout";
 import { ProductProvider } from "@/context/ProductContext";
 
+
 function App() {
   return (
     <BrowserRouter>
