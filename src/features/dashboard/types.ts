@@ -17,6 +17,7 @@ export interface ProductType {
 
 export interface ProductContextType {
   products: ProductType[];
+  editingProduct: ProductType | null;
   cartItems: ProductType[];
   totalCartItems: number;
   isCartOpen: boolean;
@@ -29,6 +30,7 @@ export interface ProductContextType {
   setIsLoading: (isOpen: boolean) => void;
   setDeleteModalOpen: (isOpen: boolean) => void;
   setAddNewProductModalOpen: (isOpen: boolean) => void;
+  setEditingProduct: (product: ProductType | null) => void;
   setDeleteTargetId: (id: number | null) => void;
   setNotificationMessage: (message: string) => void;
   increaseQuantity: (productId: number) => void;
@@ -38,8 +40,10 @@ export interface ProductContextType {
   handleRemove: (id: number) => void;
   confirmDelete: () => Promise<void>; // note the way to write type of promise (async calls)
   handleAddNewProduct: () => void;
+  handleUpdateProduct: (product: ProductType) => void;
   fetchProducts: () => Promise<void>;
   confirmAddNewProduct: (productData: CreateNewProduct) => Promise<boolean>;
+  confirmUpdateProduct: (id: number, productData: CreateNewProduct) => Promise<boolean>;
 }
 
 
