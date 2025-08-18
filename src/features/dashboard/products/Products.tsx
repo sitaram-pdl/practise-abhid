@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import ProductTable from "./ProductTable";
 import ConfirmDeleteModal from "./ConformDeleteModel";
 import Notification from './Notification';
@@ -6,8 +7,14 @@ import { useProductContext } from "@/context/ProductContext";
 import AddNewProductModel from "./AddNewProductModel"
 
 export default function Products() {
-  const { notificationMessage, handleAddNewProduct} = useProductContext(); 
+  const {products, notificationMessage, handleAddNewProduct} = useProductContext(); 
   // it is a custom hook which get us the function to consume context.
+
+  const [searchTerm, setSearchTerm] = useState("");
+  // Filter products by title
+  const filteredProducts = products.filter((p) =>
+    p.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex min-h-screen absolute left-72 right-2 top-20  
@@ -19,6 +26,8 @@ export default function Products() {
             type="text"
             placeholder="Search by name"
             className="w-1/3 p-2 border rounded"
+            value={searchTerm}
+            onChange={(e)=> setSearchTerm(e.target.value)}
           />
           <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
             onClick={handleAddNewProduct}
@@ -27,12 +36,12 @@ export default function Products() {
           </button>
         </div>
 
+    {/* instead of passing the products from context directly, pass the filtered products to ProdutTable. */}
         <div className="w-full">
-          <ProductTable/>
+          <ProductTable filteredProducts={filteredProducts} />
         </div>
-       
-      </main>
 
+      </main>
 
       {/* Render components in this order */}
       <ConfirmDeleteModal />
