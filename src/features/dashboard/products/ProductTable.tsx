@@ -1,11 +1,17 @@
 
 import ProductRow from "./ProductRow";
-import { useProductContext } from "@/context/ProductContext";
+import {type ProductType} from "@/features/dashboard/types"
+// import { useProductContext } from "@/context/ProductContext";
 
-export default function ProductTable() {
+
+interface ProductTablePropsType {
+  filteredProducts: ProductType[];
+}
+
+export default function ProductTable({filteredProducts}:ProductTablePropsType) {
 
   // it is a custom hook which get us the function to consume context.
-  const { products} = useProductContext();
+  // const { products} = useProductContext();
 
   return (
     <div className="overflow-x-auto  border border-gray-200 shadow">
@@ -21,7 +27,7 @@ export default function ProductTable() {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          {products.map((eachProduct) => (
+          {filteredProducts.map((eachProduct) => (
             <ProductRow
               key={eachProduct.id}
               eachProduct={eachProduct}
