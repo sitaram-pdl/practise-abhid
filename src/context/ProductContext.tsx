@@ -4,7 +4,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
 import { fetchProducts, deleteProduct,addNewProduct, updateProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
 
-
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
 
 export const ProductProvider = ({ children }: ProviderPropsType) => {
@@ -21,7 +20,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
   const [isLoading, setIsLoading] = useState(false);
   // New state for single product update 
   const [editingProduct, setEditingProduct] = useState<ProductType | null>(null);
- 
+
   
   const cartItems = products.filter((product) => (product.quantity || 0) > 0);
   const totalCartItems = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
@@ -36,7 +35,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     }
   };
 
-  console.log(products) // see the product to know the details about it and further analysis it.
+  console.log("This is a data after fetching all products:",products) // see the product to know the details about it and further analysis it.
 
 // products should load automatically as the login is done so use use effect to fetch products.....
 
@@ -173,7 +172,6 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
   }
 };
  
-
 // ...............................................................................
 
   return (

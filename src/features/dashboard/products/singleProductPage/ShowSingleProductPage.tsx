@@ -5,7 +5,6 @@ import {FaPlus,FaMinus, FaCartPlus } from "react-icons/fa";
 import AddNewProductModel from '../AddNewProductModel';
 
 
-
 export default function ShowSingleProductPage() {
 
     const navigate = useNavigate();
@@ -96,3 +95,4 @@ export default function ShowSingleProductPage() {
     </div>
   )
 }
+

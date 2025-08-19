@@ -10,8 +10,8 @@ export const fetchProducts = async () => {
   return response.data;
 };
 
-//.............Get (fetch) a single product.............
 
+//.............Get (fetch) a single product.............
 
 // export const fetchSingleProduct = async (id: number) => {
 // const response =  await axios.get(`/products/${id}`);
