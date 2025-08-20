@@ -8,5 +8,10 @@ export const fetchUser = async() => {
   return response.data;
 }
 
+export const removeUser = async(id:number) => {
+  const response = await axios.delete(`/users/${id}`)
+  return response.data;
+}
+
  
 

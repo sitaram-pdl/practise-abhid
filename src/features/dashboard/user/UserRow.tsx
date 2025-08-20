@@ -1,10 +1,12 @@
 
+import { useUserContext } from "@/context/UserContext"
 import {type UsersType} from "@/features/dashboard/UserTypes"
 import { useState } from "react"
 import { FaEye, FaEyeSlash, FaTrash } from "react-icons/fa"
 
 export default function UserRow({eachUser}: {eachUser: UsersType}) {
 
+    const {handleRemove} = useUserContext();
     const [showPassword, setShowPassword] = useState(false)
 
     return (
@@ -34,6 +36,7 @@ export default function UserRow({eachUser}: {eachUser: UsersType}) {
             <td className="px-4 py-2">
                 <button className="cursor-pointer"
                     title="delete"
+                    onClick={()=>handleRemove(eachUser.id)}
                     >
                     <FaTrash className="text-red-500 bg hover:text-red-700"/>
                 </button>

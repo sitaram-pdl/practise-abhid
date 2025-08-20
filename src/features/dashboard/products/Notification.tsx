@@ -29,22 +29,12 @@ export default function Notification() {
       className={`fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-[1000]
       transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
-      <div className="flex items-center justify-between gap-4">
-        <span>{currentMessage}</span>
-        <button 
-          onClick={() => {
-            setIsVisible(false);
-            setTimeout(() => setNotificationMessage(""), 300); 
-          }}
-          className="text-white hover:text-gray-200"
-        >
-          ✖
-        </button>
+      <div className="text-lg font-bold text-white">
+        {currentMessage}
       </div>
     </div>
   );
 }
-
 
 
 
