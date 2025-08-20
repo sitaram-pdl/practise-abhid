@@ -1,5 +1,4 @@
 
-
 import { createContext, useEffect, useState } from "react";
 import {fetchUser} from "@/api/user/ApiUser"
 import {type UserContextType, type ProviderPropsType , type UsersType} from "@/features/dashboard/UserTypes"
@@ -30,7 +29,6 @@ return (
       }}
     >
       {children}
-
     </UserContext.Provider>
 )}
 

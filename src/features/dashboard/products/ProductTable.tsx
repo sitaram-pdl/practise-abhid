@@ -10,8 +10,7 @@ interface ProductTablePropsType {
 
 export default function ProductTable({filteredProducts}:ProductTablePropsType) {
 
-  // it is a custom hook which get us the function to consume context.
-  // const { products} = useProductContext();
+   {/* instead of receiving the products from context directly, receive the filtered products from product page to pass data to ProductRow.  */}
 
   return (
     <div className="overflow-x-auto  border border-gray-200 shadow">
