@@ -2,12 +2,12 @@
 import { useState } from "react";
 import UserTable from "./UserTable";
 import { useUserContext } from "@/context/UserContext";
-// import {type UsersType} from "@/features/dashboard/UserTypes"
-
+import ConfirmDeleteModal from "@/features/dashboard/user/ConformDeleteModel"
+import Notification from "./Notification";
 
 export default function User() {
 
-  const {users} = useUserContext()
+  const {users, notificationMessage,} = useUserContext()
   const [searchTerm, setSearchTerm] = useState("")
   
   const filteredUsers = users.filter((eachUser) => eachUser.username.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
@@ -38,6 +38,8 @@ export default function User() {
                 <UserTable filteredUsers={filteredUsers}  />
             </div>
         </main>
+        <ConfirmDeleteModal />
+        {notificationMessage && <Notification  />}
 
     </div>
   )
