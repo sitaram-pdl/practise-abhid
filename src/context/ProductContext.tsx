@@ -159,7 +159,7 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
     setProducts((prev) =>
       prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
     );
-
+    
     setNotificationMessage("Product updated successfully!");
     setTimeout(() => setAddNewProductModalOpen(false), 500);
     setEditingProduct(null);

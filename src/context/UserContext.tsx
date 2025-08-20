@@ -1,5 +1,6 @@
 
-import { createContext, useEffect, useState } from "react";
+
+import { createContext,  useContext,  useEffect, useState } from "react";
 import {fetchUser} from "@/api/user/ApiUser"
 import {type UserContextType, type ProviderPropsType , type UsersType} from "@/features/dashboard/UserTypes"
 
@@ -8,6 +9,8 @@ const UserContext = createContext<UserContextType>({} as UserContextType)
 export const UserProvider = ({children}:ProviderPropsType) =>{
 
   const [users, setUsers] = useState<UsersType[]>([]);
+
+
   const fetchUserData = async() => {
       try {
         const data = await fetchUser();
@@ -32,3 +35,10 @@ return (
     </UserContext.Provider>
 )}
 
+export const useUserContext = () => {
+  const context = useContext(UserContext)
+  if (!context){
+    throw new Error(" useUserContext must be used within a UserProvider")
+  }
+  return context
+}

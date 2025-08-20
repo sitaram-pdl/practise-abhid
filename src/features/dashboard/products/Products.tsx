@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import {useState } from "react";
 import ProductTable from "./ProductTable";
 import ConfirmDeleteModal from "./ConformDeleteModel";
 import Notification from './Notification';
@@ -36,7 +36,7 @@ export default function Products() {
           </button>
         </div>
 
-    {/* instead of passing the products from context directly, pass the filtered products to ProdutTable. */}
+        {/* instead of passing the products from context directly, pass the filtered products to ProdutTable. */}
         <div className="w-full">
           <ProductTable filteredProducts={filteredProducts} />
         </div>
