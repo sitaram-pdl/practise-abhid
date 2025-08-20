@@ -24,7 +24,15 @@ export interface UsersType{
 }
 
 export interface UserContextType {
-    users: UsersType[]    
+    users: UsersType[];    
+    isDeleteModalOpen: boolean;
+    notificationMessage: string;
+    deleteTargetId: number | null;
+    setDeleteModalOpen: (isOpen:boolean) => void;
+    setNotificationMessage: (message:string) => void;
+    setDeleteTargetId:(id:number|null) => void;
+    handleRemove: (id: number) => void;
+    confirmDelete: () => Promise<void>;
 }
 
 export interface ProviderPropsType{
