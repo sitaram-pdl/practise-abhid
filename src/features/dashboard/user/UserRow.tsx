@@ -10,17 +10,17 @@ export default function UserRow({eachUser}: {eachUser: UsersType}) {
     const [showPassword, setShowPassword] = useState(false)
 
     return (
-        <tr className="w-full hover:bg-gray-100">
-            <td className="px-4 py-2">
+        <tr className="w-full hover:bg-gray-100 border-t border-b ">
+            <td className="px-4 py-3">
                 {eachUser.id}
             </td>
-            <td className="px-4 py-2">
+            <td className="px-4 py-3">
                 {eachUser.username}
             </td>
-            <td className="px-4 py-2">
+            <td className="px-4 py-3">
                 {eachUser.email}
             </td>
-            <td className="w-1/4 px-4 py-2">
+            <td className="w-1/4 px-4 py-3">
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={() => setShowPassword(!showPassword)}
@@ -33,12 +33,12 @@ export default function UserRow({eachUser}: {eachUser: UsersType}) {
                     </span>
                 </div>
             </td>
-            <td className="px-4 py-2">
+            <td className="px-4 py-3">
                 <button className="cursor-pointer"
                     title="delete"
                     onClick={()=>handleRemove(eachUser.id)}
                     >
-                    <FaTrash className="text-red-500 bg hover:text-red-700"/>
+                    <FaTrash className="text-gray-500 bg hover:text-red-500"/>
                 </button>
             </td>
         </tr>
