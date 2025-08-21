@@ -9,7 +9,7 @@ interface UserTablePropsType {
 export default function UserTable({filteredUsers}:UserTablePropsType) {
 
     return (
-        <table className="w-full table-auto"> {/* Add table-auto for proper sizing */}
+        <table className="w-full table-auto border"> {/* Add table-auto for proper sizing */}
             <thead className="w-full bg-gray-500 text-lg text-white">
                 <tr className="w-full">
                     <th className="px-4 py-2 text-left">ID</th>
