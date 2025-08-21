@@ -10,17 +10,17 @@ export interface AddressType{
         zipcode: string;
     }
 export interface UsersType{
-    address: AddressType ;
-    id: number;
     email:string;
-    name: {
+    username: string;
+    password: string;
+    address ?: AddressType ;
+    id ?: number;
+    name ?: {
         firstname: string;
         lastname: string;
     };
-    password: string;
-    phone:string;
-    username: string;
-    __v: number;
+    phone ?:string;
+    __v ?: number;
 }
 
 export interface UserContextType {
@@ -28,13 +28,24 @@ export interface UserContextType {
     isDeleteModalOpen: boolean;
     notificationMessage: string;
     deleteTargetId: number | null;
+    isAddNewUserModalOpen: boolean;
     setDeleteModalOpen: (isOpen:boolean) => void;
     setNotificationMessage: (message:string) => void;
     setDeleteTargetId:(id:number|null) => void;
+    setAddNewUserModalOpen: (isOpen:boolean)=> void;
     handleRemove: (id: number) => void;
+    HandleAddNewUser:() => void;
     confirmDelete: () => Promise<void>;
+    ConfirmAddNewUser: (NewUser:UsersType) => Promise<boolean>;
 }
 
 export interface ProviderPropsType{
     children: React.ReactNode;
 }
+
+// export interface CreateNewUser {
+//     email:string;
+//     username: string;
+//     password: string;
+// }
+

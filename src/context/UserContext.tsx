@@ -1,8 +1,8 @@
 
 
 import { createContext,  useContext,  useEffect, useState } from "react";
-import {fetchUser, removeUser,} from "@/api/user/ApiUser"
-import {type UserContextType, type ProviderPropsType , type UsersType} from "@/features/dashboard/UserTypes"
+import {addNewUser, fetchUser, removeUser,} from "@/api/user/ApiUser"
+import {type UserContextType, type ProviderPropsType , type UsersType,} from "@/features/dashboard/UserTypes"
 
 
 const UserContext = createContext<UserContextType>({} as UserContextType)
@@ -14,6 +14,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
   const [notificationMessage, setNotificationMessage] = useState(""); 
+  const [isAddNewUserModalOpen, setAddNewUserModalOpen] = useState(false)
  
 
 // .............................................................................
@@ -30,6 +31,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   },[])
 
   console.log("This is a data after fetching all users: ",users)
+
   // .................................................................................
 
   const handleRemove = (id:number) =>{
@@ -39,10 +41,10 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
 
   const confirmDelete = async() => {
 
-    if (!deleteTargetId) return;
+    if (!deleteTargetId) return null;
     try{
         await removeUser(deleteTargetId)
-        setUsers((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
+        // setUsers((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
         setNotificationMessage("Deleted successfully!");
     } catch (error) {
       console.log("Error deleting a user", error)
@@ -54,6 +56,29 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   }
   // ...............................................................................
 
+  const HandleAddNewUser = () => {
+    setAddNewUserModalOpen(true)
+  }
+  const ConfirmAddNewUser = async(NewUser:UsersType) =>{
+    try {
+      setNotificationMessage("");
+      const apiResponse = await addNewUser(NewUser);
+      console.log("this is api response: ",apiResponse)
+      // setUsers((prev)=> [...prev,{...NewUser}] )
+      setNotificationMessage("New User Added successfully!");   
+      return true;   
+    } catch (error) {
+      console.log("Error Adding a new user: ", error)
+      setNotificationMessage("Failed to Add a New User!!!");
+      return false;
+    }finally{
+      setAddNewUserModalOpen(false)
+    }
+
+  }
+
+  // ..................................................................................
+
 return (
 
     <UserContext.Provider  value = {{
@@ -61,11 +86,17 @@ return (
       notificationMessage,
       isDeleteModalOpen,
       deleteTargetId,
+      isAddNewUserModalOpen,
+
       setDeleteModalOpen,
       setNotificationMessage,
       setDeleteTargetId,
+      setAddNewUserModalOpen,
+
       handleRemove,
       confirmDelete,
+      HandleAddNewUser,
+      ConfirmAddNewUser,
       }}>
       {children}
     </UserContext.Provider>

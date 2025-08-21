@@ -105,6 +105,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
       setDeleteTargetId(null);
     }
   };
+  
   // ............functions)(Handlers) to Add New product...................
 
   // When delete button clicked → show modal
@@ -122,7 +123,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     const apiResponse = await addNewProduct(productData);
     console.log("this is api response: ",apiResponse)
     // just simulate only, no need to add products to state.....
-    // setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]); 
+    setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]); 
     
     // Set success message
     setNotificationMessage("Product created successfully!");

@@ -1,6 +1,6 @@
 
 import axios from "@/api/auth/Api";
-
+import { type UsersType} from "@/features/dashboard/UserTypes"
 
 
 export const fetchUser = async() => {
@@ -13,5 +13,15 @@ export const removeUser = async(id:number) => {
   return response.data;
 }
 
- 
+export const addNewUser = async(NewUser:UsersType) => {
+  const response = await axios.post("/users",NewUser)
+  return response.data;
+}
+
+// export const fetchSingleUser = async(id:number) =>{
+//   const response = await axios.get(`/users/${id}`)
+//   return response.data
+// }
+
+
 

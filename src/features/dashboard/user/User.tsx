@@ -4,10 +4,11 @@ import UserTable from "./UserTable";
 import { useUserContext } from "@/context/UserContext";
 import ConfirmDeleteModal from "@/features/dashboard/user/ConformDeleteModel"
 import Notification from "./Notification";
+import AddNewUserModal from "./AddNewUserModal";
 
 export default function User() {
 
-  const {users, notificationMessage,} = useUserContext()
+  const {users, notificationMessage, HandleAddNewUser} = useUserContext()
   const [searchTerm, setSearchTerm] = useState("")
   
   const filteredUsers = users.filter((eachUser) => eachUser.username.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
@@ -29,15 +30,17 @@ export default function User() {
                   className="w-1/3 p-2 border rounded"
                 />
                 <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-                  // onClick={handleAddNewProduct}
+                  onClick={HandleAddNewUser}
                   >
-                  Add New Product
+                  Add New User
                 </button>
             </div>
             <div className="w-full">
                 <UserTable filteredUsers={filteredUsers}  />
             </div>
         </main>
+        
+        <AddNewUserModal />
         <ConfirmDeleteModal />
         {notificationMessage && <Notification  />}
 

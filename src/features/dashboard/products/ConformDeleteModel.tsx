@@ -31,7 +31,7 @@ export default function ConfirmDeleteModal() {
 
           <div className="flex justify-end gap-3">
             <button
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition-colors"
+              className="px-4 py-2 text-white bg-gray-300 rounded hover:bg-gray-400 transition-colors"
               onClick={() => setDeleteModalOpen(false)}
             >
               Cancel

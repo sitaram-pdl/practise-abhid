@@ -33,7 +33,7 @@ export const updateProduct = async (id: number, productData: CreateNewProduct): 
   return response.data;
 };
 
-//....Add a new product... (Updated addNewProduct function to use Axios properly)................
+//....Add a new product...................
 
 export const addNewProduct = async (productData: CreateNewProduct): Promise<ProductApiResponse> => {
   const response = await axios.post<ProductApiResponse>("/products", {
