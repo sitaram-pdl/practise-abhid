@@ -25,7 +25,7 @@ export default function SideBar() {
               </NavLink>
 
               <NavLink className = {({isActive}) => `flex  items-center gap-2 p-2 ${isActive?"bg-green-500 hover:bg-green-500 text-white": "text-black" } hover:bg-green-200 rounded`}
-                to="/user">
+                to="/users">
                 <FaUser /> <span>User</span>
               </NavLink>
               

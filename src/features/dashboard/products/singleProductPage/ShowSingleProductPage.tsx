@@ -15,7 +15,7 @@ export default function ShowSingleProductPage() {
       (eachProduct) => eachProduct.id === Number(productID) 
     );
 
-
+    
     if (!SingleProduct) {
         return <div className='text-2xl text-red-500 font-bold'>Product not found.</div>;
       }

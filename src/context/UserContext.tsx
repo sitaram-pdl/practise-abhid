@@ -2,7 +2,7 @@
 
 import { createContext,  useContext,  useEffect, useState } from "react";
 import {addNewUser, fetchSingleUser, fetchUser, removeUser,} from "@/api/user/ApiUser"
-import {type UserContextType, type ProviderPropsType , type UsersType,} from "@/features/dashboard/UserTypes"
+import {type UserContextType, type ProviderPropsType , type UsersType, type CreateNewUser,} from "@/features/dashboard/UserTypes"
 
 
 const UserContext = createContext<UserContextType>({} as UserContextType)
@@ -72,7 +72,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   const HandleAddNewUser = () => {
     setAddNewUserModalOpen(true)
   }
-  const ConfirmAddNewUser = async(NewUser:UsersType) =>{
+  const ConfirmAddNewUser = async(NewUser:CreateNewUser) =>{
     try {
       setNotificationMessage("");
       const apiResponse = await addNewUser(NewUser);

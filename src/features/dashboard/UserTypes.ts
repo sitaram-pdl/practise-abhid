@@ -38,7 +38,7 @@ export interface UserContextType {
     handleRemove: (id: number) => void;
     HandleAddNewUser:() => void;
     confirmDelete: () => Promise<void>;
-    ConfirmAddNewUser: (NewUser:UsersType) => Promise<boolean>;
+    ConfirmAddNewUser: (NewUser:CreateNewUser) => Promise<boolean>;
     fetchSingleUserData: (id:number) => Promise<void>;
 }
 
@@ -47,16 +47,9 @@ export interface ProviderPropsType{
 }
 
 export interface CreateNewUser {
-    id : number;
     email:string;
     username: string;
     password: string;
-    address ?: AddressType ;
-    name ?: {
-        firstname: string;
-        lastname: string;
-    };
-    phone ?:string;
-    __v ?: number;
+   
 }
 
