@@ -9,6 +9,7 @@ import ShowSingleProductPage from "@/features/dashboard/products/singleProductPa
 import ProtectedLayout from "./routing/privateRoute";
 import Layout from "@/routing/Layout";
 import { ProductProvider } from "@/context/ProductContext";
+import SingleProductPage from "@/features/dashboard/user/SingleUserPage"
 
 import {UserProvider} from "@/context/UserContext"
 
@@ -24,7 +25,8 @@ function App() {
                 <Route path="/products" element={<Products />} />
                 <Route path="/products/:productID" element={<ShowSingleProductPage />} />
                 <Route path="/cart" element={<Cart />} />
-                <Route path="/user" element={<User />} />
+                <Route path="/users" element={<User />} />
+                <Route path="/users/:userID" element={<SingleProductPage />} />
               </Route>
             </Route>
           </Routes>
@@ -34,3 +36,4 @@ function App() {
   );
 }
 export default App;
+
