@@ -8,12 +8,12 @@ export const UserSchema = z.object({
     email:z.string()
             .email("Please enter a valid email address"),
     password:z.string()
-            .min(7, "Minimum length of password is 7")
+            .min(6, "Minimum length of password is 6")
             .max(20, "Maximum length of password is 20")
-            .regex(/[A-Z]/, "At least one uppercase letter required")
-            .regex(/[a-z]/, "At least one lowercase letter required")
-            .regex(/[0-9]/, "At least one number required")
-            .regex(/[!@#$%^&*(),.?":{}|<>]/, "At least one special character required")
+        //     .regex(/[!@#$%^&*(),.?":{}|<>]/, "At least one special character required")
+            //     .regex(/[a-z]/, "At least one lowercase letter required")
+            //     .regex(/[0-9]/, "At least one number required")
+            //     .regex(/[A-Z]/, "At least one uppercase letter required")
 })
 
 export type UserFormFieldType = z.infer<typeof UserSchema>
