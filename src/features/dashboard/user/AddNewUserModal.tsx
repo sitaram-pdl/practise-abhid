@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema, type UserFormFieldType} from "@/validationSchema/userSchema/UserSchema";
 import { useUserContext } from "@/context/UserContext";
-
+import { useEffect} from "react";
 
 
 export default function AddNewUserModal() {
 
-    const {isAddNewUserModalOpen,setAddNewUserModalOpen,ConfirmAddNewUser} = useUserContext();
+    const {editUser,setEditUser,ConfirmUpdateUserModal,isAddNewUserModalOpen,setAddNewUserModalOpen,ConfirmAddNewUser, isLoading} = useUserContext();
 
     const {register,reset,handleSubmit, formState:{errors} } = useForm<UserFormFieldType>({
         resolver: zodResolver(UserSchema),
@@ -22,16 +22,33 @@ export default function AddNewUserModal() {
         }
     })
 
+    useEffect(()=>{
+        if(editUser){
+            reset({
+                username: editUser.username ,
+                email: editUser.email,
+                password: editUser.password,
+            })
+        }else{
+            reset()
+        }
+    },[editUser,reset])
+
     const onSubmit = async(data:UserFormFieldType) =>{
+        if(editUser){
+            await ConfirmUpdateUserModal(editUser.id, data)
+        }else{
         const success = await ConfirmAddNewUser(data);
         if (success){
             reset()
-        }
+        }}
     }
 
     const handleClose = () => {
+        setEditUser(null)
         setAddNewUserModalOpen(false)
     }
+ 
 
     if (!isAddNewUserModalOpen){
         return null;
@@ -46,7 +63,7 @@ export default function AddNewUserModal() {
         <div className="fixed inset-0 flex justify-center items-center z-50  h-auto w-1/3  p-2 " >
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md h-auto overflow-y-auto">
                 <div className="text-2xl text-black mb-5 text-center font-bold ">
-                    Add New User
+                    {editUser ? "Update User" : "Add New User"}
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -98,7 +115,12 @@ export default function AddNewUserModal() {
                             <button
                                 className="px-4 py-2 bg-green-500 text-white hover:bg-green-700 hover:font-bold rounded   transition duration-300 text-font"
                                 type="submit"
-                            >Create User
+                                disabled={isLoading}
+                            >{
+                                isLoading
+                                    ? editUser ? "Updating...": "Creating..."
+                                    : editUser ? "Update User" : "Create User"
+                            }
                             </button>
                         </div>
                     </div>
