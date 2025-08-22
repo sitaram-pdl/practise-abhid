@@ -5,15 +5,17 @@ import {FaUser, FaEnvelope, FaPhone, FaHashtag, FaHome, FaEye,FaEyeSlash,FaIdBad
 import { IoLocationOutline } from "react-icons/io5";
 import { useState } from "react";
 import LeafletMap from "./LeafletMap";
+import AddNewUserModal from "./AddNewUserModal";
+import Notification from "./Notification";
+
   
   
 export default function SingleUserPage() {
 
-    const { singleUser} = useUserContext();
-    const [showPassword, setShowPassword] = useState(false)
-
-    const nevigate = useNavigate();
     const {userID} = useParams();
+    const nevigate = useNavigate();
+    const {singleUser, handleUpdateUser, notificationMessage} = useUserContext();
+    const [showPassword, setShowPassword] = useState(false)
 
     const CheckedSingleUser = singleUser && singleUser.id === Number(userID);
 
@@ -44,7 +46,7 @@ export default function SingleUserPage() {
                      <span>Back</span>
                 </button>
                 <button className='bg-orange-500 hover:bg-orange-700 text-white px-4 py-2 rounded cursor-pointer' 
-                    //   onClick={() => handleUpdateProduct(SingleProduct)}
+                      onClick={() => handleUpdateUser(singleUser)}
                     >Update Product
                 </button>
             </div>
@@ -155,6 +157,10 @@ export default function SingleUserPage() {
                     </span>
                 </div>
           </div>
+          <AddNewUserModal />
+            {notificationMessage &&
+                      <Notification key={`${notificationMessage}-${Date.now()}`} />
+                }
      </div>
     )
 }
