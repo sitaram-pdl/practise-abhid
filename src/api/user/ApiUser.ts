@@ -23,3 +23,8 @@ export const fetchSingleUser = async(id:number) =>{
   return response.data
 }
 
+export const updateSingleUser = async(id:number, edidtedUser:CreateNewUser):Promise<UsersType> => {
+  const response = await axios.put<UsersType>(`/users/${id}`,{...edidtedUser})
+  return response.data
+}
+
