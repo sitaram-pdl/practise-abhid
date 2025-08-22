@@ -24,22 +24,28 @@ export interface UsersType{
 }
 
 export interface UserContextType {
-    users: UsersType[]; 
+    users: UsersType[];
+    editUser: UsersType |null;
     singleUser:  UsersType;  
     isDeleteModalOpen: boolean;
     notificationMessage: string;
     deleteTargetId: number | null;
     isAddNewUserModalOpen: boolean;
+    isLoading: boolean;
     // setSingleUser:(user:UsersType) => void;
     setDeleteModalOpen: (isOpen:boolean) => void;
     setNotificationMessage: (message:string) => void;
     setDeleteTargetId:(id:number|null) => void;
     setAddNewUserModalOpen: (isOpen:boolean)=> void;
+    setEditUser: (edidtedUser:UsersType|null) => void
+
     handleRemove: (id: number) => void;
     HandleAddNewUser:() => void;
+    handleUpdateUser:(edidtedUser:UsersType) => void;
     confirmDelete: () => Promise<void>;
     ConfirmAddNewUser: (NewUser:CreateNewUser) => Promise<boolean>;
     fetchSingleUserData: (id:number) => Promise<void>;
+    ConfirmUpdateUserModal: (id:number ,edidtedUser:CreateNewUser) => Promise<boolean>
 }
 
 export interface ProviderPropsType{
