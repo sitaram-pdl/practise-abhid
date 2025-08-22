@@ -1,7 +1,7 @@
 
 
 import { createContext,  useContext,  useEffect, useState } from "react";
-import {addNewUser, fetchUser, removeUser,} from "@/api/user/ApiUser"
+import {addNewUser, fetchSingleUser, fetchUser, removeUser,} from "@/api/user/ApiUser"
 import {type UserContextType, type ProviderPropsType , type UsersType,} from "@/features/dashboard/UserTypes"
 
 
@@ -10,6 +10,7 @@ const UserContext = createContext<UserContextType>({} as UserContextType)
 export const UserProvider = ({children}:ProviderPropsType) =>{
   
   const [users, setUsers] = useState<UsersType[]>([]);
+  const [singleUser, setSingleUser] = useState<UsersType>({} as UsersType )
 
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
@@ -26,11 +27,23 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
         console.error("Error fetching users:", error)
       }
   }
+  
   useEffect(()=>{
     fetchUserData()
   },[])
 
-  console.log("This is a data after fetching all users: ",users)
+  // .................................................................................
+
+  const fetchSingleUserData = async(id:number) =>{
+    try {
+      const data = await fetchSingleUser(id)
+      setSingleUser(data)
+    } catch (error) {
+      console.error("Error fetching single user:", error)
+    }
+  }
+
+  // console.log("This is a data after fetching all users: ",users)
 
   // .................................................................................
 
@@ -41,7 +54,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
 
   const confirmDelete = async() => {
 
-    if (!deleteTargetId) return null;
+    if (!deleteTargetId) return;
     try{
         await removeUser(deleteTargetId)
         // setUsers((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
@@ -76,18 +89,23 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
     }
 
   }
+  // ..................................................................................
+
 
   // ..................................................................................
+
 
 return (
 
     <UserContext.Provider  value = {{
       users,
+      singleUser,
       notificationMessage,
       isDeleteModalOpen,
       deleteTargetId,
       isAddNewUserModalOpen,
 
+      // setSingleUser,
       setDeleteModalOpen,
       setNotificationMessage,
       setDeleteTargetId,
@@ -97,6 +115,8 @@ return (
       confirmDelete,
       HandleAddNewUser,
       ConfirmAddNewUser,
+      fetchSingleUserData,
+      
       }}>
       {children}
     </UserContext.Provider>
