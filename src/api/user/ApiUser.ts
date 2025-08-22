@@ -18,10 +18,10 @@ export const addNewUser = async(NewUser:UsersType) => {
   return response.data;
 }
 
-// export const fetchSingleUser = async(id:number) =>{
-//   const response = await axios.get(`/users/${id}`)
-//   return response.data
-// }
+export const fetchSingleUser = async(id:number) =>{
+  const response = await axios.get(`/users/${id}`)
+  return response.data
+}
 
 
 
