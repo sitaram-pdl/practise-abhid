@@ -13,22 +13,24 @@ export interface UsersType{
     email:string;
     username: string;
     password: string;
-    address ?: AddressType ;
-    id ?: number;
-    name ?: {
+    address: AddressType ;
+    id : number;
+    name : {
         firstname: string;
         lastname: string;
     };
-    phone ?:string;
-    __v ?: number;
+    phone :string;
+    __v : number;
 }
 
 export interface UserContextType {
-    users: UsersType[];    
+    users: UsersType[]; 
+    singleUser:  UsersType;  
     isDeleteModalOpen: boolean;
     notificationMessage: string;
     deleteTargetId: number | null;
     isAddNewUserModalOpen: boolean;
+    // setSingleUser:(user:UsersType) => void;
     setDeleteModalOpen: (isOpen:boolean) => void;
     setNotificationMessage: (message:string) => void;
     setDeleteTargetId:(id:number|null) => void;
@@ -37,15 +39,24 @@ export interface UserContextType {
     HandleAddNewUser:() => void;
     confirmDelete: () => Promise<void>;
     ConfirmAddNewUser: (NewUser:UsersType) => Promise<boolean>;
+    fetchSingleUserData: (id:number) => Promise<void>;
 }
 
 export interface ProviderPropsType{
     children: React.ReactNode;
 }
 
-// export interface CreateNewUser {
-//     email:string;
-//     username: string;
-//     password: string;
-// }
+export interface CreateNewUser {
+    id : number;
+    email:string;
+    username: string;
+    password: string;
+    address ?: AddressType ;
+    name ?: {
+        firstname: string;
+        lastname: string;
+    };
+    phone ?:string;
+    __v ?: number;
+}
 
