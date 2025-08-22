@@ -40,7 +40,10 @@ export default function User() {
         
         <AddNewUserModal />
         <ConfirmDeleteModal />
-        {notificationMessage && <Notification  />}
+        {notificationMessage &&
+            <Notification key={`${notificationMessage}-${Date.now()}`} />
+          }
+         
 
     </div>
   )

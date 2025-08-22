@@ -131,14 +131,15 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     // Close modal after a short delay
     setTimeout(() => {
       setAddNewProductModalOpen(false);
-    }, 500);
+      setIsLoading(false);
+    }, 300);
     
     return true;
   } catch (error) {
     setNotificationMessage("Failed to create product");
     return false;
   } finally {
-    setIsLoading(false);
+    // setIsLoading(false);
   }
 };
 
@@ -155,21 +156,25 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
   try {
     setIsLoading(true);
     const updated = await updateProduct(id, productData);
+    console.log("this is update user api response: ",updated)
 
     // simulate update in local state
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
-    );
+    // setProducts((prev) =>
+    //   prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
+    // );
     
     setNotificationMessage("Product updated successfully!");
-    setTimeout(() => setAddNewProductModalOpen(false), 500);
+    setTimeout(() => {
+      setAddNewProductModalOpen(false)
+      setIsLoading(false);
+    },100);
     setEditingProduct(null);
     return true;
-  } catch (error) {
+    } catch (error) {
     setNotificationMessage("Failed to update product.");
     return false;
-  } finally {
-    setIsLoading(false);
+    } finally {
+    // setIsLoading(false);
   }
 };
  

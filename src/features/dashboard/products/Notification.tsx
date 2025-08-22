@@ -16,7 +16,7 @@ export default function Notification() {
         setIsVisible(false); // trigger fade out..
         // Delay message clearing to allow fade-out animation
         setTimeout(() => setNotificationMessage(""), 300); // remove from DOM after fade out
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(hideTimer);
     }

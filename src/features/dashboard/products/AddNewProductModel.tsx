@@ -1,9 +1,4 @@
 
-
-
-
-
-
 import { useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema, type ProductFormDataType } from "@/validationSchema/productSchema/ProductSchema"
@@ -67,6 +62,7 @@ export default function AddNewProductModel() {
   const onSubmit = async (data: ProductFormDataType) => {
     if (editingProduct) {
       await confirmUpdateProduct(editingProduct.id, data);
+      reset();
     } else {
       const success = await confirmAddNewProduct(data);
       if (success) {
