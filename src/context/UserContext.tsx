@@ -1,7 +1,7 @@
 
 
 import { createContext,  useContext,  useEffect, useState } from "react";
-import {addNewUser, fetchSingleUser, fetchUser, removeUser,} from "@/api/user/ApiUser"
+import {addNewUser, fetchSingleUser, fetchUser, removeUser, updateSingleUser,} from "@/api/user/ApiUser"
 import {type UserContextType, type ProviderPropsType , type UsersType, type CreateNewUser,} from "@/features/dashboard/UserTypes"
 
 
@@ -11,11 +11,14 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   
   const [users, setUsers] = useState<UsersType[]>([]);
   const [singleUser, setSingleUser] = useState<UsersType>({} as UsersType )
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
   const [notificationMessage, setNotificationMessage] = useState(""); 
   const [isAddNewUserModalOpen, setAddNewUserModalOpen] = useState(false)
+  const [editUser, setEditUser] = useState<UsersType | null>(null)
  
 
 // .............................................................................
@@ -74,48 +77,79 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   }
   const ConfirmAddNewUser = async(NewUser:CreateNewUser) =>{
     try {
+      setIsLoading(true)
       setNotificationMessage("");
       const apiResponse = await addNewUser(NewUser);
-      console.log("this is api response: ",apiResponse)
+      console.log("this is Add new user api response: ",apiResponse)
       // setUsers((prev)=> [...prev,{...NewUser}] )
       setNotificationMessage("New User Added successfully!");   
-      return true;   
-    } catch (error) {
+      setTimeout(() => {
+        setAddNewUserModalOpen(false);
+        setIsLoading(false);
+       }, 300);
+      return true; 
+
+    }catch (error) {
       console.log("Error Adding a new user: ", error)
       setNotificationMessage("Failed to Add a New User!!!");
       return false;
-    }finally{
-      setAddNewUserModalOpen(false)
     }
-
   }
   // ..................................................................................
 
+  const handleUpdateUser = (edidtedUser:UsersType) =>{
+    setEditUser(edidtedUser)
+    setAddNewUserModalOpen(true)
+  }
+
+  const ConfirmUpdateUserModal = async(id:number ,edidtedUser:CreateNewUser) => {
+      try {
+        setIsLoading(true)
+        setNotificationMessage("");
+        const apiResponse = await updateSingleUser(id,edidtedUser);
+        console.log("this is update user api response: ",apiResponse)
+        // setUsers((prev)=> prev.map((u)=> u.id === id ?{...prev,...apiResponse}: u ))
+        setNotificationMessage("User Updated successfully!");  
+        setTimeout(() => {
+              setAddNewUserModalOpen(false);
+              setIsLoading(false);
+          }, 100);
+        setEditUser(null);
+        return true;  
+      } catch (error) {
+        console.log("Error Updating a User: ", error)
+        setNotificationMessage("Failed to Update a User!");
+        return false;
+      } 
+  }
 
   // ..................................................................................
-
 
 return (
 
     <UserContext.Provider  value = {{
       users,
+      editUser,
       singleUser,
       notificationMessage,
       isDeleteModalOpen,
       deleteTargetId,
       isAddNewUserModalOpen,
+      isLoading,
 
-      // setSingleUser,
       setDeleteModalOpen,
       setNotificationMessage,
       setDeleteTargetId,
       setAddNewUserModalOpen,
+      setEditUser,
 
       handleRemove,
       confirmDelete,
       HandleAddNewUser,
+      handleUpdateUser,
       ConfirmAddNewUser,
       fetchSingleUserData,
+      ConfirmUpdateUserModal,
       
       }}>
       {children}
