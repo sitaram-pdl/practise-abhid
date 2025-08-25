@@ -13,6 +13,7 @@ import SingleProductPage from "@/features/dashboard/user/SingleUserPage"
 
 import {UserProvider} from "@/context/UserContext"
 import { CartProvider } from "./context/CartContext";
+import SingleCartPage from "./features/dashboard/cart/SingleCartPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                   <Route path="/products" element={<Products />} />
                   <Route path="/products/:productID" element={<ShowSingleProductPage />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/cart/:cartID" element={<SingleCartPage/>} />
                   <Route path="/users" element={<User />} />
                   <Route path="/users/:userID" element={<SingleProductPage />} />
                 </Route>
