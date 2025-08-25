@@ -11,5 +11,13 @@ export const fetchCarts = async() => {
   return response.data;
 }
 
+export const removeCart = async(id:number) => {
+  const response = await axios.delete(`/carts/${id}`)
+  return response.data;
+}
 
+export const fetchSingleCart = async(id:number) =>{
+  const response = await axios.get(`/carts/${id}`)
+  return response.data
+}
 
