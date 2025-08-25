@@ -9,7 +9,7 @@ import AddNewUserModal from "./AddNewUserModal";
 import Notification from "./Notification";
 
   
-  
+
 export default function SingleUserPage() {
 
     const {userID} = useParams();
@@ -20,6 +20,7 @@ export default function SingleUserPage() {
     const CheckedSingleUser = singleUser && singleUser.id === Number(userID);
 
 // .............................................................................
+
     function capitalizeWord(word:string) {
         if (!word) return '';
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();

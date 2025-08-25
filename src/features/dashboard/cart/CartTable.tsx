@@ -28,7 +28,6 @@ export default function CartTable() {
                     eachItem = {eachItem}
                 />
             )}
-            
         </tbody>
     </table>
   )

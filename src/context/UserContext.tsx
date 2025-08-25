@@ -61,7 +61,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
     try{
         await removeUser(deleteTargetId)
         // setUsers((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
-        setNotificationMessage("Deleted successfully!");
+        setNotificationMessage("Deleted User successfully!");
     } catch (error) {
       console.log("Error deleting a user", error)
       setNotificationMessage("Failed to delete User.");
