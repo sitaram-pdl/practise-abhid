@@ -1,15 +1,20 @@
 
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
-import { fetchProducts, deleteProduct,addNewProduct, updateProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct, type CartQuantityType } from "@/features/dashboard/types";
+import { fetchProducts, deleteProduct,addNewProduct, updateProduct,fetchSingleProduct,loadCartQuantityFromLocalStorage, saveCartQuantityToLocalStorage } from "@/api/product/ApiProduct"
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
 
 export const ProductProvider = ({ children }: ProviderPropsType) => {
 
   const [products, setProducts] = useState<ProductType[]>([]);
+  // const [singleProduct, setSingleProduct] = useState<ProductType |null>(null)
+  const [singleProduct, setSingleProduct] = useState<ProductType>({} as ProductType)
+  const [cartQuantity, setCartQuantity] = useState<CartQuantityType>(
+    () => loadCartQuantityFromLocalStorage() )
   const [isCartOpen, setCartOpen] = useState(false);
+
    //state For delete modal....
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
@@ -21,15 +26,65 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
   // New state for single product update 
   const [editingProduct, setEditingProduct] = useState<ProductType | null>(null);
 
-  
-  const cartItems = products.filter((product) => (product.quantity || 0) > 0);
-  const totalCartItems = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
+  // ....................................................................................
 
+const selectedProducts = useMemo(
+  () => products.filter((p) => cartQuantity[p.id] !== undefined),
+  [products, cartQuantity]
+);
+
+ const totalPrice = useMemo(() => {
+  return selectedProducts.reduce(
+    (sum, product) => sum + product.price * (cartQuantity[product.id] || 0),
+    0
+  );
+}, [selectedProducts, cartQuantity]);
+
+const totalCartsQuantity = useMemo(
+    () =>  Object.values(cartQuantity).reduce((sum, qty)=> sum + qty,0)
+  ,[cartQuantity])
+
+console.log("selectedProducts", selectedProducts)
+
+
+  const increaseCartQuantity = (productId: number) => {
+    setCartQuantity((prev) => {
+      const updatedCartQuantity = {...prev, [productId]: (prev[productId] || 0)+ 1 }
+      saveCartQuantityToLocalStorage(updatedCartQuantity)
+      return updatedCartQuantity
+  })
+  };
+  const decreaseCartQuantity = (productId: number) => {
+    setCartQuantity((prev) => {
+      const current = prev[productId] || 0;
+      const updated = { ...prev };
+      if (current > 1) updated[productId] = current - 1;
+      else delete updated[productId]; // remove when 0
+      saveCartQuantityToLocalStorage(updated);
+      return updated;
+    });
+  };
+
+  const removeCartItem = (id: number) => {
+  setCartQuantity((prev) => {
+    const updated = { ...prev };
+    delete updated[id]; // remove this product from cart
+    saveCartQuantityToLocalStorage(updated);
+    return updated;
+  });
+};
+
+ const clearCart = () => {
+  setCartQuantity({});
+  localStorage.removeItem("cart"); // or save empty {}
+};
+
+// .....................................................................................
   const fetchProductsData = async () => {
     try {
       const data = await fetchProducts();
-      const mergedProducts = loadQuantityFromLocalStorage(data);
-      setProducts(mergedProducts);
+      // const mergedProducts = loadQuantityFromLocalStorage(data);
+      setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -38,49 +93,27 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
   console.log("This is a data after fetching all products:",products) // see the product to know the details about it and further analysis it.
 
 // products should load automatically as the login is done so use use effect to fetch products.....
-
   useEffect(() => {
     fetchProductsData();
   }, []);
 
-  useEffect(() => {
-    if (products.length > 0) {
-      saveQuantityToLocalStorage(products);
+//............(functions)(Handlers) to fetch single product..................
+
+  const fetchSingleProductData = async(id:number) =>{
+    try {
+      const apiResponse = await fetchSingleProduct(id)
+      console.log("single Product response from Api call: ",apiResponse)
+      // const mergedProduct = loadSingleProductQuantityToLocalStorage(apiResponse);
+      setSingleProduct(apiResponse)
+    } catch (error) {
+      console.error("Error fetching single user:", error)
     }
-  }, [products]);
+  }
 
-  const increaseQuantity = (productId: number) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === productId
-          ? { ...product, quantity: (product.quantity || 0) + 1 }
-          : product
-      )
-    );
-  };
-
-  const decreaseQuantity = (productId: number) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === productId && (product.quantity || 0) > 0
-          ? { ...product, quantity: (product.quantity || 0) - 1 }
-          : product
-      )
-    );
-  };
-
-  const removeCartItem = (id: number) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
-  };
-
-  const clearCart = () => {
-    setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
-  };
-
-// ............functions)(Handlers) to fetch single product..................
+  console.log("CartQuantity dat is: ",cartQuantity)
 
 
-
+// .................................................................................
   // ............functions)(Handlers) to delete product......................
 
   // When delete button clicked → show modal
@@ -184,14 +217,18 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
     <ProductContext.Provider
       value={{
         products,
-        cartItems,
-        totalCartItems,
+        singleProduct,
+        selectedProducts,
+        cartQuantity,
         isCartOpen,
         isDeleteModalOpen,
         isAddNewProductModalOpen,
         deleteTargetId,
         notificationMessage,
         isLoading,
+        totalCartsQuantity,
+        totalPrice,
+
         setIsLoading,
         setCartOpen,
         setDeleteModalOpen,
@@ -199,8 +236,8 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
         setDeleteTargetId,
         setNotificationMessage,
         setEditingProduct,
-        increaseQuantity,
-        decreaseQuantity,
+        increaseCartQuantity,
+        decreaseCartQuantity,
         removeCartItem,
         clearCart,
         handleRemove,
@@ -211,6 +248,7 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
         editingProduct,
         handleUpdateProduct,
         confirmUpdateProduct,
+        fetchSingleProductData,
       }}
     >
       {children}
@@ -227,10 +265,6 @@ export const useProductContext = () => {
   }
   return context;
 };
-
-
-
-
 
 
 
