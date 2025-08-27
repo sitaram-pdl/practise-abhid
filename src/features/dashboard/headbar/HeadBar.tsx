@@ -10,13 +10,15 @@ const RouteTitles: Record<string, string> = {
   '/cart': 'Shopping Cart',
   '/user': 'User Profile',
 };
+
+
 export default function HeadBar() {
-
-    const { totalCartItems, setCartOpen, } = useProductContext();
-
+  
+  const {totalCartsQuantity, setCartOpen, } = useProductContext();
+  
   const navigate = useNavigate();
   const location = useLocation();
-
+  
   const getPageTitle = () => {
     if (location.state?.title) return location.state.title;
     if (RouteTitles[location.pathname]) return RouteTitles[location.pathname];
@@ -39,9 +41,9 @@ export default function HeadBar() {
           >
             
             <FaShoppingCart className="text-2xl" />
-            {totalCartItems > 0 && (
+            {totalCartsQuantity > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-                {totalCartItems}
+                {totalCartsQuantity}
               </span>
             )}
           </div>
