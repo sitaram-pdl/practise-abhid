@@ -7,17 +7,21 @@ import { useProductContext } from "@/context/ProductContext";
 
 interface ProductRowPropsType {
   eachProduct: ProductType;
-  quantity?: number; 
 }
 
-export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowPropsType) {
-  const { increaseQuantity, decreaseQuantity, handleRemove } = useProductContext();
+export default function ProductRow({ eachProduct}: ProductRowPropsType) {
+  const {cartQuantity, fetchSingleProductData,  increaseCartQuantity, decreaseCartQuantity, handleRemove } = useProductContext();
 
   const navigate = useNavigate();
 
   // Safe defaults for rating.........vvi step for adding new product 
   const safeRating = eachProduct.rating || { rate: 0, count: 0 };
-  const displayQuantity = quantity || eachProduct.quantity || 0;
+  const displayQuantity = cartQuantity[eachProduct.id] || 0;
+
+  const handleNavigateToSingleProductPage = (id:number) =>{
+    fetchSingleProductData(id)
+    navigate(`/products/${eachProduct.id}`)
+  }
 
     
   return (
@@ -32,7 +36,7 @@ export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowProp
       <td className="px-6 py-4">
         
         <div className="flex items-center gap-3"
-            onClick={() => navigate(`/products/${eachProduct.id}`)} 
+            onClick={() => handleNavigateToSingleProductPage(eachProduct.id)} 
              >
             <img
               src={eachProduct.image}
@@ -67,14 +71,14 @@ export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowProp
           {displayQuantity > 0 ? (
             <div className="inline-flex items-center border px-2 py-1 rounded">
               <button 
-                onClick={() => decreaseQuantity(eachProduct.id)} 
+                onClick={() => decreaseCartQuantity(eachProduct.id)} 
                 className="px-1 hover:text-red-500"
               >
                 <FaMinus className="text-sm" />
               </button>
               <span className="mx-2">{displayQuantity}</span>
               <button 
-                onClick={() => increaseQuantity(eachProduct.id)} 
+                onClick={() => increaseCartQuantity(eachProduct.id)} 
                 className="px-1 hover:text-green-500"
               >
                 <FaPlus className="text-sm" />
@@ -82,7 +86,7 @@ export default function ProductRow({ eachProduct, quantity = 0 }: ProductRowProp
             </div>
           ) : (
             <button
-              onClick={() => increaseQuantity(eachProduct.id)}
+              onClick={() => increaseCartQuantity(eachProduct.id)}
               className="inline-flex items-center gap-1 rounded bg-violet-600 px-3 py-1 text-white hover:bg-violet-700 transition-colors"
             >
               <FaCartPlus /> Add
