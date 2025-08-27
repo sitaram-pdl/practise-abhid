@@ -30,7 +30,6 @@ export default function ProductTable({filteredProducts}:ProductTablePropsType) {
             <ProductRow
               key={eachProduct.id}
               eachProduct={eachProduct}
-              quantity={eachProduct.quantity || 0}
             />
           ))}
         </tbody>
