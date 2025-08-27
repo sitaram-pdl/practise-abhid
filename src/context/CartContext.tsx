@@ -49,7 +49,6 @@ export const CartProvider = ({children}:ProviderPropsType) =>{
             setDeleteCartModalOpen(false);
             setDeleteTargetId(null);
         }
-
     }
 // ..............................................................................
 
@@ -61,9 +60,7 @@ export const CartProvider = ({children}:ProviderPropsType) =>{
         }catch (error) {
             console.error("Error occured while fetching a single cart: ", error)
             setNotificationMessage("Failed to fetch a Single Cart.")
-            
         }
-
     }
 
 // ..............................................................................
@@ -86,7 +83,7 @@ export const CartProvider = ({children}:ProviderPropsType) =>{
                  confirmDelete,
                  fetchSingleCartData,
 
-        }} >
+            }} >
             {children}
         </CartContext.Provider>
     )

@@ -46,7 +46,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
     }
   }
 
-  // console.log("This is a data after fetching all users: ",users)
+
 
   // .................................................................................
 
