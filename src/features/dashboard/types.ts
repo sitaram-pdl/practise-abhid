@@ -12,20 +12,24 @@ export interface ProductType {
     count: number;
   };
   title: string;
-  quantity?: number;
 }
 
 export interface ProductContextType {
+
   products: ProductType[];
+  singleProduct:ProductType;
+  selectedProducts: ProductType[];
+  cartQuantity: CartQuantityType;
   editingProduct: ProductType | null;
-  cartItems: ProductType[];
-  totalCartItems: number;
   isCartOpen: boolean;
   isLoading: boolean;
   isDeleteModalOpen: boolean;
   isAddNewProductModalOpen: boolean;
   deleteTargetId: number | null;
   notificationMessage: string;
+  totalCartsQuantity: number;
+  totalPrice: number;
+
   setCartOpen: (isOpen: boolean) => void;
   setIsLoading: (isOpen: boolean) => void;
   setDeleteModalOpen: (isOpen: boolean) => void;
@@ -33,8 +37,9 @@ export interface ProductContextType {
   setEditingProduct: (product: ProductType | null) => void;
   setDeleteTargetId: (id: number | null) => void;
   setNotificationMessage: (message: string) => void;
-  increaseQuantity: (productId: number) => void;
-  decreaseQuantity: (productId: number) => void;
+  
+  increaseCartQuantity: (productId: number) => void;
+  decreaseCartQuantity: (productId: number) => void;
   removeCartItem: (id: number) => void;
   clearCart: () => void;
   handleRemove: (id: number) => void;
@@ -42,6 +47,7 @@ export interface ProductContextType {
   handleAddNewProduct: () => void;
   handleUpdateProduct: (product: ProductType) => void;
   fetchProducts: () => Promise<void>;
+  fetchSingleProductData: (id:number) => Promise<void>;
   confirmAddNewProduct: (productData: CreateNewProduct) => Promise<boolean>;
   confirmUpdateProduct: (id: number, productData: CreateNewProduct) => Promise<boolean>;
 }
@@ -50,8 +56,11 @@ export interface ProductContextType {
 export interface ProviderPropsType {
   children: React.ReactNode;
 }
+// ..............................................................................
 
-export type CartDataType = { [productId: number]: number };
+export type CartQuantityType = { [productId: number]: number };
+
+// ..........................................................................
 
 // ........................type for Adding new Product......................
 // Add these new types
