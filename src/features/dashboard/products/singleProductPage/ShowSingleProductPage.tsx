@@ -13,15 +13,11 @@ export default function ShowSingleProductPage() {
 
     const CheckSingleProduct = singleProduct && singleProduct.id === Number(productID)
     
-    // products.find(
-    //   (eachProduct) => eachProduct.id === Number(productID) 
-    // );
-
     
     if (!CheckSingleProduct) {
         return <div className='text-2xl text-red-500 font-bold'>Product not found.</div>;
       }
-    // const displayQuantity = singleProduct.quantity || 0;
+  
   const displayQuantity = cartQuantity[singleProduct.id] || 0;
 
 
