@@ -1,17 +1,11 @@
 
-
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { useProductContext } from "@/context/ProductContext";
 
+
 export default function CartDrawer() {
 
-   const { cartItems, isCartOpen, setCartOpen, increaseQuantity, decreaseQuantity, removeCartItem, clearCart,
-   } = useProductContext();
-
-  const total = cartItems.reduce(
-    (sum, item) => sum + (item.price * (item.quantity || 0)),
-    0
-  );
+  const { cartQuantity, selectedProducts, isCartOpen, setCartOpen, increaseCartQuantity, decreaseCartQuantity, removeCartItem, clearCart, totalPrice} = useProductContext();
 
   return (
 
@@ -32,7 +26,8 @@ export default function CartDrawer() {
           >
               <div className="flex justify-between items-center border-b p-4">
                   <h2 className="text-lg font-bold">
-                      Your Cart ({cartItems.length} items)
+                      {/* Your Cart ({cartItems.length} items) */}
+                      Your Cart ({selectedProducts.length} items)
                   </h2>
                   <button className="text-gray-500 hover:text-black"
                     onClick={() => setCartOpen(false)} 
@@ -43,12 +38,11 @@ export default function CartDrawer() {
 
               {/* Cart items...................................... */}
               <div className="p-4 flex flex-col gap-4 overflow-y-auto h-[calc(100%-150px)]">
-
-                    {cartItems.length === 0 && (
+                    {selectedProducts.length === 0 && (
                       <p className="text-gray-500">Your cart is empty.</p>
                     )}
 
-                    {cartItems.map((item) => (
+                    {selectedProducts.map((item) => (
                       // this below div is for single horizontal product.
                       <div key={item.id} className="flex items-center gap-3 border-b pb-3">
                           <img
@@ -65,11 +59,11 @@ export default function CartDrawer() {
 
                           {/* Quantity Controls.............................................. */}
                           <div className="flex items-center border px-2 py-1 rounded">
-                              <button onClick={() => decreaseQuantity(item.id)}>
+                              <button onClick={() => decreaseCartQuantity(item.id)}>
                                 <FaMinus />
                               </button>
-                              <span className="px-2">{item.quantity}</span>
-                              <button onClick={() => increaseQuantity(item.id)}>
+                              <span className="px-2">{cartQuantity[item.id]}</span>
+                              <button onClick={() => increaseCartQuantity(item.id)}>
                                 <FaPlus />
                               </button>
                           </div>
@@ -96,7 +90,7 @@ export default function CartDrawer() {
 
                       <div className="flex justify-between font-bold gap-3 ">
                           <span>Total: </span>
-                          <span>${ total.toFixed(2)}</span>
+                          <span>${ totalPrice.toFixed(2)}</span>
                       </div>
 
                       <button className="w-fit px-4 py-2  bg-violet-600 text-white rounded hover:bg-violet-700">
@@ -108,4 +102,6 @@ export default function CartDrawer() {
     </div>
   );
 }
+
+
 
