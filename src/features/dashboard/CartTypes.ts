@@ -18,7 +18,7 @@ export interface CartContextType{
     isDeleteCartModalOpen: boolean;
     deleteTargetId: number | null;
     notificationMessage: string;
-    singleCartData: any;
+    singleCartData: CartTypes;
 
     setDeleteCartModalOpen: (isOpen:boolean) => void;
     setDeleteTargetId: (id:number | null) => void;
