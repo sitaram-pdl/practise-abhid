@@ -13,15 +13,12 @@ export default function ShowSingleProductPage() {
 
     const CheckSingleProduct = singleProduct && singleProduct.id === Number(productID)
     
+    const displayQuantity = cartQuantity[singleProduct.id] || 0;
     
     if (!CheckSingleProduct) {
         return <div className='text-2xl text-red-500 font-bold'>Product not found.</div>;
       }
   
-  const displayQuantity = cartQuantity[singleProduct.id] || 0;
-
-
-
   return (
 
      <div className="flex flex-col h-auto absolute left-72 right-2 top-20  

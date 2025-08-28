@@ -8,7 +8,7 @@ const CartContext = createContext<CartContextType>({} as CartContextType )
 export const CartProvider = ({children}:ProviderPropsType) =>{
 
     const [carts, setCarts] = useState<CartTypes[]>([])
-    const [singleCartData, setSingleCartData] = useState()
+    const [singleCartData, setSingleCartData] = useState<CartTypes>({} as CartTypes)
 
     const [isDeleteCartModalOpen, setDeleteCartModalOpen] = useState(false)
     const [deleteTargetId, setDeleteTargetId] = useState<number|null>(null)
@@ -55,7 +55,7 @@ export const CartProvider = ({children}:ProviderPropsType) =>{
     const fetchSingleCartData = async(id:number) =>{
         try {
             const responseAPi = await fetchSingleCart(id)
-            console.log("This is the  APi response of fetching single cart", responseAPi)
+            console.log("This is the  APi response of fetching single cart:", responseAPi)
             setSingleCartData(responseAPi)
         }catch (error) {
             console.error("Error occured while fetching a single cart: ", error)
