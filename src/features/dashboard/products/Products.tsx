@@ -1,4 +1,6 @@
 
+
+
 import {useState } from "react";
 import ProductTable from "./ProductTable";
 import ConfirmDeleteModal from "./ConformDeleteModel";
@@ -6,7 +8,14 @@ import Notification from './Notification';
 import { useProductContext } from "@/context/ProductContext";
 import AddNewProductModel from "./AddNewProductModel"
 
-export default function Products() {
+
+type ProductsProps = {
+  isInsideCart?: boolean;
+};
+
+export default function Products({ isInsideCart = false }: ProductsProps) {
+// export default function Products() {
+
   const {products, notificationMessage, handleAddNewProduct} = useProductContext(); 
   // it is a custom hook which get us the function to consume context.
 
@@ -17,10 +26,18 @@ export default function Products() {
   );
 
   return (
-    <div className="flex h-auto absolute left-72 right-2 top-20  
-    shadow-[2px_2px_5px_1px_rgba(0,0,0,0.5)]">
-      <main className="flex-1 p-6 bg-white rounded">
-        
+    <div className= {isInsideCart 
+      ? ""
+      : "flex h-auto absolute left-72 right-2 top-20 shadow-[2px_2px_5px_1px_rgba(0,0,0,0.5)]"
+    }
+    >
+    <main className= {isInsideCart 
+    ? "flex-1 p-2 bg-white rounded"
+    : "flex-1 p-6 bg-white rounded"
+  
+  }
+    
+      >
         <div className="flex justify-between items-center border-t py-4 pr-2 ">
           <input
             type="text"
@@ -37,7 +54,7 @@ export default function Products() {
         </div>
 
         {/* instead of passing the products from context directly, pass the filtered products to ProdutTable. */}
-        <div className="w-full">
+        <div className="max-w-full">
           <ProductTable filteredProducts={filteredProducts} />
         </div>
 
