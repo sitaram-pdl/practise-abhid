@@ -33,7 +33,7 @@ export default function CartRow({eachItem}:CartRowPropsType) {
 
   return (
 
-      <tr className="w-full border-t border-b hover:bg-gray-200">
+      <tr className="w-full border-t border-b hover:bg-neutral-200">
         <td className="px-4 py-3"
           onClick={()=>handleNavigationToSingleCartPage(eachItem.id)}
         >
