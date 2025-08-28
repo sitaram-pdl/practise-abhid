@@ -14,7 +14,7 @@ export default function ProductTable({filteredProducts}:ProductTablePropsType) {
 
   return (
     <div className="overflow-x-auto  border border-gray-200 shadow">
-      <table className="min-w-full">
+      <table className="max-w-full">
         <thead className="bg-gray-100">
           <tr className="text-left text-sm font-medium bg-gray-300">
             <th className="px-6 py-3">ID</th>
@@ -37,3 +37,5 @@ export default function ProductTable({filteredProducts}:ProductTablePropsType) {
     </div>
   );
 }
+
+
