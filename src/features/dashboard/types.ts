@@ -1,5 +1,6 @@
 
 
+import type { CartWithProductDetailsType} from "./CartTypes";
 
 export interface ProductType {
   category: string;
@@ -12,6 +13,7 @@ export interface ProductType {
     count: number;
   };
   title: string;
+  userId ?: number;
 }
 
 export interface ProductContextType {
@@ -37,6 +39,7 @@ export interface ProductContextType {
   setEditingProduct: (product: ProductType | null) => void;
   setDeleteTargetId: (id: number | null) => void;
   setNotificationMessage: (message: string) => void;
+  setCartQuantity:(cartInfo:CartQuantityType) => void;
   
   increaseCartQuantity: (productId: number) => void;
   decreaseCartQuantity: (productId: number) => void;
@@ -50,9 +53,9 @@ export interface ProductContextType {
   fetchSingleProductData: (id:number) => Promise<void>;
   confirmAddNewProduct: (productData: CreateNewProduct) => Promise<boolean>;
   confirmUpdateProduct: (id: number, productData: CreateNewProduct) => Promise<boolean>;
+  ConfirmAddNewCart: (NewCart:CartWithProductDetailsType) => Promise<void>;
 }
-
-
+// ..............................................................................
 export interface ProviderPropsType {
   children: React.ReactNode;
 }
@@ -61,7 +64,6 @@ export interface ProviderPropsType {
 export type CartQuantityType = { [productId: number]: number };
 
 // ..........................................................................
-
 // ........................type for Adding new Product......................
 // Add these new types
 export interface CreateNewProduct {
@@ -71,9 +73,10 @@ export interface CreateNewProduct {
   image: string;
   category: string;
 }
-
 export interface ProductApiResponse extends Omit<ProductType, 'quantity'> {
   // This matches the API response exactly
   // quantity is omitted because it's frontend-only
 }
-// ..........................................................
+// .............................................................................
+
+
