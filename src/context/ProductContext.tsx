@@ -1,10 +1,12 @@
 
 
-import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct, type CartQuantityType } from "@/features/dashboard/types";
 import { fetchProducts, deleteProduct,addNewProduct, updateProduct,fetchSingleProduct,loadCartQuantityFromLocalStorage, saveCartQuantityToLocalStorage } from "@/api/product/ApiProduct"
+import { addNewCart } from "@/api/cart/ApiCart";
+import type { CartProductDetails, CartWithProductDetailsType,} from "@/features/dashboard/CartTypes";
 
-const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
+const ProductContext = createContext<ProductContextType|null>(null); // first create a context ..........
 
 export const ProductProvider = ({ children }: ProviderPropsType) => {
 
@@ -46,7 +48,26 @@ const totalCartsQuantity = useMemo(
 
 console.log("selectedProducts", selectedProducts)
 
+// --------------------------------------------------------------------------------------
+// const prepareCartProducts = ( cartQuantity: CartQuantityType, selectedProducts:
+//      ProductType[]): CartProductDetails[] => {
+//         if (!cartQuantity) {
+//           return [];
+//         }
+//         return selectedProducts.map(eachProduct => ({
+//           productDetails: eachProduct,
+//           quantity: Number(cartQuantity[eachProduct.id] ?? 0),
+//         }));
+//     };
 
+//   const currentCartWithProducts = {
+//         userId: 0,
+//         date: new Date().toISOString().split("T")[0],
+//         products: prepareCartProducts(cartQuantity,selectedProducts),
+//         __v : 0  
+//     };
+
+// -------------------------------------------------------------------------------------
   const increaseCartQuantity = (productId: number) => {
     setCartQuantity((prev) => {
       const updatedCartQuantity = {...prev, [productId]: (prev[productId] || 0)+ 1 }
@@ -74,17 +95,17 @@ console.log("selectedProducts", selectedProducts)
   });
 };
 
- const clearCart = () => {
+const clearCart = useCallback(() => {
   setCartQuantity({});
   localStorage.removeItem("cart"); // or save empty {}
-};
+}, []);
 
 // .....................................................................................
   const fetchProductsData = async () => {
     try {
       const data = await fetchProducts();
-      // const mergedProducts = loadQuantityFromLocalStorage(data);
-      setProducts(data);
+      const dataWithUserId = data.map((eachProduct:ProductType) => ({...eachProduct, userId: 0 }))
+      setProducts(dataWithUserId);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -109,9 +130,7 @@ console.log("selectedProducts", selectedProducts)
       console.error("Error fetching single user:", error)
     }
   }
-
-  console.log("CartQuantity dat is: ",cartQuantity)
-
+  console.log("CartQuantity data is: ",cartQuantity)
 
 // .................................................................................
   // ............functions)(Handlers) to delete product......................
@@ -129,7 +148,7 @@ console.log("selectedProducts", selectedProducts)
       await deleteProduct(deleteTargetId);
       // simulate API call onlu, not to delete from frontend.
       // setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
-      setNotificationMessage("Deleted successfully!");
+      setNotificationMessage(" Product Deleted Successfully!");
     } catch (error) {
       console.error("Error deleting product:", error);
       setNotificationMessage("Failed to delete product.");
@@ -171,8 +190,6 @@ console.log("selectedProducts", selectedProducts)
   } catch (error) {
     setNotificationMessage("Failed to create product");
     return false;
-  } finally {
-    // setIsLoading(false);
   }
 };
 
@@ -186,31 +203,45 @@ const handleUpdateProduct = (product: ProductType) => {
 
 // Confirm update
 const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) => {
-  try {
-    setIsLoading(true);
-    const updated = await updateProduct(id, productData);
-    console.log("this is update user api response: ",updated)
+    try {
+      setIsLoading(true);
+      const updated = await updateProduct(id, productData);
+      console.log("this is update user api response: ",updated)
 
-    // simulate update in local state
-    // setProducts((prev) =>
-    //   prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
-    // );
-    
-    setNotificationMessage("Product updated successfully!");
-    setTimeout(() => {
-      setAddNewProductModalOpen(false)
-      setIsLoading(false);
-    },100);
-    setEditingProduct(null);
-    return true;
-    } catch (error) {
-    setNotificationMessage("Failed to update product.");
-    return false;
-    } finally {
-    // setIsLoading(false);
+      // simulate update in local state
+      // setProducts((prev) =>
+      //   prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
+      // );
+      
+      setNotificationMessage("Product updated successfully!");
+      setTimeout(() => {
+        setAddNewProductModalOpen(false)
+        setIsLoading(false);
+      },100);
+      setEditingProduct(null);
+      return true;
+      } catch (error) {
+      setNotificationMessage("Failed to update product.");
+      return false;
+      }
   }
-};
- 
+// ..............................................................................
+// handler for creating new cart.
+
+  const ConfirmAddNewCart = async(NewCart:CartWithProductDetailsType) =>{
+    try {
+      setIsLoading(true)
+      setNotificationMessage("");
+      const apiResponse = await addNewCart(NewCart);
+      console.log("this is Add new user api response: ",apiResponse)
+      setNotificationMessage("Cart Created successfully!");  
+      setCartOpen(false)
+      clearCart() 
+    }catch (error) {
+      console.log("Error Adding a new user: ", error)
+      setNotificationMessage("Failed to Create a Cart!");
+    }
+  }
 // ...............................................................................
 
   return (
@@ -236,6 +267,8 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
         setDeleteTargetId,
         setNotificationMessage,
         setEditingProduct,
+        setCartQuantity,
+
         increaseCartQuantity,
         decreaseCartQuantity,
         removeCartItem,
@@ -249,6 +282,7 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
         handleUpdateProduct,
         confirmUpdateProduct,
         fetchSingleProductData,
+        ConfirmAddNewCart,
       }}
     >
       {children}
