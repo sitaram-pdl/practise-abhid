@@ -11,7 +11,7 @@ interface CartRowPropsType{
 
 export default function CartRow({eachItem}:CartRowPropsType) {
 
-  const {fetchSingleCartData,handleDeleteCart} = useCartContext();
+  const {fetchSingleCartData,handleDeleteCart,loadHydratedSingleCartData} = useCartContext();
   const nevigate =   useNavigate();
 
 // .........................................................................
@@ -28,6 +28,7 @@ export default function CartRow({eachItem}:CartRowPropsType) {
 // ......................................................................
   const handleNavigationToSingleCartPage = (id:number) =>{
     fetchSingleCartData(id)
+    loadHydratedSingleCartData()
     nevigate(`/cart/${id}`)
   }
 
