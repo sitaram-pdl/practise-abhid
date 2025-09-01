@@ -5,7 +5,7 @@ import {addNewUser, fetchSingleUser, fetchUser, removeUser, updateSingleUser,} f
 import {type UserContextType, type ProviderPropsType , type UsersType, type CreateNewUser,} from "@/features/dashboard/UserTypes"
 
 
-const UserContext = createContext<UserContextType>({} as UserContextType)
+const UserContext = createContext<UserContextType | null>(null)
 
 export const UserProvider = ({children}:ProviderPropsType) =>{
   
@@ -45,18 +45,13 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
       console.error("Error fetching single user:", error)
     }
   }
-
-
-
   // .................................................................................
 
   const handleRemove = (id:number) =>{
     setDeleteTargetId(id)
     setDeleteModalOpen(true)
   }
-
   const confirmDelete = async() => {
-
     if (!deleteTargetId) return;
     try{
         await removeUser(deleteTargetId)
@@ -122,7 +117,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
         return false;
       } 
   }
-
   // ..................................................................................
 
 return (
