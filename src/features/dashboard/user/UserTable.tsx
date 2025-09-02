@@ -10,13 +10,13 @@ export default function UserTable({filteredUsers}:UserTablePropsType) {
 
     return (
         <table className="w-full table-auto border"> {/* Add table-auto for proper sizing */}
-            <thead className="w-full bg-gray-500 text-lg text-white">
+             <thead className="bg-neutral-200 text-gray-600 text-lg">
                 <tr className="w-full">
-                    <th className="px-4 py-2 text-left">ID</th>
-                    <th className="px-4 py-2 text-left">Username</th>
-                    <th className="px-4 py-2 text-left">Email</th>
-                    <th className="px-4 py-2 text-left">Password</th>
-                    <th className="px-4 py-2 text-left">Actions</th>
+                    <th className="px-4 py-3 text-left">ID</th>
+                    <th className="px-4 py-3 text-left">Username</th>
+                    <th className="px-4 py-3 text-left">Email</th>
+                    <th className="px-4 py-3 text-left">Password</th>
+                    <th className="px-4 py-3 text-left">Actions</th>
                 </tr>
             </thead>
             <tbody className="w-full">

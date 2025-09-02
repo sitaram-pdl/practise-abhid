@@ -23,7 +23,7 @@ export default function UserRow({eachUser}: UserRowPropsType ) {
     }
 
     return (
-        <tr className="w-full hover:bg-gray-100 border-t border-b ">
+        <tr className="w-full hover:bg-neutral-100 border-t border-b ">
             <td className="px-4 py-3">
                 {eachUser.id}
             </td>
