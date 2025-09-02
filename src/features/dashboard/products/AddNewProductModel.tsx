@@ -62,6 +62,7 @@ export default function AddNewProductModel() {
   const onSubmit = async (data: ProductFormDataType) => {
     if (editingProduct) {
       await confirmUpdateProduct(editingProduct.id, data);
+      reset();
     } else {
       const success = await confirmAddNewProduct(data);
       if (success) {
@@ -90,7 +91,7 @@ export default function AddNewProductModel() {
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg shadow-xl p-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 h-auto overflow-y-auto">
-          <div className="text-xl sm:text-2xl md:text-3xl mb-4 md:mb-5 font-semibold">
+          <div className="text-2xl text-center font-bold p-3 mb-4">
               {editingProduct ? "Update Product" : "Add New Product"}
           </div>
           
@@ -169,10 +170,10 @@ export default function AddNewProductModel() {
 
                     <div className="mb-4">
                         <label className="block mb-1">Image Preview</label>
-                        <div className="border border-gray-400 rounded-md h-64 flex items-center justify-center bg-gray-100 overflow-hidden">
+                        <div className="border border-gray-400 rounded-md h-45 flex items-center justify-center bg-gray-100 overflow-hidden">
                           {previewUrl ? (
                             <img
-                              className="w-full h-full object-contain p-1"
+                              className="w-full h-3/4 object-contain p-1"
                               src={previewUrl}
                               alt="Product preview"
                               onError={handleImageError}
@@ -188,7 +189,8 @@ export default function AddNewProductModel() {
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="px-4 py-2 bg-gray-500 text-white rounded"
+                  className="px-3 py-2 mx-3 bg-gray-500 text-white hover:bg-gray-700 hover:font-bold rounded text-font hover:px-4 hover:mx-2
+                  transition-all duration-300 ease-in-out "
                 >
                   Cancel
                 </button>
@@ -196,7 +198,8 @@ export default function AddNewProductModel() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-4 py-2 bg-green-600 text-white rounded disabled:bg-gray-400"
+                  className=' mx-3 bg-green-400 text-white px-3 py-2 font-bold rounded cursor-pointer hover:bg-green-600  hover:mx-2 hover:px-4 
+                            transition-all duration-300 ease-in-out' 
                 >
                   {
                   isLoading

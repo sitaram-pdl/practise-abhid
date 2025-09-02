@@ -1,16 +1,22 @@
 
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct } from "@/features/dashboard/types";
-import { fetchProducts, deleteProduct,addNewProduct, updateProduct, saveQuantityToLocalStorage, loadQuantityFromLocalStorage } from "@/api/product";
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
+import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct, type CartQuantityType } from "@/features/dashboard/types";
+import { fetchProducts, deleteProduct,addNewProduct, updateProduct,fetchSingleProduct,loadCartQuantityFromLocalStorage, saveCartQuantityToLocalStorage } from "@/api/product/ApiProduct"
+import { addNewCart } from "@/api/cart/ApiCart";
+import type {CartWithProductDetailsType,} from "@/features/dashboard/CartTypes";
 
-
-const ProductContext = createContext<ProductContextType | undefined>(undefined); // first create a context ..........
+const ProductContext = createContext<ProductContextType|null>(null); // first create a context ..........
 
 export const ProductProvider = ({ children }: ProviderPropsType) => {
 
   const [products, setProducts] = useState<ProductType[]>([]);
+  // const [singleProduct, setSingleProduct] = useState<ProductType |null>(null)
+  const [singleProduct, setSingleProduct] = useState<ProductType>({} as ProductType)
+  const [cartQuantity, setCartQuantity] = useState<CartQuantityType>(
+    () => loadCartQuantityFromLocalStorage() )
   const [isCartOpen, setCartOpen] = useState(false);
+
    //state For delete modal....
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
@@ -21,67 +27,93 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
   const [isLoading, setIsLoading] = useState(false);
   // New state for single product update 
   const [editingProduct, setEditingProduct] = useState<ProductType | null>(null);
- 
-  
-  const cartItems = products.filter((product) => (product.quantity || 0) > 0);
-  const totalCartItems = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
 
+  // ....................................................................................
+
+const selectedProducts = useMemo(
+  () => products.filter((p) => cartQuantity[p.id] !== undefined),
+  [products, cartQuantity]
+);
+
+ const totalPrice = useMemo(() => {
+  return selectedProducts.reduce(
+    (sum, product) => sum + product.price * (cartQuantity[product.id] || 0),
+    0
+  );
+}, [selectedProducts, cartQuantity]);
+
+const totalCartsQuantity = useMemo(
+    () =>  Object.values(cartQuantity).reduce((sum, qty)=> sum + qty,0)
+  ,[cartQuantity])
+
+console.log("selectedProducts", selectedProducts)
+
+// -------------------------------------------------------------------------------------
+  const increaseCartQuantity = (productId: number) => {
+    setCartQuantity((prev) => {
+      const updatedCartQuantity = {...prev, [productId]: (prev[productId] || 0)+ 1 }
+      saveCartQuantityToLocalStorage(updatedCartQuantity)
+      return updatedCartQuantity
+  })
+  };
+  const decreaseCartQuantity = (productId: number) => {
+    setCartQuantity((prev) => {
+      const current = prev[productId] || 0;
+      const updated = { ...prev };
+      if (current > 1) updated[productId] = current - 1;
+      else delete updated[productId]; // remove when 0
+      saveCartQuantityToLocalStorage(updated);
+      return updated;
+    });
+  };
+
+  const removeCartItem = (id: number) => {
+  setCartQuantity((prev) => {
+    const updated = { ...prev };
+    delete updated[id]; // remove this product from cart
+    saveCartQuantityToLocalStorage(updated);
+    return updated;
+  });
+};
+
+const clearCart = useCallback(() => {
+  setCartQuantity({});
+  localStorage.removeItem("cart"); // or save empty {}
+}, []);
+
+// .....................................................................................
   const fetchProductsData = async () => {
     try {
       const data = await fetchProducts();
-      const mergedProducts = loadQuantityFromLocalStorage(data);
-      setProducts(mergedProducts);
+      const dataWithUserId = data.map((eachProduct:ProductType) => ({...eachProduct, userId: 0 }))
+      setProducts(dataWithUserId);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  console.log(products) // see the product to know the details about it and further analysis it.
+  console.log("This is a data after fetching all products:",products) // see the product to know the details about it and further analysis it.
 
 // products should load automatically as the login is done so use use effect to fetch products.....
-
   useEffect(() => {
     fetchProductsData();
   }, []);
 
-  useEffect(() => {
-    if (products.length > 0) {
-      saveQuantityToLocalStorage(products);
+//............(functions)(Handlers) to fetch single product..................
+
+  const fetchSingleProductData = async(id:number) =>{
+    try {
+      const apiResponse = await fetchSingleProduct(id)
+      console.log("single Product response from Api call: ",apiResponse)
+      // const mergedProduct = loadSingleProductQuantityToLocalStorage(apiResponse);
+      setSingleProduct(apiResponse)
+    } catch (error) {
+      console.error("Error fetching single user:", error)
     }
-  }, [products]);
+  }
+  console.log("CartQuantity data is: ",cartQuantity)
 
-  const increaseQuantity = (productId: number) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === productId
-          ? { ...product, quantity: (product.quantity || 0) + 1 }
-          : product
-      )
-    );
-  };
-
-  const decreaseQuantity = (productId: number) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === productId && (product.quantity || 0) > 0
-          ? { ...product, quantity: (product.quantity || 0) - 1 }
-          : product
-      )
-    );
-  };
-
-  const removeCartItem = (id: number) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
-  };
-
-  const clearCart = () => {
-    setProducts((prev) => prev.map((p) => ({ ...p, quantity: 0 })));
-  };
-
-// ............functions)(Handlers) to fetch single product..................
-
-
-
+// .................................................................................
   // ............functions)(Handlers) to delete product......................
 
   // When delete button clicked → show modal
@@ -97,7 +129,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
       await deleteProduct(deleteTargetId);
       // simulate API call onlu, not to delete from frontend.
       // setProducts((prev) => prev.filter((p) => p.id !== deleteTargetId)); 
-      setNotificationMessage("Deleted successfully!");
+      setNotificationMessage(" Product Deleted Successfully!");
     } catch (error) {
       console.error("Error deleting product:", error);
       setNotificationMessage("Failed to delete product.");
@@ -106,6 +138,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
       setDeleteTargetId(null);
     }
   };
+  
   // ............functions)(Handlers) to Add New product...................
 
   // When delete button clicked → show modal
@@ -123,7 +156,7 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     const apiResponse = await addNewProduct(productData);
     console.log("this is api response: ",apiResponse)
     // just simulate only, no need to add products to state.....
-    // setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]); 
+    setProducts(prev => [...prev, { ...apiResponse, quantity: 0 }]); 
     
     // Set success message
     setNotificationMessage("Product created successfully!");
@@ -131,14 +164,13 @@ export const ProductProvider = ({ children }: ProviderPropsType) => {
     // Close modal after a short delay
     setTimeout(() => {
       setAddNewProductModalOpen(false);
-    }, 500);
+      setIsLoading(false);
+    }, 300);
     
     return true;
   } catch (error) {
     setNotificationMessage("Failed to create product");
     return false;
-  } finally {
-    setIsLoading(false);
   }
 };
 
@@ -152,42 +184,64 @@ const handleUpdateProduct = (product: ProductType) => {
 
 // Confirm update
 const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) => {
-  try {
-    setIsLoading(true);
-    const updated = await updateProduct(id, productData);
+    try {
+      setIsLoading(true);
+      const updated = await updateProduct(id, productData);
+      console.log("this is update user api response: ",updated)
 
-    // simulate update in local state
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
-    );
-
-    setNotificationMessage("Product updated successfully!");
-    setTimeout(() => setAddNewProductModalOpen(false), 500);
-    setEditingProduct(null);
-    return true;
-  } catch (error) {
-    setNotificationMessage("Failed to update product.");
-    return false;
-  } finally {
-    setIsLoading(false);
+      // simulate update in local state
+      // setProducts((prev) =>
+      //   prev.map((p) => (p.id === id ? { ...updated, quantity: p.quantity || 0 } : p))
+      // );
+      
+      setNotificationMessage("Product updated successfully!");
+      setTimeout(() => {
+        setAddNewProductModalOpen(false)
+        setIsLoading(false);
+      },100);
+      setEditingProduct(null);
+      return true;
+      } catch (error) {
+      setNotificationMessage("Failed to update product.");
+      return false;
+      }
   }
-};
- 
+// ..............................................................................
+// handler for creating new cart.
 
+  const ConfirmAddNewCart = async(NewCart:CartWithProductDetailsType) =>{
+    try {
+      setIsLoading(true)
+      setNotificationMessage("");
+      const apiResponse = await addNewCart(NewCart);
+      console.log("this is Add new user api response: ",apiResponse)
+      setNotificationMessage("Cart Created successfully!");  
+      setIsLoading(false)
+      setCartOpen(false)
+      clearCart() 
+    }catch (error) {
+      console.log("Error Adding a new user: ", error)
+      setNotificationMessage("Failed to Create a Cart!");
+    }
+  }
 // ...............................................................................
 
   return (
     <ProductContext.Provider
       value={{
         products,
-        cartItems,
-        totalCartItems,
+        singleProduct,
+        selectedProducts,
+        cartQuantity,
         isCartOpen,
         isDeleteModalOpen,
         isAddNewProductModalOpen,
         deleteTargetId,
         notificationMessage,
         isLoading,
+        totalCartsQuantity,
+        totalPrice,
+
         setIsLoading,
         setCartOpen,
         setDeleteModalOpen,
@@ -195,8 +249,10 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
         setDeleteTargetId,
         setNotificationMessage,
         setEditingProduct,
-        increaseQuantity,
-        decreaseQuantity,
+        setCartQuantity,
+
+        increaseCartQuantity,
+        decreaseCartQuantity,
         removeCartItem,
         clearCart,
         handleRemove,
@@ -207,6 +263,8 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
         editingProduct,
         handleUpdateProduct,
         confirmUpdateProduct,
+        fetchSingleProductData,
+        ConfirmAddNewCart,
       }}
     >
       {children}
@@ -223,10 +281,6 @@ export const useProductContext = () => {
   }
   return context;
 };
-
-
-
-
 
 
 

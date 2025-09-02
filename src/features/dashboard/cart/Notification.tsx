@@ -1,12 +1,13 @@
 
 import { useEffect, useState } from "react";
-import { useProductContext } from "@/context/ProductContext";
+import { useCartContext } from "@/context/CartContext";
 import {FaCheckCircle } from "react-icons/fa"
 
 
-
 export default function Notification() {
-  const { notificationMessage, setNotificationMessage } = useProductContext();
+
+  const { notificationMessage, setNotificationMessage } = useCartContext();
+
   const [isVisible, setIsVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState("");
 
@@ -33,9 +34,9 @@ export default function Notification() {
       transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
        <div className="flex items-center gap-2 text-lg font-bold text-white">
-             <FaCheckCircle className="h-5 w-5 text-white" />
-             {currentMessage}
-      </div>
+          <FaCheckCircle className="h-5 w-5 text-white" />
+          {currentMessage}
+        </div>
     </div>
   );
 }
