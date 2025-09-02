@@ -7,13 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function AddNewProductModel() {
   const {
-    isAddNewProductModalOpen,
-    setAddNewProductModalOpen,
-    confirmAddNewProduct,
-    isLoading,
-    confirmUpdateProduct,
-    editingProduct,
-    setEditingProduct,
+    isAddNewProductModalOpen, setAddNewProductModalOpen, confirmAddNewProduct, isLoading, confirmUpdateProduct, editingProduct, setEditingProduct,
   } = useProductContext();
 
   const { register, handleSubmit, watch, reset, formState: { errors },} = useForm<ProductFormDataType>({
@@ -27,8 +21,6 @@ export default function AddNewProductModel() {
     },
   });
 
-  // Autofill form when editing
-
   useEffect(() => {
     if (editingProduct) {
       reset({
@@ -38,7 +30,7 @@ export default function AddNewProductModel() {
         category: editingProduct.category,
         image: editingProduct.image,
       });
-      setAddNewProductModalOpen(true); // ensure modal opens immediately
+      setAddNewProductModalOpen(true);
     } else {
       reset({
         title: "",
@@ -50,15 +42,12 @@ export default function AddNewProductModel() {
     }
   }, [editingProduct, reset, setAddNewProductModalOpen]);
 
-   //  Watch image field for live preview
   const imageUrl = watch("image");
   const [previewUrl, setPreviewUrl] = useState("");
   useEffect(() => setPreviewUrl(imageUrl || ""), [imageUrl]);
 
   const handleImageError = () => setPreviewUrl("");
 
- 
-  //  Handle submit (decide add vs update)
   const onSubmit = async (data: ProductFormDataType) => {
     if (editingProduct) {
       await confirmUpdateProduct(editingProduct.id, data);
@@ -76,19 +65,14 @@ export default function AddNewProductModel() {
     setEditingProduct(null);
     setAddNewProductModalOpen(false);
   };
-
-
   if (!isAddNewProductModalOpen) return null;
 
   return (
     <>
-      {/* Overlay */}
       <div
         className="fixed inset-0 z-50 backdrop-brightness-40"
         onClick={handleClose}
       />
-
-      {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg shadow-xl p-6 w-full md:w-3/4 lg:w-2/3 xl:w-1/2 h-auto overflow-y-auto">
           <div className="text-2xl text-center font-bold p-3 mb-4">
@@ -97,9 +81,7 @@ export default function AddNewProductModel() {
           
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col lg:flex-row gap-4 md:gap-5 w-full">
-              {/* Left Column - Form Fields */}
                 <div className="w-full lg:w-1/2 space-y-3 md:space-y-4">
-                    {/* Title Field */}
                     <div>
                       <label className="block mb-1"> Product Title*</label>
                       <input
@@ -112,7 +94,6 @@ export default function AddNewProductModel() {
                       )}
                     </div>
 
-                     {/* Price Field */}
                     <div>
                       <label className="block mb-1">Price ($)*</label>
                       <input
@@ -146,7 +127,6 @@ export default function AddNewProductModel() {
                           {...register("image")}
                           type="url"
                           placeholder="https://example.com"
-                          // required
                           className="border border-gray-400 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-1 focus:ring-black"
                         />
                         {errors.image && (
@@ -154,14 +134,12 @@ export default function AddNewProductModel() {
                         )}
                     </div>
                   </div>
-                  {/* Right Column - Description and Image Preview */}
                   <div className="w-full lg:w-1/2 flex flex-col gap-3 md:gap-4">
                     <div className="flex flex-col h-30">
                       <label className="block text-sm sm:text-base md:text-lg mb-1">Description*</label>
                       <textarea
                         {...register("description")}
                         className="border border-gray-400 rounded-md px-3 py-2 w-full h-full focus:outline-none focus:ring-1 focus:ring-black"
-                        // required
                       />
                       {errors.description && (
                         <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>

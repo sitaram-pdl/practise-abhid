@@ -17,7 +17,6 @@ export interface ProductType {
 }
 
 export interface ProductContextType {
-
   products: ProductType[];
   singleProduct:ProductType;
   selectedProducts: ProductType[];
@@ -31,7 +30,6 @@ export interface ProductContextType {
   notificationMessage: string;
   totalCartsQuantity: number;
   totalPrice: number;
-
   setCartOpen: (isOpen: boolean) => void;
   setIsLoading: (isOpen: boolean) => void;
   setDeleteModalOpen: (isOpen: boolean) => void;
@@ -40,13 +38,12 @@ export interface ProductContextType {
   setDeleteTargetId: (id: number | null) => void;
   setNotificationMessage: (message: string) => void;
   setCartQuantity:(cartInfo:CartQuantityType) => void;
-  
   increaseCartQuantity: (productId: number) => void;
   decreaseCartQuantity: (productId: number) => void;
   removeCartItem: (id: number) => void;
   clearCart: () => void;
   handleRemove: (id: number) => void;
-  confirmDelete: () => Promise<void>; // note the way to write type of promise (async calls)
+  confirmDelete: () => Promise<void>; 
   handleAddNewProduct: () => void;
   handleUpdateProduct: (product: ProductType) => void;
   fetchProducts: () => Promise<void>;
@@ -55,17 +52,12 @@ export interface ProductContextType {
   confirmUpdateProduct: (id: number, productData: CreateNewProduct) => Promise<boolean>;
   ConfirmAddNewCart: (NewCart:CartWithProductDetailsType) => Promise<void>;
 }
-// ..............................................................................
 export interface ProviderPropsType {
   children: React.ReactNode;
 }
-// ..............................................................................
 
 export type CartQuantityType = { [productId: number]: number };
 
-// ..........................................................................
-// ........................type for Adding new Product......................
-// Add these new types
 export interface CreateNewProduct {
   title: string;
   price: number;
@@ -74,9 +66,6 @@ export interface CreateNewProduct {
   category: string;
 }
 export interface ProductApiResponse extends Omit<ProductType, 'quantity'> {
-  // This matches the API response exactly
-  // quantity is omitted because it's frontend-only
 }
-// .............................................................................
 
 

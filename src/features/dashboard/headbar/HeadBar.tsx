@@ -2,7 +2,6 @@
 
 import { ShoppingCart } from 'lucide-react';
 import { useNavigate, useLocation } from "react-router-dom";
-
 import { useProductContext } from '@/context/ProductContext';
 import CartDrawer from "./CartDrawer";
 
@@ -11,15 +10,11 @@ const RouteTitles: Record<string, string> = {
   '/cart': 'Shopping Cart',
   '/users': 'User Profile',
 };
-
-
 export default function HeadBar() {
-  
   const {totalCartsQuantity, setCartOpen, } = useProductContext();
-  
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const getPageTitle = () => {
     if (location.state?.title) return location.state.title;
     if (RouteTitles[location.pathname]) return RouteTitles[location.pathname];
@@ -65,7 +60,6 @@ export default function HeadBar() {
             </button>
         </div>
       </div>
-       {/* call  CartDrawer component from moved the header */}
        <CartDrawer />
     </>
   );

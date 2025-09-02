@@ -1,18 +1,12 @@
 
-
-
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSchema, type UserFormFieldType} from "@/validationSchema/userSchema/UserSchema";
 import { useUserContext } from "@/context/UserContext";
 import { useEffect} from "react";
 
-
 export default function AddNewUserModal() {
-
     const {editUser,setEditUser,ConfirmUpdateUserModal,isAddNewUserModalOpen,setAddNewUserModalOpen,ConfirmAddNewUser, isLoading} = useUserContext();
-
     const {register,reset,handleSubmit, formState:{errors} } = useForm<UserFormFieldType>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
@@ -21,7 +15,6 @@ export default function AddNewUserModal() {
             password: "",
         }
     })
-
     useEffect(()=>{
         if(editUser){
             reset({
@@ -43,13 +36,10 @@ export default function AddNewUserModal() {
             reset()
         }}
     }
-
     const handleClose = () => {
         setEditUser(null)
         setAddNewUserModalOpen(false)
     }
- 
-
     if (!isAddNewUserModalOpen){
         return null;
     }
@@ -60,13 +50,11 @@ export default function AddNewUserModal() {
         className="fixed inset-0 z-50 backdrop-brightness-40"
             onClick={handleClose}
         />
-       
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md h-auto overflow-y-auto">
                 <div className="text-2xl text-black mb-5 text-center font-bold ">
                     {editUser ? "Update User" : "Add New User"}
                 </div>
-
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col gap-5">
                         <div>
@@ -78,7 +66,6 @@ export default function AddNewUserModal() {
                                 className="w-full p-2 border rounded"
                             />
                             {errors.username && <p className="text-red-500">{errors.username.message}</p> }
-
                         </div>
 
                         <div>

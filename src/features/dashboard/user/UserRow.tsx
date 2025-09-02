@@ -5,23 +5,17 @@ import { useState } from "react"
 import { FaEye, FaEyeSlash, FaTrash } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 
-
 interface UserRowPropsType{
     eachUser:UsersType
 }
-
 export default function UserRow({eachUser}: UserRowPropsType ) {
-
     const nevigate = useNavigate()
     const {handleRemove, fetchSingleUserData} = useUserContext();
     const [showPassword, setShowPassword] = useState(false)
-
-
     const handleNavigateToSingleUserPage = (id:number) =>{
         fetchSingleUserData(id)
         nevigate(`/users/${id}`)
     }
-
     return (
         <tr className="w-full hover:bg-neutral-100 border-t border-b ">
             <td className="px-4 py-3">
@@ -31,11 +25,9 @@ export default function UserRow({eachUser}: UserRowPropsType ) {
                 onClick={() => handleNavigateToSingleUserPage(eachUser.id)}
                 >
                 {eachUser.username}
-                
             </td>
             <td className="px-4 py-3"
                 onClick={() => handleNavigateToSingleUserPage(eachUser.id)}
-            
             >
                 {eachUser.email}
             </td>

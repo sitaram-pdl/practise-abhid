@@ -1,16 +1,11 @@
 
 import ProductRow from "./ProductRow";
 import {type ProductType} from "@/features/dashboard/types"
-// import { useProductContext } from "@/context/ProductContext";
-
 
 interface ProductTablePropsType {
   filteredProducts: ProductType[];
 }
-
 export default function ProductTable({filteredProducts}:ProductTablePropsType) {
-
-   {/* instead of receiving the products from context directly, receive the filtered products from product page to pass data to ProductRow.  */}
 
   return (
     <div className="overflow-x-auto  border border-gray-200 shadow">

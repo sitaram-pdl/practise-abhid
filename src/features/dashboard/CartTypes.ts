@@ -2,12 +2,10 @@
 import type { ProductType } from "./types";
 
 
-// ....................................................
 export interface CartProduct {
   productId: number;
   quantity: number;
 }
-
 export interface CartTypes{
     date: string;
     id: number
@@ -15,23 +13,18 @@ export interface CartTypes{
     userId: number
     __v : number;
 }
-// ..........................................
 
 export interface CartProductDetails {
   productDetails: ProductType;
   quantity: number;
 }
-
 export interface CartWithProductDetailsType{
     date: string;
     id?: number;
     products: CartProductDetails[];
     userId: number;
     __v : number;
-
 }
-
-// ...............................................................
 
 export interface CartContextType{
     carts: CartTypes[];
@@ -41,13 +34,11 @@ export interface CartContextType{
     singleCartData: CartTypes;
     isUpdateCart:boolean;
     isLoading:boolean;
-
     setDeleteCartModalOpen: (isOpen:boolean) => void;
     setDeleteTargetId: (id:number | null) => void;
     setNotificationMessage: (message:string) => void;
     setSingleCartData: (data:any) => void;
     setUpdateCart: (isUpdate:boolean) => void;
-
     hydratedSingleCartData:CartWithProductDetailsType| null;
     loadHydratedSingleCartData: () => void;
     handleDeleteCart:(id:number) => void;
@@ -57,7 +48,6 @@ export interface CartContextType{
     ConfirmUpdateCart: (id:number ,editedCart:CartWithProductDetailsType) => void;
 }
 
-// ....................................................................
 export interface ProviderPropsType{
     children: React.ReactNode;
 }

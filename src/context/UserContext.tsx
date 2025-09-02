@@ -19,7 +19,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   const [isAddNewUserModalOpen, setAddNewUserModalOpen] = useState(false)
   const [editUser, setEditUser] = useState<UsersType | null>(null)
  
-// .............................................................................
   const fetchUserData = async() => {
       try {
         const data = await fetchUser();
@@ -33,8 +32,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
     fetchUserData()
   },[])
 
-  // .................................................................................
-
   const fetchSingleUserData = async(id:number) =>{
     try {
       const data = await fetchSingleUser(id)
@@ -43,7 +40,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
       console.error("Error fetching single user:", error)
     }
   }
-  // .................................................................................
 
   const handleRemove = (id:number) =>{
     setDeleteTargetId(id)
@@ -63,7 +59,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
       setDeleteTargetId(null)
     }
   }
-  // ...............................................................................
 
   const HandleAddNewUser = () => {
     setAddNewUserModalOpen(true)
@@ -88,7 +83,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
       return false;
     }
   }
-  // ..................................................................................
 
   const handleUpdateUser = (edidtedUser:UsersType) =>{
     setEditUser(edidtedUser)
@@ -115,7 +109,6 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
         return false;
       } 
   }
-  // ..................................................................................
 
 return (
 
@@ -128,13 +121,11 @@ return (
       deleteTargetId,
       isAddNewUserModalOpen,
       isLoading,
-
       setDeleteModalOpen,
       setNotificationMessage,
       setDeleteTargetId,
       setAddNewUserModalOpen,
       setEditUser,
-
       handleRemove,
       confirmDelete,
       HandleAddNewUser,
@@ -142,12 +133,10 @@ return (
       ConfirmAddNewUser,
       fetchSingleUserData,
       ConfirmUpdateUserModal,
-      
       }}>
       {children}
     </UserContext.Provider>
 )}
-
 export const useUserContext = () => {
   const context = useContext(UserContext)
   if (!context){

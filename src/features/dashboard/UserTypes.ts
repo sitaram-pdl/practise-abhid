@@ -32,13 +32,11 @@ export interface UserContextType {
     deleteTargetId: number | null;
     isAddNewUserModalOpen: boolean;
     isLoading: boolean;
-    // setSingleUser:(user:UsersType) => void;
     setDeleteModalOpen: (isOpen:boolean) => void;
     setNotificationMessage: (message:string) => void;
     setDeleteTargetId:(id:number|null) => void;
     setAddNewUserModalOpen: (isOpen:boolean)=> void;
     setEditUser: (edidtedUser:UsersType|null) => void
-
     handleRemove: (id: number) => void;
     HandleAddNewUser:() => void;
     handleUpdateUser:(edidtedUser:UsersType) => void;
@@ -56,6 +54,5 @@ export interface CreateNewUser {
     email:string;
     username: string;
     password: string;
-   
 }
 

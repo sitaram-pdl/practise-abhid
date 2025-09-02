@@ -10,5 +10,4 @@ export const productSchema = z.object({
     .url("Invalid URL format")
     .or(z.literal("")), // Allows empty string
 });
-
 export type ProductFormDataType = z.infer<typeof productSchema>;

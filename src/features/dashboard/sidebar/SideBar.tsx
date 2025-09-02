@@ -26,7 +26,7 @@ export default function SideBar() {
 
               <NavLink  className = {({isActive}) => `flex  items-center gap-2 p-2 ${isActive?"bg-green-500 font-bold text-white active: translate-x-[0.30rem] active:translate-y-1 active:shadow-none ": "text-white bg-gray-400 font-bold shadow-[0.30rem_0.25rem_0.24rem_rgba(10,10,10,0.5)] " }  rounded `}
                 to="/cart"
-                state={{ title: "My Cart Items" }} // Optional custom title, for route title synchronization on  HeadBar.
+                state={{ title: "My Cart Items" }} 
                 >
                   {({ isActive }) => (
                             <>

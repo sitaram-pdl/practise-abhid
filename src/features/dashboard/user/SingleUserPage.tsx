@@ -8,10 +8,7 @@ import LeafletMap from "./LeafletMap";
 import AddNewUserModal from "./AddNewUserModal";
 import Notification from "./Notification";
 
-  
-
 export default function SingleUserPage() {
-
     const {userID} = useParams();
     const nevigate = useNavigate();
     const {singleUser, handleUpdateUser, notificationMessage} = useUserContext();
@@ -19,18 +16,14 @@ export default function SingleUserPage() {
 
     const CheckedSingleUser = singleUser && singleUser.id === Number(userID);
 
-// .............................................................................
-
     function capitalizeWord(word:string) {
         if (!word) return '';
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
     const firstName = singleUser?.name?.firstname ? capitalizeWord(singleUser.name.firstname) : "";
     const lastName  = singleUser?.name?.lastname  ? capitalizeWord(singleUser.name.lastname) : "";
-
     const Latitude =  singleUser?.address?.geolocation?.lat ? singleUser.address.geolocation.lat : "";
     const Longitude =  singleUser?.address?.geolocation?.long ? singleUser.address.geolocation.long : "";
-// .............................................................................
 
     if (!CheckedSingleUser){
     return <div className='text-2xl text-red-500 font-bold'>Product not found.</div>;
