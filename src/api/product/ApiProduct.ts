@@ -1,7 +1,7 @@
 
 
 import axios from "@/api/auth/Api";
-import { type ProductType, type CartDataType, type CreateNewProduct, type ProductApiResponse } from "@/features/dashboard/types";
+import { type CreateNewProduct, type ProductApiResponse, type CartQuantityType } from "@/features/dashboard/types";
 
 // .........Get (fetch) all products...................
 
@@ -10,13 +10,13 @@ export const fetchProducts = async () => {
   return response.data;
 };
 
+
 //.............Get (fetch) a single product.............
 
-
-// export const fetchSingleProduct = async (id: number) => {
-// const response =  await axios.get(`/products/${id}`);
-// return response.data
-// }
+export const fetchSingleProduct = async (id: number) => {
+const response =  await axios.get(`/products/${id}`);
+return response.data
+}
 
 // ......Delete a product.....................
 
@@ -33,7 +33,7 @@ export const updateProduct = async (id: number, productData: CreateNewProduct): 
   return response.data;
 };
 
-//....Add a new product... (Updated addNewProduct function to use Axios properly)................
+//....Add a new product...................
 
 export const addNewProduct = async (productData: CreateNewProduct): Promise<ProductApiResponse> => {
   const response = await axios.post<ProductApiResponse>("/products", {
@@ -43,25 +43,16 @@ export const addNewProduct = async (productData: CreateNewProduct): Promise<Prod
   return response.data;
 };
 
-// ................handler for saving and loading Quantity from local storage..........
+// ......All handler for saving and loading Quantity from local storage..........
 
-export const saveQuantityToLocalStorage = (products: ProductType[]) => {
-  const cartData: CartDataType = {};
-  products.forEach((p) => {
-    if (p.quantity && p.quantity > 0) {
-      cartData[p.id] = p.quantity;
-    }
-  });
-  localStorage.setItem("cart", JSON.stringify(cartData));
+export const saveCartQuantityToLocalStorage = (cartQuantity:CartQuantityType) => {
+  localStorage.setItem("cartQuantityData", JSON.stringify(cartQuantity));
 };
 
-export const loadQuantityFromLocalStorage = (products: ProductType[]) => {
-  const savedCart = localStorage.getItem("cart");
-  const cartData: CartDataType = savedCart ? JSON.parse(savedCart) : {};
-  return products.map((p) => ({
-    ...p,
-    quantity: cartData[p.id] || 0,
-  }));
+export const loadCartQuantityFromLocalStorage = () => {
+  const savedCart = localStorage.getItem("cartQuantityData");
+  return savedCart ? JSON.parse(savedCart): {}
+
 };
 
 

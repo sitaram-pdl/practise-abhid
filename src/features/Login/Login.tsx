@@ -12,12 +12,12 @@ const loginSchema = z.object({
             .min(3, "Minimum length of username is 3")
             .max(20, "Maximum length of username is 20"),
         Password: z.string()
-            .min(7, "Minimum length of password is 7")
+            .min(6, "Minimum length of password is 6")
             .max(20, "Maximum length of password is 20")
-            .regex(/[A-Z]/, "At least one uppercase letter required")
-            .regex(/[a-z]/, "At least one lowercase letter required")
-            .regex(/[0-9]/, "At least one number required")
             .regex(/[!@#$%^&*(),.?":{}|<>]/, "At least one special character required")
+            // .regex(/[A-Z]/, "At least one uppercase letter required")
+            // .regex(/[0-9]/, "At least one number required")
+            // .regex(/[a-z]/, "At least one lowercase letter required")
         });
 
 type FormFields = z.infer<typeof loginSchema>;
@@ -50,7 +50,7 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
     localStorage.setItem("token", response.data.token);
     // Redirect
     navigate("/products");
-    // window.location.href = "/products";
+
     
   } catch (error: any) {
   const msg = error.response?.data?.message || "Login failed";
