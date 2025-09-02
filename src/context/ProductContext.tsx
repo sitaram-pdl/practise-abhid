@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, useMemo, useCallback } 
 import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct, type CartQuantityType } from "@/features/dashboard/types";
 import { fetchProducts, deleteProduct,addNewProduct, updateProduct,fetchSingleProduct,loadCartQuantityFromLocalStorage, saveCartQuantityToLocalStorage } from "@/api/product/ApiProduct"
 import { addNewCart } from "@/api/cart/ApiCart";
-import type { CartProductDetails, CartWithProductDetailsType,} from "@/features/dashboard/CartTypes";
+import type {CartWithProductDetailsType,} from "@/features/dashboard/CartTypes";
 
 const ProductContext = createContext<ProductContextType|null>(null); // first create a context ..........
 
@@ -47,25 +47,6 @@ const totalCartsQuantity = useMemo(
   ,[cartQuantity])
 
 console.log("selectedProducts", selectedProducts)
-
-// --------------------------------------------------------------------------------------
-// const prepareCartProducts = ( cartQuantity: CartQuantityType, selectedProducts:
-//      ProductType[]): CartProductDetails[] => {
-//         if (!cartQuantity) {
-//           return [];
-//         }
-//         return selectedProducts.map(eachProduct => ({
-//           productDetails: eachProduct,
-//           quantity: Number(cartQuantity[eachProduct.id] ?? 0),
-//         }));
-//     };
-
-//   const currentCartWithProducts = {
-//         userId: 0,
-//         date: new Date().toISOString().split("T")[0],
-//         products: prepareCartProducts(cartQuantity,selectedProducts),
-//         __v : 0  
-//     };
 
 // -------------------------------------------------------------------------------------
   const increaseCartQuantity = (productId: number) => {
@@ -235,6 +216,7 @@ const confirmUpdateProduct = async (id: number, productData: CreateNewProduct) =
       const apiResponse = await addNewCart(NewCart);
       console.log("this is Add new user api response: ",apiResponse)
       setNotificationMessage("Cart Created successfully!");  
+      setIsLoading(false)
       setCartOpen(false)
       clearCart() 
     }catch (error) {
