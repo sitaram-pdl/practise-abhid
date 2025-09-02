@@ -2,8 +2,8 @@
 
 import { useCartContext } from "@/context/CartContext";
 import type { CartTypes } from "../CartTypes"
-import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
 interface CartRowPropsType{
   eachItem:CartTypes
@@ -34,7 +34,7 @@ export default function CartRow({eachItem}:CartRowPropsType) {
 
   return (
 
-      <tr className="w-full border-t border-b hover:bg-neutral-200">
+      <tr className="w-full bg-white border-t border-b hover:bg-neutral-100">
         <td className="px-4 py-3"
           onClick={()=>handleNavigationToSingleCartPage(eachItem.id)}
         >
@@ -61,11 +61,11 @@ export default function CartRow({eachItem}:CartRowPropsType) {
           {(eachItem.products).length}
         </td>
       
-        <td className="px-4 py-3">
-            <FaRegTrashAlt 
+        <td className="px-4 py-3 ">
+            <FaTrash 
             title="delete"
             onClick={() => handleDeleteCart(eachItem.id)}
-            className="hover:text-red-500"
+            className="text-gray-500 bg hover:text-red-500"
             />
         </td>
 

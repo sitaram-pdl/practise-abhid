@@ -8,17 +8,16 @@ export default function CartTable() {
 
     const {carts} = useCartContext()
 
-
   return (
 
     <table className="w-full table-auto border">
-        <thead className="bg-neutral-500 text-white text-lg">
+        <thead className="bg-neutral-200 text-gray-600 text-lg">
             <tr className="w-full">
-                <th className="px-4 py-4 text-left">Card ID</th>
-                <th className="px-4 py-4 text-left">Date</th>
-                <th className="px-4 py-4 text-left">Total Quantity</th>
-                <th className="px-4 py-4 text-left">Products</th>
-                <th className="px-4 py-4 text-left">Actions</th>
+                <th className="px-4 py-3 text-left">Card ID</th>
+                <th className="px-4 py-3 text-left">Date</th>
+                <th className="px-4 py-3 text-left">Total Quantity</th>
+                <th className="px-4 py-3 text-left">Products</th>
+                <th className="px-4 py-3 text-left">Actions</th>
             </tr>
         </thead>
         <tbody className="w-full">
