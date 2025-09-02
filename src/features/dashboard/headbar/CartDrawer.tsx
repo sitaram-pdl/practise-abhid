@@ -150,7 +150,7 @@ useEffect(() => {
                           <span>${ totalPrice.toFixed(2)}</span>
                       </div>
 
-                      <button className="w-fit px-4 py-2  bg-violet-600 text-white rounded hover:bg-green-500 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      <button className="w-fit px-4 py-2  bg-blue-500 text-white rounded hover:bg-green-500 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
                         disabled={totalCartsQuantity === 0}
                         onClick={handleFinalClick}
                       >

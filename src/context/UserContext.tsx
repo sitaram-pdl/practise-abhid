@@ -13,14 +13,12 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
   const [singleUser, setSingleUser] = useState<UsersType>({} as UsersType )
   const [isLoading, setIsLoading] = useState(false);
 
-
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState<number | null>(null);
   const [notificationMessage, setNotificationMessage] = useState(""); 
   const [isAddNewUserModalOpen, setAddNewUserModalOpen] = useState(false)
   const [editUser, setEditUser] = useState<UsersType | null>(null)
  
-
 // .............................................................................
   const fetchUserData = async() => {
       try {
@@ -81,7 +79,7 @@ export const UserProvider = ({children}:ProviderPropsType) =>{
       setTimeout(() => {
         setAddNewUserModalOpen(false);
         setIsLoading(false);
-       }, 300);
+       }, 100);
       return true; 
 
     }catch (error) {

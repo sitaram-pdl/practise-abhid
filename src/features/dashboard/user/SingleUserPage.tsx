@@ -38,8 +38,7 @@ export default function SingleUserPage() {
 
   return (
 
-        <div className="flex flex-col gap-5 px-6 py-2 h-auto absolute left-72 right-2 top-20  
-             shadow-[2px_2px_5px_1px_rgba(0,0,0,0.5)]">
+        <div className="bg-white flex flex-col gap-5 px-6 py-2 min-h-screen absolute left-69 right-0 top-17">
             <div className='flex justify-between items-center px-5 py-3'>
                 <button className=' flex items-center justify-between gap-4 bg-gray-400 hover:bg-gray-700 text-white px-6 py-2 rounded cursor-pointer'
                     onClick={() => nevigate(-1)}
@@ -48,7 +47,7 @@ export default function SingleUserPage() {
                 </button>
                 <button className='bg-orange-500 hover:bg-orange-700 text-white px-4 py-2 rounded cursor-pointer' 
                       onClick={() => handleUpdateUser(singleUser)}
-                    >Update Product
+                    >Update User
                 </button>
             </div>
             <div className="flex justify-between gap-8 py-4 pl-5">
@@ -147,7 +146,7 @@ export default function SingleUserPage() {
                 <div>
                     <LeafletMap Longitude = {Number(Longitude)} Latitude ={Number(Latitude)}  />
                 </div>
-                <div className="flex justify-center items-center gap-10 px-4 py-2 bg-emerald-200">
+                <div className="flex justify-center items-center gap-10 px-4 py-2 bg-green-200">
                     <span> 
                         <span className="text-gray-900 font-bold">Latitude : </span>
                             {Latitude}

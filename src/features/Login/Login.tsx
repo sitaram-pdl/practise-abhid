@@ -50,7 +50,7 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
     localStorage.setItem("token", response.data.token);
     // Redirect
     navigate("/products");
-    // window.location.href = "/products";
+
     
   } catch (error: any) {
   const msg = error.response?.data?.message || "Login failed";

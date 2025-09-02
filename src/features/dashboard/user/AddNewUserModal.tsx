@@ -57,10 +57,11 @@ export default function AddNewUserModal() {
   return (
     <>
         <div  
-            className="fixed inset-0  z-50  backdrop-brightness-40"
+        className="fixed inset-0 z-50 backdrop-brightness-40"
             onClick={handleClose}
         />
-        <div className="fixed inset-0 flex justify-center items-center z-50  h-auto w-1/3  p-2 " >
+       
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md h-auto overflow-y-auto">
                 <div className="text-2xl text-black mb-5 text-center font-bold ">
                     {editUser ? "Update User" : "Add New User"}
@@ -105,7 +106,7 @@ export default function AddNewUserModal() {
 
                         <div  className="flex justify-between items-center w-full ">
                             <button
-                            className="px-4 py-2 bg-gray-500 text-white hover:bg-gray-700 hover:font-bold rounded"
+                            className="px-3 py-2 mx-3 bg-gray-500 text-white hover:bg-gray-700 hover:font-bold rounded text-font hover:px-4 hover:mx-2 transition-all duration-300 ease-in-out "
                             type="button"
                             onClick={handleClose}
                             >
@@ -113,7 +114,7 @@ export default function AddNewUserModal() {
                             </button>
 
                             <button
-                                className="px-4 py-2 bg-green-500 text-white hover:bg-green-700 hover:font-bold rounded   transition duration-300 text-font"
+                                className=' mx-3 bg-green-400 text-white px-3 py-2 font-bold rounded cursor-pointer hover:bg-green-600  hover:mx-2 hover:px-4 transition-all duration-300 ease-in-out' 
                                 type="submit"
                                 disabled={isLoading}
                             >{

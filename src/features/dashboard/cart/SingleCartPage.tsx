@@ -20,30 +20,34 @@ export default function SingleCartPage() {
         return sum + item.productDetails.price * item.quantity;}, 0) ?? 0;
 
   return (
-    <div className="flex flex-col gap-5 px-6 py-2 h-auto absolute left-72 right-2 top-20  
-            shadow-[2px_2px_5px_1px_rgba(0,0,0,0.5)]">
+
+    <div className="bg-white flex flex-col gap-5 px-6 py-2 min-h-screen absolute left-69 right-0 top-17">
         <div className="flex justify-between items-center py-4">
-            <button className=' flex items-center justify-between gap-4 bg-gray-400 hover:bg-gray-700 text-white px-6 py-2 rounded cursor-pointer'
+            <div className="w-32">
+                  <button className=' flex items-center justify-between gap-4 bg-gray-400 text-white px-4 py-2 font-normal rounded cursor-pointer shadow-[0.25rem_0.25rem_0.25rem_rgba(0,0,0,0.5)] hover:bg-gray-600 hover:font-bold hover:translate-x-0.5 hover:translate-y-0.5  hover:shadow-none transition-all duration-300 ease-in-out' 
                 onClick={() => navigate(-1)}
                 > <FaArrowLeft/> 
                     <span>Back</span>
-            </button>
+                </button>
+            </div>
             <p className="text-3xl text-gray-700 font-semibold">
                 Your Shopping Cart
             </p>
-                <button className='bg-orange-500 hover:bg-orange-700 text-white px-4 py-2 rounded cursor-pointer' 
+                <button className='w-40 mx-4 bg-orange-400 text-white px-4 py-2 font-normal rounded cursor-pointer shadow-[0.25rem_0.25rem_0.25rem_rgba(0,0,0,0.5)]
+                            hover:bg-orange-600 hover:font-bold hover:translate-x-1 hover:translate-y-0.5  hover:shadow-none
+                            transition-all duration-300 ease-in-out' 
                   onClick={() => handleUpdateCart()}
                 >Update Cart
             </button>
         </div>
         <div className="w-full py-4">
             <table className="w-full table-auto border">
-                <thead className="bg-neutral-500 text-white text-lg">
+              <thead className="bg-neutral-200 text-gray-600 text-lg">
                     <tr className="w-full">
-                        <th className="px-6 py-4 text-left">Product</th>
-                        <th  className="px-6 py-4 text-left">Price</th>
-                        <th  className="px-6 py-4 text-left">Quantity</th>
-                        <th  className="px-6 py-4 text-left">Total</th>
+                        <th className="px-4 py-3 text-left">Product</th>
+                        <th  className="px-4 py-3 text-left">Price</th>
+                        <th  className="px-4 py-3 text-left">Quantity</th>
+                        <th  className="px-4 py-3 text-left">Total</th>
                     </tr>
                 </thead>
                     
@@ -53,7 +57,7 @@ export default function SingleCartPage() {
                     const totalPerProduct = productDetails.price * quantity;
                      return(
                           <tr className="w-full border-t border-b hover:bg-neutral-200">
-                                <td className="px-6 py-4 text-left">
+                                <td className="px-4 py-3 text-left">
                                     <div className="flex items-center gap-3"
                                         >
                                         <div className="h-10 w-10">
@@ -72,13 +76,13 @@ export default function SingleCartPage() {
                                     </div>
                                 </td>
 
-                                <td className="whitespace-nowrap px-6 py-4 text-left">
+                                <td className="whitespace-nowrap px-4 py-3 text-left">
                                     ${productDetails.price.toFixed(2)}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4 text-left ">
+                                <td className="whitespace-nowrap px-4 py-3 text-left ">
                                     {quantity}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4 text-left">
+                                <td className="whitespace-nowrap px-4 py-3 text-left">
                                     ${totalPerProduct.toFixed(2)}
                                 </td>
                          </tr>
