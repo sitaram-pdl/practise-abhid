@@ -1,7 +1,7 @@
 
 import { fetchCarts, fetchSingleCart, removeCart, updateCart, } from "@/api/cart/ApiCart";
 import type { CartContextType, CartTypes, CartWithProductDetailsType, ProviderPropsType } from "@/features/dashboard/CartTypes";
-import type { ProductType } from "@/features/dashboard/types";
+import type { ProductType } from "@/features/dashboard/ProductTypes";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useProductContext } from "./ProductContext";
 

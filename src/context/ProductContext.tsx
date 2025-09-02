@@ -1,7 +1,7 @@
 
 
 import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct, type CartQuantityType } from "@/features/dashboard/types";
+import { type ProductType, type ProductContextType , type ProviderPropsType, type CreateNewProduct, type CartQuantityType } from "@/features/dashboard/ProductTypes";
 import { fetchProducts, deleteProduct,addNewProduct, updateProduct,fetchSingleProduct,loadCartQuantityFromLocalStorage, saveCartQuantityToLocalStorage } from "@/api/product/ApiProduct"
 import { addNewCart } from "@/api/cart/ApiCart";
 import type {CartWithProductDetailsType,} from "@/features/dashboard/CartTypes";

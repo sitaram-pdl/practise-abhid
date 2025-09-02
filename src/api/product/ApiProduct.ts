@@ -1,7 +1,7 @@
 
 
 import axios from "@/api/auth/Api";
-import { type CreateNewProduct, type ProductApiResponse, type CartQuantityType } from "@/features/dashboard/types";
+import { type CreateNewProduct, type ProductApiResponse, type CartQuantityType } from "@/features/dashboard/ProductTypes";
 
 
 export const fetchProducts = async () => {

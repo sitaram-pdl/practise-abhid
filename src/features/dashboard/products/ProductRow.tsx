@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { FaStar, FaRegStar, FaTrash, FaPlus, FaMinus} from "react-icons/fa";
 import { ShoppingCart} from 'lucide-react';
-import { type ProductType } from "@/features/dashboard/types"
+import { type ProductType } from "@/features/dashboard/ProductTypes"
 import { useProductContext } from "@/context/ProductContext";
 
 interface ProductRowPropsType {

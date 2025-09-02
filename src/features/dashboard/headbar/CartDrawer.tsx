@@ -1,7 +1,7 @@
 
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { useProductContext } from "@/context/ProductContext";
-import type { CartQuantityType, ProductType } from "../types";
+import type { CartQuantityType, ProductType } from "../ProductTypes";
 import type { CartProductDetails, CartWithProductDetailsType } from "../CartTypes";
 import { useCartContext } from "@/context/CartContext";
 import { useEffect } from "react";
