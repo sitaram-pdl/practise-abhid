@@ -6,7 +6,6 @@ import {useNavigate} from 'react-router-dom'
 import { z } from "zod";
 import axios from "axios";
 
-
 const loginSchema = z.object({
         Username: z.string()
             .min(3, "Minimum length of username is 3")
@@ -15,25 +14,19 @@ const loginSchema = z.object({
             .min(6, "Minimum length of password is 6")
             .max(20, "Maximum length of password is 20")
             .regex(/[!@#$%^&*(),.?":{}|<>]/, "At least one special character required")
-            // .regex(/[A-Z]/, "At least one uppercase letter required")
-            // .regex(/[0-9]/, "At least one number required")
-            // .regex(/[a-z]/, "At least one lowercase letter required")
         });
 
 type FormFields = z.infer<typeof loginSchema>;
 
 function Login() {
-
   const navigate = useNavigate();
-  
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    // reset,
     setError
   } = useForm<FormFields>({ 
-                        resolver: zodResolver(loginSchema), // integrating zod in react_hook_for
+                        resolver: zodResolver(loginSchema),
                         defaultValues: {
                         Username: "",
                         Password: "",
@@ -46,23 +39,18 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
       username: data.Username,
       password: data.Password,
     });
-    // Save the token
     localStorage.setItem("token", response.data.token);
-    // Redirect
     navigate("/products");
-
     
   } catch (error: any) {
-  const msg = error.response?.data?.message || "Login failed";
-  setError("Username", { message: msg });
-  setError("Password", { message: msg });
-}
+    const msg = error.response?.data?.message || "Login failed";
+    setError("Username", { message: msg });
+    setError("Password", { message: msg });
+  }
 };
-
   return (
   
     <div className="flex flex-col md:flex-row min-h-screen">
-    
       <div className="bg-indigo-600 w-full md:w-2/5 lg:w-1/3 text-white font-semibold flex p-4 md:p-0">
         <p className="text-xl md:text-2xl lg:text-3xl self-end mb-4 ml-2 md:ml-4">Yarsa Test Part Two</p>
       </div> 

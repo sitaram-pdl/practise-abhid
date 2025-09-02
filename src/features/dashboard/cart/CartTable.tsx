@@ -3,13 +3,9 @@
 import { useCartContext } from "@/context/CartContext";
 import CartRow from "./CartRow";
 
-
 export default function CartTable() {
-
     const {carts} = useCartContext()
-
   return (
-
     <table className="w-full table-auto border">
         <thead className="bg-neutral-200 text-gray-600 text-lg">
             <tr className="w-full">

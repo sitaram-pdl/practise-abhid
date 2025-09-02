@@ -7,12 +7,9 @@ import Notification from "./Notification";
 import AddNewUserModal from "./AddNewUserModal";
 
 export default function User() {
-
   const {users, notificationMessage, HandleAddNewUser} = useUserContext()
   const [searchTerm, setSearchTerm] = useState("")
-  
   const filteredUsers = users.filter((eachUser) => eachUser.username.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
-                              
   console.log("The filtered users is:",filteredUsers)
 
   return (
@@ -36,7 +33,6 @@ export default function User() {
                 <UserTable filteredUsers={filteredUsers}  />
             </div>
         </main>
-        
         <AddNewUserModal />
         <ConfirmDeleteModal />
         {notificationMessage &&

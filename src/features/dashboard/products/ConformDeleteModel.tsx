@@ -1,10 +1,8 @@
 
-
 import { useProductContext } from "@/context/ProductContext";
 
 export default function ConfirmDeleteModal() {
   const { isDeleteModalOpen, setDeleteModalOpen, confirmDelete } = useProductContext();
-  
   if (!isDeleteModalOpen) return null;
 
   return (
@@ -15,8 +13,6 @@ export default function ConfirmDeleteModal() {
             onClick = {() => setDeleteModalOpen(false)}
           />
       )}
-
-      {/* Modal positioned fixed at center */}
       <div className=" fixed inset-0 flex flex-1 items-center justify-center z-50 ">
         <div className="absolute bg-white rounded-lg shadow-xl p-6 w-105 mx-4">
           

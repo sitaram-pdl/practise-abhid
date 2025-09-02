@@ -7,21 +7,15 @@ import Notification from '../Notification';
 
 
 export default function ShowSingleProductPage() {
-
     const navigate = useNavigate();
     const { productID } = useParams();
-    const {cartQuantity, singleProduct, increaseCartQuantity, decreaseCartQuantity, handleUpdateProduct,notificationMessage} = useProductContext();
-
+    const {cartQuantity, singleProduct, increaseCartQuantity, decreaseCartQuantity, handleUpdateProduct,notificationMessage} = useProductContext()
     const CheckSingleProduct = singleProduct && singleProduct.id === Number(productID)
-    
     const displayQuantity = cartQuantity[singleProduct.id] || 0;
-    
     if (!CheckSingleProduct) {
         return <div className='text-2xl text-red-500 font-bold'>Product not found.</div>;
       }
-  
   const safeRating = singleProduct.rating || { rate: 0, count: 0 };
-
 
   return (
 
@@ -76,10 +70,7 @@ export default function ShowSingleProductPage() {
                         <span>{safeRating.rate.toFixed(1)}
                           <span className="text-xs text-gray-500">({safeRating.count})</span>
                         </span>
-                        
                 </div>
-                
-
                 <div className='text-3xl font-bold'>${singleProduct.price.toFixed(2)}</div>
 
                 <div className='flex flex-col gap-3'>
@@ -119,7 +110,6 @@ export default function ShowSingleProductPage() {
          {notificationMessage && (
                     <Notification key={`${notificationMessage}-${Date.now()}`} />
           )} 
-
     </div>
   )
 }

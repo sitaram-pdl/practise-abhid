@@ -1,8 +1,7 @@
+
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
-// Fix default marker icon issue in React + Leaflet
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -20,8 +19,6 @@ interface LeafletMapPropsType {
 
 export default function LeafletMap({ Longitude, Latitude }: LeafletMapPropsType) {
   const position: [number, number] = [Latitude, Longitude];
-
-  // Function to open Google Maps in a new tab
   const openGoogleMaps = () => {
     const [lat, lng] = position;
     const url = `https://www.google.com/maps?q=${lat},${lng}`;
@@ -30,7 +27,6 @@ export default function LeafletMap({ Longitude, Latitude }: LeafletMapPropsType)
 
   return (
     <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-lg border">
-      {/* Map */}
       <MapContainer
         center={position}
         zoom={13}
@@ -47,8 +43,6 @@ export default function LeafletMap({ Longitude, Latitude }: LeafletMapPropsType)
           </Popup>
         </Marker>
       </MapContainer>
-
-      {/* Button positioned in top-right corner */}
       <button
         onClick={openGoogleMaps}
         className="absolute top-2 right-2 z-[9999] px-4 py-2 bg-emerald-400 hover:bg-emerald-500 text-white text-sm font-semibold rounded-md shadow-md"

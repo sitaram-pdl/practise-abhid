@@ -2,21 +2,15 @@
 import { useNavigate } from "react-router-dom";
 import { FaStar, FaRegStar, FaTrash, FaPlus, FaMinus} from "react-icons/fa";
 import { ShoppingCart} from 'lucide-react';
-
-import { type ProductType } from "@/features/dashboard/types"
+import { type ProductType } from "@/features/dashboard/ProductTypes"
 import { useProductContext } from "@/context/ProductContext";
-
 
 interface ProductRowPropsType {
   eachProduct: ProductType;
 }
-
 export default function ProductRow({ eachProduct}: ProductRowPropsType) {
   const {cartQuantity, fetchSingleProductData,  increaseCartQuantity, decreaseCartQuantity, handleRemove } = useProductContext();
-
   const navigate = useNavigate();
-
-  // Safe defaults for rating.........vvi step for adding new product 
   const safeRating = eachProduct.rating || { rate: 0, count: 0 };
   const displayQuantity = cartQuantity[eachProduct.id] || 0;
 
@@ -24,16 +18,11 @@ export default function ProductRow({ eachProduct}: ProductRowPropsType) {
     fetchSingleProductData(id)
     navigate(`/products/${eachProduct.id}`)
   }
-
-    
   return (
-    <tr className="hover:bg-gray-100"
-      
-      >
+    <tr className="hover:bg-gray-100">
       <td className="whitespace-nowrap px-6 py-4">
         {eachProduct.id}
       </td>
-
       <td className="px-6 py-4">
         <div className="flex items-center gap-3"
             onClick={() => handleNavigateToSingleProductPage(eachProduct.id)} 
@@ -52,11 +41,9 @@ export default function ProductRow({ eachProduct}: ProductRowPropsType) {
             </div>
         </div>
       </td>
-
       <td className="whitespace-nowrap px-6 py-4">
         ${eachProduct.price.toFixed(2)}
       </td>
-
       <td className="whitespace-nowrap px-6 py-4">
         <div className="flex items-center gap-1">
           {safeRating.rate.toFixed(1)}
@@ -68,7 +55,6 @@ export default function ProductRow({ eachProduct}: ProductRowPropsType) {
           <span className="text-xs text-gray-500">({safeRating.count})</span>
         </div>
       </td>
-      
       <td className="whitespace-nowrap mx-3 px-6 py-4">
           {displayQuantity > 0 ? (
             <div className="inline-flex items-center border px-2 py-1 rounded">
@@ -95,7 +81,6 @@ export default function ProductRow({ eachProduct}: ProductRowPropsType) {
             </button>
           )}
       </td>
-
       <td className="whitespace-nowrap px-6 py-4">
           <button
             onClick={() => handleRemove(eachProduct.id)}

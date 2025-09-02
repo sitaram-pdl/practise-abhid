@@ -1,19 +1,17 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./features/login/Login";
-
-import Products from "./features/dashboard/products/Products";
-import Cart from "./features/dashboard/cart/Carts";
-import User from "./features/dashboard/user/User";
+import Login from '@/features/login/Login';
+import Products from "@/features/dashboard/products/Products";
+import Cart from "@/features/dashboard/cart/Carts";
+import User from "@/features/dashboard/user/User";
 import ShowSingleProductPage from "@/features/dashboard/products/singleProductPage/ShowSingleProductPage"
-import ProtectedLayout from "./routing/privateRoute";
+import ProtectedLayout from "@/routing/privateRoute";
 import Layout from "@/routing/Layout";
 import { ProductProvider } from "@/context/ProductContext";
 import SingleProductPage from "@/features/dashboard/user/SingleUserPage"
-
 import {UserProvider} from "@/context/UserContext"
-import { CartProvider } from "./context/CartContext";
-import SingleCartPage from "./features/dashboard/cart/SingleCartPage";
+import { CartProvider } from "@/context/CartContext";
+import SingleCartPage from "@/features/dashboard/cart/SingleCartPage";
 
 
 function App() {

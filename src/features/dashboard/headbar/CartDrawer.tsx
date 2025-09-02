@@ -1,7 +1,7 @@
 
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { useProductContext } from "@/context/ProductContext";
-import type { CartQuantityType, ProductType } from "../types";
+import type { CartQuantityType, ProductType } from "../ProductTypes";
 import type { CartProductDetails, CartWithProductDetailsType } from "../CartTypes";
 import { useCartContext } from "@/context/CartContext";
 import { useEffect } from "react";
@@ -9,11 +9,8 @@ import { useEffect } from "react";
 export type productsArrayInsideCartType = {productId:number, quantity:number} []
 
 export default function CartDrawer() {
-
   const { cartQuantity, setCartQuantity, ConfirmAddNewCart, selectedProducts, isCartOpen, setCartOpen, increaseCartQuantity, decreaseCartQuantity, removeCartItem,totalCartsQuantity, clearCart, totalPrice} = useProductContext();
-
   const { isUpdateCart,hydratedSingleCartData,isLoading,ConfirmUpdateCart,setUpdateCart} = useCartContext();
-
   
 type CartQuantityMap = Record<number, number>;
 function buildCartQuantityObject(hydratedSingleCartData: CartWithProductDetailsType|null): CartQuantityMap {
@@ -34,7 +31,6 @@ useEffect(() => {
   }
 }, [isUpdateCart, hydratedSingleCartData?.id]); 
 
-
   const prepareCartProducts = ( cartQuantity: CartQuantityType, selectedProducts:
      ProductType[]): CartProductDetails[] => {
         if (!cartQuantity) {
@@ -45,7 +41,6 @@ useEffect(() => {
           quantity: Number(cartQuantity[eachProduct.id] ?? 0),
         }));
     };
-
     const currentCart = {
         id: isUpdateCart ? hydratedSingleCartData?.id ?? 0 : 0,
         userId: isUpdateCart ? hydratedSingleCartData?.userId ?? 0 : 0,
@@ -66,15 +61,12 @@ useEffect(() => {
 
   return (
     <div>
-        {/* Overlay................................. */}
-        {/* if isCartOpen state is true open the cart. and onclick just close the cart */}
         {isCartOpen && (
           <div
             className="fixed inset-0 backdrop-brightness-60 z-40"
             onClick={handleOverlayClose}
           />
         )}
-        {/* Drawer .....................................*/}
         <div
             className={`fixed right-0 top-0  h-full w-120 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
               isCartOpen ? "translate-x-0" : "translate-x-full"
@@ -91,7 +83,6 @@ useEffect(() => {
                   </button>
               </div>
 
-              {/* Cart items...................................... */}
               <div className="flex justify-between align-center gap-2 w-full">
                   <div className=" absolute  p-4 flex flex-col gap-4 overflow-y-auto w-full
                    h-[calc(100%-9rem)]">
@@ -100,7 +91,6 @@ useEffect(() => {
                       )}
 
                       {selectedProducts.map((item) => (
-                        // this below div is for single horizontal product.
                         <div key={item.id} className="flex items-center gap-3 border-b pb-3">
                             <img
                               src={item.image}
@@ -134,8 +124,7 @@ useEffect(() => {
                       ))}
                   </div>
               </div>
-              {/* Footer.............................................................. */}
-                <div className="fixed bottom-1 right-0 left-0 p-4 border-t">
+              <div className="fixed bottom-1 right-0 left-0 p-4 border-t">
               
                   <div className=" flex justify-between items-center gap-2 z-10 ">
                       <button
@@ -167,138 +156,3 @@ useEffect(() => {
   );
 }
 
-
-
-
-
-// import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
-// import { useProductContext } from "@/context/ProductContext";
-// import Products from "../products/Products";
-// import type { CartQuantityType, ProductType } from "../types";
-// import type { CartProductDetails } from "../CartTypes";
-
-// export type productsArrayInsideCartType = {productId:number, quantity:number} []
-
-// export default function CartDrawer() {
-
-//   const { cartQuantity, ConfirmAddNewCart, selectedProducts, isCartOpen, setCartOpen, increaseCartQuantity, decreaseCartQuantity, removeCartItem,totalCartsQuantity, clearCart, totalPrice} = useProductContext();
-
-//   const prepareCartProducts = ( cartQuantity: CartQuantityType, selectedProducts:
-//      ProductType[]): CartProductDetails[] => {
-//         if (!cartQuantity) {
-//           return [];
-//         }
-//         return selectedProducts.map(eachProduct => ({
-//           productDetails: eachProduct,
-//           quantity: Number(cartQuantity[eachProduct.id] ?? 0),
-//         }));
-//     };
-
-//     const currentCart = {
-//         userId: 0,
-//         date: new Date().toISOString().split("T")[0],
-//         products: prepareCartProducts(cartQuantity,selectedProducts),
-//         __v : 0  
-//       };
-
-//   return (
-//     <div>
-//         {/* Overlay................................. */}
-//         {/* if isCartOpen state is true open the cart. and onclick just close the cart */}
-//         {isCartOpen && (
-//           <div
-//             className="fixed inset-0 backdrop-brightness-60 z-40"
-//             onClick={() => setCartOpen(false)}
-//           />
-//         )}
-//         {/* Drawer .....................................*/}
-//         <div
-//             className={`fixed right-0 top-0  h-full w-250 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
-//               isCartOpen ? "translate-x-0" : "translate-x-full"
-//             }`}
-//           >
-//               <div className="flex justify-between items-center border-b p-4">
-//                   <h2 className="text-lg font-bold">
-//                       Your Cart ({totalCartsQuantity} items)
-//                   </h2>
-//                   <button className="text-gray-500 hover:text-black"
-//                     onClick={() => setCartOpen(false)} 
-//                   >
-//                       ✖
-//                   </button>
-//               </div>
-
-//               {/* Cart items...................................... */}
-//               <div className="flex justify-between align-center gap-2 w-full">
-//                   <div className=" absolute  p-4 flex flex-col gap-4 overflow-y-auto w-2/5
-//                    h-[calc(100%-9rem)]">
-//                       {selectedProducts.length === 0 && (
-//                         <p className="text-gray-500">Your cart is empty.</p>
-//                       )}
-
-//                       {selectedProducts.map((item) => (
-//                         // this below div is for single horizontal product.
-//                         <div key={item.id} className="flex items-center gap-3 border-b pb-3">
-//                             <img
-//                               src={item.image}
-//                               alt={item.title}
-//                               className="w-12 h-12 object-cover"
-//                             />
-
-//                             <div className="w-1/2 overflow-y-auto">
-//                               <div className="font-medium truncate">{item.title}</div>
-//                               <div className="text-sm text-gray-500">{item.category}</div>
-//                               <div className="text-sm font-semibold">${item.price}</div>
-//                             </div>
-
-//                             <div className="flex items-center border px-2 py-1 rounded">
-//                                 <button onClick={() => decreaseCartQuantity(item.id)}>
-//                                   <FaMinus />
-//                                 </button>
-//                                 <span className="px-2">{cartQuantity[item.id]}</span>
-//                                 <button onClick={() => increaseCartQuantity(item.id)}>
-//                                   <FaPlus />
-//                                 </button>
-//                             </div>
-
-//                             <button
-//                                   onClick={() => removeCartItem(item.id)}
-//                                   className="text-gray-500 hover:text-red-500 hover:cursor-pointer ml-5"
-//                                 >
-//                                   <FaTrash />
-//                             </button>
-//                         </div>
-//                       ))}
-//                   </div>
-//                   <div className=" absolute right-2 p-2 flex flex-col gap-2 overflow-y-auto w-3/5 h-[calc(100%-9rem)] border-l ">
-//                     <Products isInsideCart={true} />
-//                   </div>
-//               </div>
-//               {/* Footer.............................................................. */}
-//                 <div className="fixed bottom-1 right-0 left-0 p-4 border-t">
-              
-//                   <div className=" flex justify-between items-center gap-2 z-10 ">
-//                       <button
-//                           className="w-fit px-4 py-2 bg-gray-500 text-white  rounded hover:bg-red-500 cursor-pointer"
-//                           onClick={clearCart}
-//                         >
-//                           <FaTrash className="inline mr-1" /> Clear Cart
-//                       </button>
-
-//                       <div className="flex justify-between  text-lg font-bold gap-3 ">
-//                           <span>Total: </span>
-//                           <span>${ totalPrice.toFixed(2)}</span>
-//                       </div>
-
-//                       <button className="w-fit px-4 py-2  bg-violet-600 text-white rounded hover:bg-green-500 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
-//                         disabled={totalCartsQuantity === 0}
-//                         onClick={() => ConfirmAddNewCart(currentCart)}
-//                       >
-//                         Checkout
-//                       </button>
-//                   </div>
-//               </div>
-//         </div>
-//     </div>
-//   );
-// }
