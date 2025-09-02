@@ -56,7 +56,7 @@ export default function SingleCartPage() {
                     const { productDetails, quantity } = item;
                     const totalPerProduct = productDetails.price * quantity;
                      return(
-                          <tr className="w-full border-t border-b hover:bg-neutral-200">
+                          <tr className="w-full border-t border-b hover:bg-neutral-100">
                                 <td className="px-4 py-3 text-left">
                                     <div className="flex items-center gap-3"
                                         >
